@@ -70,3 +70,4 @@ function LiveSearch(val) {
 $('a#ShowMenu').click(function () {
     $('#searchbg').toggle("slow");
 });
+//
