@@ -1,14 +1,211 @@
+@import url('https://fonts.googleapis.com/css?family=Roboto&subset=cyrillic');
 
-// Fonts
-@import url('https://fonts.googleapis.com/css?family=Nunito');
+body {
+    font-family: 'Roboto', sans-serif;
+}
 
-// Variables
-@import 'variables';
+.navbar-brand {
+    color: white !important;
+}
 
-// Bootstrap
-@import '~bootstrap/scss/bootstrap';
+#wrapper {
+    padding: 75px 15px 90px;
+}
 
-.navbar-laravel {
-  background-color: #fff;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
+.group {
+    background-color: #041e42;
+    color: white;
+}
+
+.navbar-expand-lg {
+    .navbar-nav.side-nav {
+        flex-direction: column;
+    }
+}
+
+.nav-item a {
+    color: white !important;
+}
+
+.navbar-expand-lg {
+    background-color: #041e42 !important;
+}
+
+.navbar-nav {
+    background-color: #041e42 !important;
+}
+
+.wrap-table-div {
+    padding: 50px;
+}
+
+.container-fluid {
+    padding: 100px 50px;
+}
+
+#live-search {
+    width: 100px;
+    margin-bottom: 20px;
+    border: none;
+    border-bottom: 2px solid #041e42;
+    transition: all 1s ease;
+    float: left;
+}
+
+#live-search::placeholder {
+    font-size: 10px;
+}
+
+.for-before {
+    width: auto;
+    display: block;
+}
+
+#live-search:focus {
+    outline: none;
+    width: 200px;
+}
+
+#searchbg {
+    padding: 100px;
+    color: white;
+    z-index: 10;
+    background-color: #041e42;
+    position: fixed;
+    width: 100%;
+    height: 100vh;
+    left: 0;
+    top: 0;
+    display: none;
+}
+
+.admin-card {
+    padding: 5px;
+}
+
+#accordion1, #accordion2 {
+    height: 400px;
+    overflow-y: scroll;
+}
+
+#accordion1 .card-header, #accordion2 .card-header {
+    padding: 5px;
+    background-color: white !important;
+}
+
+.building-header {
+    padding: 0;
+}
+
+.building-body > ul {
+    list-style-type: none;
+    text-align: left;
+}
+
+.building-header button {
+    color: #041e42;
+}
+
+.building-header button:focus, .building-header button:hover {
+    color: #041e42;
+    text-decoration: none;
+}
+
+.admin-card-header {
+    text-align: center;
+    color: #041e42;
+}
+
+.admin-card-header h4{
+    margin-top: 20px;
+}
+
+.admin-form input[type="submit"] {
+    background-color: rgba(4, 30, 66, 1);
+    color: white;
+}
+
+@media(min-width: 992px) {
+    .leftmenutrigger {
+        display: block;
+        margin: 7px 20px 4px 0;
+        cursor: pointer;
+    }
+    #wrapper {
+        padding: 75px 15px 15px 75px;
+    }
+    #wrapper.open {
+        padding: 75px 15px 15px 225px;
+    }
+    .navbar-nav.side-nav.open {
+        left: 0;
+    }
+    .side-nav li a {
+        padding: 20px
+    }
+    .navbar-nav li a .shortmenu {
+        float: right;
+        display: block;
+        opacity: 1
+    }
+    .navbar-nav.side-nav.open.navbar-nav li a .shortmenu {
+        opacity: 0
+    }
+    .navbar-nav.side-nav {
+        background: #585f66;
+        box-shadow: 2px 1px 2px rgba(0, 0, 0, .1);
+        position: fixed;
+        top: 56px;
+        flex-direction: column !important;
+        left: -140px;
+        width: 200px;
+        bottom: 0;
+        padding-bottom: 40px
+    }
+}
+
+.animate {
+    -webkit-transition: all .2s ease-in-out;
+    -moz-transition: all .2s ease-in-out;
+    -o-transition: all .2s ease-in-out;
+    transition: all .2s ease-in-out
+}
+
+.navbar-nav li a svg {
+    font-size: 25px;
+    float: left;
+    margin: 0 10px 0 5px;
+}
+
+.side-nav li {
+    border-bottom: 1px solid #50575d;
+}
+
+.side-nav .dropdown {
+    position: initial;
+}
+
+.side-nav .dropdown-menu {
+    position: relative;
+    opacity: 0;
+    left: 120%;
+    top: 0;
+    height: 100%;
+    border: 0;
+    padding: 0;
+    margin: 0;
+    border-radius: 0;
+    box-shadow: 5px 0 5px rgba(0, 0, 0, .1);
+    background: #eee;
+    visibility: hidden;
+    display: block;
+    transition: .4s ease all;
+}
+
+.side-nav .dropdown-menu.show {
+    left: 100%;
+    opacity: 1;
+    visibility: visible;
+    display: block;
+    transition: .4s ease all;
 }
