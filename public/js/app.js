@@ -51,7 +51,54 @@ $(document).ready(function () {
     }
 
 
-});
+    $.getJSON("/groups.json", function (data) {
+        for (let i = 0; i < data.length; ++i) {
+            Recoursive(data[i]);
+
+        }
+    })
+
+    $.getJSON("/buildings.json", function (data) {
+        let buildings = $("#building");
+        $.each(data, function (k,v) {
+            buildings.append($("<option>", {
+                text: v.name
+            }))
+        })
+    })
+
+
+    function Recoursive(v) {
+        if (v.child) {
+            PrintOption(v);
+            Recoursive(v.child);
+        }
+        else {
+            PrintOption(v);
+        }
+
+    }
+
+    function PrintOption(v) {
+        let select = $("#group-select, #group-select2");
+        if (v.length) {
+            for (let i = 0; i < v.length; ++i) {
+                select.append($("<option>", {
+                    text: " \u25BA ".repeat(v[i].level) + v[i].name
+                }))
+                if (v[i].child.length) {
+                    PrintOption(v[i].child);
+                }
+            }
+        }
+        else {
+            select.append($("<option>", {
+                text: " \u25BA ".repeat(v.level) + v.name
+            }))
+        }
+    }
+
+})
 
 function LiveSearch(val) {
     let table = $("#phones");

@@ -82,6 +82,10 @@
                         <form action="" class="admin-form">
                             <div class="form-group"><input name="cl-name" type="text" class="form-control"
                                                            placeholder="ФИО"></div>
+                            <div class="form-group"><select class="form-control" name="" id="group-select2">
+                                    <option value="">Родительский элемент</option>
+                                </select>
+                            </div>
                             <div class="form-group"><input name="cl-cid" type="text" class="form-control"
                                                            placeholder="Должность"></div>
                             <div class="form-row form-group">
@@ -97,11 +101,9 @@
                             </div>
                             <div class="form-group"><input name="cl-info" type="text" class="form-control"
                                                            placeholder="Внутренний номер" maxlength="4"></div>
-                            <div class="form-group"><input name="cl-info" type="text" class="form-control"
-                                                           placeholder="Адрес"></div>
 
                             <div class="form-row form-group">
-                                <div class="col"><select class="form-control" name="" id="">
+                                <div class="col"><select class="form-control" name="building" id="building">
 
                                     </select></div>
                                 <div class="col"><input name="cl-info" type="text" class="form-control"
@@ -138,7 +140,7 @@
                     <div class="col-md-6">
                         <form action="" class="admin-form">
                             <div class="form-group">
-                                <select class="form-control" name="" id="">
+                                <select class="form-control" name="" id="group-select">
                                     <option value="">Родительский элемент</option>
                                 </select>
                             </div>

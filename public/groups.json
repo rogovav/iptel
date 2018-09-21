@@ -1,0 +1,41 @@
+[
+    {
+        "value": 1,
+        "name": "rogov",
+        "level": 0,
+        "child": [
+            {
+                "value": 2,
+                "name": "ds",
+                "level": 1,
+                "child": [
+                    {
+                        "value": 4,
+                        "name": "index.php",
+                        "level": 2,
+                        "child": []
+                    }
+                ]
+            },
+            {
+                "value": 3,
+                "name": "ewre",
+                "level": 1,
+                "child": []
+            }
+        ]
+    },
+    {
+        "value": 5,
+        "name": "ewrssasfasfewr",
+        "level": 0,
+        "child": [
+            {
+                "value": 6,
+                "name": "rqwdwqdqwdogov",
+                "level": 1,
+                "child": []
+            }
+        ]
+    }
+]
