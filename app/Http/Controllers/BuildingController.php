@@ -9,7 +9,7 @@ class BuildingController extends Controller
 {
     public function index()
     {
-        $buildings = Building::all('name', 'address', 'type');
+        $buildings = Building::all('id', 'name', 'address', 'type');
 
         return $buildings->toJson();
     }

@@ -1,13 +1,11 @@
 $(document).ready(function () {
     $.getJSON("/test.json", function (data) {
-        var tbl_body = "";
-        var odd_even = false;
-        var tbl_row = "";
-        var ul_body = "";
+        let tbl_body = "";
+        let ul_body = "";
         $.each(data["data"], function () {
             $.each(this, function (k, v) {// all data
                 tbl_body += "<tr class='group'><td colspan='5'><h3>" + k + "</h3></td>></tr>";
-                ul_body += "<li>" + k + "</li><ul>"
+                ul_body += "<li>" + k + "</li><ul>";
                 $.each(v, function (k, v) { // company
                     if (v["name"]) {
                         tbl_body += InsertValue(v);
@@ -15,7 +13,7 @@ $(document).ready(function () {
                     else {
                         $.each(v, function (k, v) { //company sub_company
                             tbl_body += "<tr class='company'><td colspan='5'><h4>" + k + "</h4></td>></tr>";
-                            ul_body += "<li>" + k + "</li><ul>"
+                            ul_body += "<li>" + k + "</li><ul>";
                             $.each(v, function (k, v) { //sub_company object
                                 if (v["name"]) {
                                     tbl_body += InsertValue(v);
@@ -42,21 +40,57 @@ $(document).ready(function () {
         $("#title").html(ul_body);
     });
 
+    /**
+     * @return {string}
+     */
     function InsertValue(v) {
-        let row = "";
-        row += "<tr>" + "<td>" + v["name"] + "</td>" + "<td>" + v["position"] +
+        return "<tr>" + "<td>" + v["name"] + "</td>" + "<td>" + v["position"] +
             "</td>" + "<td>" + v["phone"] + "</td>" + "<td>" + v["ip_phone"] +
             "</td>" + "<td>" + v["address"] + "</td>" + "</tr>";
-        return row;
     }
 
+    $.getJSON("/buildings", function (data) {
+        let buildings = $("#building");
+        $.each(data, function (k,v) {
+            buildings.append($("<option>", {
+                value: v.id,
+                text: v.name
+            }))
+        })
+    });
+
+    $.getJSON("/groups", function (data) {
+        for (let i = 0; i < data.length; ++i) {
+            Recoursive(data[i]);
+        }
+    });
+
+    function Recoursive(v, level = 0) {
+        if (v.level === level) {
+            if (v.child.length > 0) {
+                PrintOption(v);
+                for (let i = 0; i < v.child.length; i++) {
+                    Recoursive(v.child[i], level + 1);
+                }
+            } else {
+                PrintOption(v);
+            }
+        }
+    }
+
+    function PrintOption(v) {
+        let select = $("#group-select, #group-select2");
+        select.append($("<option>", {
+            text: " \u25BA ".repeat(v.level) + v.name
+        }));
+    }
 
 });
 
 function LiveSearch(val) {
     let table = $("#phones");
-    var rows = table[0].rows;
-    for (var i = 1; i < rows.length; i += 1) {
+    let rows = table[0].rows;
+    for (let i = 1; i < rows.length; i += 1) {
         if (rows[i].innerHTML.includes(val)) {
             rows[i].style.display = 'table-row';
         }

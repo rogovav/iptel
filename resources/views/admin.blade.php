@@ -80,12 +80,20 @@
                     </div>
                     <div class="col-md-4">
                         <form action="" class="admin-form">
-                            <div class="form-group"><input name="cl-name" type="text" class="form-control"
-                                                           placeholder="ФИО"></div>
-                            <div class="form-group"><input name="cl-cid" type="text" class="form-control"
-                                                           placeholder="Должность"></div>
+                            <div class="form-group">
+                                <input name="cl-name" type="text" class="form-control" placeholder="ФИО">
+                            </div>
+                            <div class="form-group">
+                                <select class="form-control" name="" id="group-select2">
+                                    <option value="">Родительский элемент</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <input name="cl-cid" type="text" class="form-control" placeholder="Должность">
+                            </div>
                             <div class="form-row form-group">
-                                <div class="col"><select id="country" class="form-control">
+                                <div class="col">
+                                    <select id="country" class="form-control">
                                         <option value="ru"><img src="">Саранск +7 (8342)</option>
                                         <option value="ua">Рузаевка +7 (83451)</option>
                                         <option value="by">Ковылкино +7 (83453)</option>
@@ -95,20 +103,26 @@
                                     <input id="phone" type="text" class="form-control">
                                 </div>
                             </div>
-                            <div class="form-group"><input name="cl-info" type="text" class="form-control"
-                                                           placeholder="Внутренний номер" maxlength="4"></div>
-                            <div class="form-row form-group">
-                                <div class="col"><select class="form-control" name="" id="">
-
-                                    </select></div>
-                                <div class="col"><input name="cl-info" type="text" class="form-control"
-                                                        placeholder="кабинет/этаж"></div>
-                                <div class="col"><select class="form-control" name="" id="">
-                                        <option value="1">кабинет</option>
-                                        <option value="2">этаж</option>
-                                    </select></div>
+                            <div class="form-group">
+                                <input name="cl-info" type="text" class="form-control" placeholder="Внутренний номер" maxlength="4">
                             </div>
 
+                            <div class="form-row form-group">
+                                <div class="col">
+                                    <select class="form-control" name="building" id="building">
+                                        <option value="" selected>Здание</option>
+                                    </select>
+                                </div>
+                                <div class="col">
+                                    <input name="cl-info" type="text" class="form-control" placeholder="кабинет/этаж">
+                                </div>
+                                <div class="col">
+                                    <select class="form-control" name="" id="">
+                                        <option value="1">кабинет</option>
+                                        <option value="2">этаж</option>
+                                    </select>
+                                </div>
+                            </div>
                             <div class="form-group"><input type="submit" class="form-control"></div>
                         </form>
                     </div>
@@ -136,22 +150,19 @@
                         <form action="{{ url('/group/add') }}" class="admin-form" method="POST">
                             @csrf
                             <div class="form-group">
-                                <select class="form-control" name="parent_id" id="">
+                                <select class="form-control" name="" id="group-select">
                                     <option value="">Родительский элемент</option>
                                 </select>
                             </div>
+                            <div class="form-group"><input name="ev-name" type="text" class="form-control"
+                                                           placeholder="Название группы"></div>
                             <div class="form-group">
-                                <input name="name" type="text" class="form-control" placeholder="Название группы">
-                            </div>
-                            <div class="form-group">
-                                <select class="form-control" name="priority" id="">
+                                <select class="form-control" name="" id="">
                                     <option value="">Приоритет</option>
-                                    <option value="1">Наивысший</option>
-                                    <option value="2">Высокий</option>
-                                    <option value="3">Средний</option>
                                 </select>
                             </div>
                             <div class="form-group"><input type="submit" class="form-control"></div>
+
                         </form>
                     </div>
                 </div>
@@ -208,9 +219,9 @@
 </div>
 </body>
 <script
-        src="http://code.jquery.com/jquery-3.3.1.js"
-        integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
-        crossorigin="anonymous"></script>
+    src="http://code.jquery.com/jquery-3.3.1.js"
+    integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
+    crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
         integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
         crossorigin="anonymous"></script>
