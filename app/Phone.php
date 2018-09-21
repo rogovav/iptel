@@ -10,4 +10,9 @@ class Phone extends Model
     {
         return $this->belongsTo('Building');
     }
+
+    public function group()
+    {
+        return $this->belongsTo('Group');
+    }
 }

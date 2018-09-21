@@ -10,4 +10,6 @@ class Building extends Model
     {
         return $this->hasMany('Phone');
     }
+
+    protected $fillable = ['name', 'address', 'type'];
 }

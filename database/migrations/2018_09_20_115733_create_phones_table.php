@@ -20,6 +20,7 @@ class CreatePhonesTable extends Migration
             $table->string('phone')->nullable();
             $table->string('ip_phone')->nullable();
             $table->integer('building_id')->nullable()->unsigned();
+            $table->integer('group_id')->nullable()->unsigned();
             $table->string('room')->nullable();
             $table->string('room_type')->nullable();
             $table->timestamps();

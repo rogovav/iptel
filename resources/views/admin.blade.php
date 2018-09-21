@@ -97,9 +97,6 @@
                             </div>
                             <div class="form-group"><input name="cl-info" type="text" class="form-control"
                                                            placeholder="Внутренний номер" maxlength="4"></div>
-                            <div class="form-group"><input name="cl-info" type="text" class="form-control"
-                                                           placeholder="Адрес"></div>
-
                             <div class="form-row form-group">
                                 <div class="col"><select class="form-control" name="" id="">
 
@@ -136,21 +133,25 @@
                         </div>
                     </div>
                     <div class="col-md-6">
-                        <form action="" class="admin-form">
+                        <form action="{{ url('/group/add') }}" class="admin-form" method="POST">
+                            @csrf
                             <div class="form-group">
-                                <select class="form-control" name="" id="">
+                                <select class="form-control" name="parent_id" id="">
                                     <option value="">Родительский элемент</option>
                                 </select>
                             </div>
-                            <div class="form-group"><input name="ev-name" type="text" class="form-control"
-                                                           placeholder="Название группы"></div>
                             <div class="form-group">
-                                <select class="form-control" name="" id="">
+                                <input name="name" type="text" class="form-control" placeholder="Название группы">
+                            </div>
+                            <div class="form-group">
+                                <select class="form-control" name="priority" id="">
                                     <option value="">Приоритет</option>
+                                    <option value="1">Наивысший</option>
+                                    <option value="2">Высокий</option>
+                                    <option value="3">Средний</option>
                                 </select>
                             </div>
                             <div class="form-group"><input type="submit" class="form-control"></div>
-
                         </form>
                     </div>
                 </div>
@@ -183,13 +184,20 @@
                         </div>
                     </div>
                     <div class="col-md-6">
-                        <form action="" class="admin-form">
-                            <div class="form-group"><input name="obj-name" type="text" class="form-control"
-                                                           placeholder="Название"></div>
-                            <div class="form-group"><input name="obj-type" type="text" class="form-control"
-                                                           placeholder="Тип"></div>
-                            <div class="form-group"><input name="obj-address" type="text" class="form-control"
-                                                           placeholder="Адрес"></div>
+                        <form action="{{ url('/building/add') }}" class="admin-form" method="POST">
+                            @csrf
+                            <div class="form-group">
+                                <input name="name" type="text" class="form-control" placeholder="Название">
+                            </div>
+                            <div class="form-group">
+                                <select class="form-control" name="type" id="">
+                                    <option value="1">Общежитие</option>
+                                    <option value="2">Корпус</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <input name="address" type="text" class="form-control" placeholder="Адрес">
+                            </div>
                             <div class="form-group"><input type="submit" class="form-control"></div>
                         </form>
                     </div>
@@ -200,9 +208,9 @@
 </div>
 </body>
 <script
-    src="http://code.jquery.com/jquery-3.3.1.js"
-    integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
-    crossorigin="anonymous"></script>
+        src="http://code.jquery.com/jquery-3.3.1.js"
+        integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
+        crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
         integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
         crossorigin="anonymous"></script>

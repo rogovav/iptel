@@ -8,11 +8,18 @@ class Group extends Model
 {
     public function parent()
     {
-        return $this->belongsTo('Group', 'parent');
+        return $this->belongsTo(self::class, 'parent_id');
     }
 
-    public function child()
+    public function children()
     {
-        return $this->hasMany('Group', 'parent');
+        return $this->hasMany(self::class, 'parent_id');
     }
+
+    public function phones()
+    {
+        return $this->hasMany('Phone');
+    }
+
+    protected $fillable = ['name', 'parent_id', 'priority'];
 }
