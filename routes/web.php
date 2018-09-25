@@ -11,10 +11,26 @@
 |
 */
 
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Route;
+
 Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/admin', function () {
+Route::get('/admin-panel', function () {
     return view('admin');
 });
+
+Route::get('/buildings', 'BuildingController@index');
+Route::post('/building/add', 'BuildingController@add');
+
+Route::get('/groups', 'GroupController@index');
+Route::post('/group/add', 'GroupController@add');
+
+Route::get('/phones', 'PhoneController@index');
+Route::post('/phone/add', 'PhoneController@add');
+
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');
