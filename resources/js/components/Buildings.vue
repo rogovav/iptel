@@ -6,15 +6,17 @@
                 <div id="accordion1" class="col-md-6">
                     <div v-for="building in buildings" v-bind:key="building.id">
                         <div class="building-header">
-                            <div class="card-header" id="heading2">
+                            <div class="card-header" v-bind:id="'heading'+building.id">
                                 <h5 class="mb-0">
-                                    <button class="btn btn-link" data-toggle="collapse" data-target="#collapse1"
-                                            aria-expanded="true" aria-controls="collapse1">
+                                    <button class="btn btn-link collapsed" data-toggle="collapse"
+                                            v-bind:data-target="'#collapse'+building.id"
+                                            aria-expanded="false" v-bind:aria-controls="'collapse'+building.id">
                                         {{ building.name }}
                                     </button>
                                 </h5>
                             </div>
-                            <div id="collapse1" class="collapse" aria-labelledby="heading1"
+                            <div v-bind:id="'collapse'+building.id" class="collapse"
+                                 v-bind:aria-labelledby="'heading'+building.id"
                                  data-parent="#accordion1">
                                 <div class="card-body building-body">
                                     <ul>
@@ -26,12 +28,13 @@
                     </div>
                 </div>
                 <div class="col-md-6">
-                    <form action="" class="admin-form">
-                        <div class="form-group"><input name="obj-name" type="text" class="form-control"
+                    <form action="" class="admin-form" @submit.prevent="addBulding">
+                        <div class="form-group"><input type="text" class="form-control"
                                                        placeholder="Название" v-model="building.name"></div>
-                        <div class="form-group"><input name="obj-type" type="text" class="form-control"
-                                                       placeholder="Тип" v-model="building.type"></div>
-                        <div class="form-group"><input name="obj-address" type="text" class="form-control"
+                        <div class="form-group"><select class="form-control" name="" id="" v-model="building.type">
+                            <option value="1" selected>Общеж</option>
+                        </select></div>
+                        <div class="form-group"><input type="text" class="form-control"
                                                        placeholder="Адрес" v-model="building.address"></div>
                         <div class="form-group"><input type="submit" class="form-control"></div>
                     </form>
@@ -43,7 +46,9 @@
 
 <script>
     export default {
+
         data() {
+
             return {
                 buildings: [],
                 building: {
@@ -61,17 +66,16 @@
 
         methods: {
             fetchBuildings() {
-                fetch("buildings.json")
+                fetch("/api/buildings")
                     .then(res => res.json())
                     .then(res => {
-                        console.log(res);
                         this.buildings = res;
                     })
             },
 
             addBulding() {
-                fetch('buildings.json', {
-                    method: 'POST',
+                fetch('/api/building/add', {
+                    method: 'post',
                     body: JSON.stringify(this.building),
                     headers: {
                         'content-type': 'application/json'
@@ -79,6 +83,9 @@
                 })
                     .then(res => res.json())
                     .then(data => {
+                        this.building.address = "";
+                        this.building.type = "";
+                        this.building.name = "";
                         this.fetchBuildings();
                     })
                     .catch(err => console.log(err))

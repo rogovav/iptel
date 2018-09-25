@@ -59,7 +59,7 @@ $(document).ready(function () {
         })
     })
 
-    $.getJSON("/groups.json", function (data) {
+    $.getJSON("/api/groups", function (data) {
         for (let i = 0; i < data.length; ++i) {
             if (data[i].child != []) {
                 Recoursive(data[i]);

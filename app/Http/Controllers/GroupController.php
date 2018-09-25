@@ -11,8 +11,8 @@ class GroupController extends Controller
     public function index()
     {
         $groups = Group::all('id', 'name', 'parent_id', 'level');
-        $data = $this->add_to_data_req($groups);
-        return json_encode($data);
+        //$data = $this->add_to_data_req($groups);
+        return json_encode($groups);
     }
 
     public function add_to_data_req($groups, $level = 0)
@@ -49,6 +49,6 @@ class GroupController extends Controller
             'priority' => $request['priority'],
         ]);
 
-        return back()->withInput();
+        return json_encode( "success");
     }
 }

@@ -22,6 +22,6 @@ class BuildingController extends Controller
             'type' => $request['type'],
         ]);
 
-        return back()->withInput();
+        return json_encode( "success");
     }
 }

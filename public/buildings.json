@@ -1,26 +1,14 @@
 [
     {
         "id": 1,
-        "name": "ren",
-        "type": "typ1",
-        "address": "add1"
+        "name": "test",
+        "address": "test",
+        "type": 1
     },
     {
         "id": 2,
-        "name": "hren 2",
-        "type": "typ1",
-        "address": "add1"
-    },
-    {
-        "id": 3,
-        "name": "hren 3",
-        "type": "typ1",
-        "address": "add1"
-    },
-    {
-        "id": 4,
-        "name": "hren 3",
-        "type": "typ1",
-        "address": "add1"
+        "name": "123123",
+        "address": "123123123",
+        "type": 1
     }
 ]

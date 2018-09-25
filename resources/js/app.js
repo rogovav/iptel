@@ -12,8 +12,18 @@ window.Vue = require('vue');
 //Vue.http.headers.common['X-CSRF-TOKEN'] = Laravel.csrfToken;
 
 Vue.component(
-  'buildings',
-  require ('./components/Buildings.vue')
+    'buildings',
+    require ('./components/Buildings.vue')
+);
+
+Vue.component(
+    'groups',
+    require ('./components/Groups.vue')
+);
+
+Vue.component(
+    'clients',
+    require ('./components/Clients.vue')
 );
 
 const app = new Vue({
