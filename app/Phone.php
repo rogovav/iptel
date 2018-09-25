@@ -15,4 +15,6 @@ class Phone extends Model
     {
         return $this->belongsTo('Group');
     }
+
+    protected $fillable = ['fio', 'position', 'phone', 'ip_phone', 'building_id', 'group_id', 'room', 'room_type'];
 }
