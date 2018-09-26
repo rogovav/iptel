@@ -9,8 +9,20 @@ class PhoneController extends Controller
 {
     public function index()
     {
+        $data = [];
         $phones = Phone::all();
-        return $phones->toJson();
+        foreach ($phones as $phone)
+        {
+            $data[] = [
+                'fio' => $phone->fio,
+                'position' => $phone->position,
+                'phone' => $phone->phone,
+                'ip_phone' => $phone->ip_phone,
+                'building' => $phone->building->name,
+                'group' => $phone->group->name,
+            ];
+        }
+        return json_encode($data);
     }
 
     public function add(Request $request)
