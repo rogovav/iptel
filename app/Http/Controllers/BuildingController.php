@@ -9,19 +9,18 @@ class BuildingController extends Controller
 {
     public function index()
     {
-        $buildings = Building::all('id', 'name', 'address', 'type');
+        $buildings = Building::all('id', 'name', 'address');
 
         return $buildings->toJson();
     }
 
     public function add(Request $request)
     {
-        Building::create([
+        $building = Building::create([
             'name' => $request['name'],
-            'address' => $request['address'],
-            'type' => $request['type'],
+            'address' => $request['address']
         ]);
 
-        return back()->withInput();
+        return $building->toJson();
     }
 }

@@ -43,12 +43,12 @@ class GroupController extends Controller
 
     public function add(Request $request)
     {
-        Group::create([
+        $group = Group::create([
             'name' => $request['name'],
             'parent_id' => $request['parent_id'],
             'priority' => $request['priority'],
         ]);
 
-        return back()->withInput();
+        return $group->toJson();
     }
 }

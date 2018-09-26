@@ -15,7 +15,7 @@ class PhoneController extends Controller
 
     public function add(Request $request)
     {
-        Phone::create([
+        $phone = Phone::create([
             'fio' => $request['fio'],
             'position' => $request['position'],
             'phone' => $request['phone'],
@@ -25,6 +25,6 @@ class PhoneController extends Controller
             'room' => $request['room'],
             'room_type' => $request['room_type']
         ]);
-        return json_encode('success');
+        return $phone->toJson();
     }
 }
