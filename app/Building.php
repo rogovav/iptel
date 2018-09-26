@@ -8,7 +8,7 @@ class Building extends Model
 {
     public function phones()
     {
-        return $this->hasMany('Phone');
+        return $this->hasMany('App\Phone');
     }
 
     protected $fillable = ['name', 'address', 'type'];
