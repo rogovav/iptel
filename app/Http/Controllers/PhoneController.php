@@ -18,7 +18,7 @@ class PhoneController extends Controller
                 'position' => $phone->position,
                 'phone' => $phone->phone,
                 'ip_phone' => $phone->ip_phone,
-                'building' => $phone->building->name,
+                'building' => $phone->building,
                 'group' => $phone->group->name,
             ];
         }
