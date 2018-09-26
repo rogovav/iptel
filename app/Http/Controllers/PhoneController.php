@@ -9,8 +9,13 @@ class PhoneController extends Controller
 {
     public function index()
     {
+        $data = [];
         $phones = Phone::all();
-        return $this->return_data($phones);
+        foreach ($phones as $phone)
+        {
+            $data[] = $this->return_data($phone);
+        }
+        return json_encode($data);
     }
 
     public function add(Request $request)
@@ -25,29 +30,22 @@ class PhoneController extends Controller
             'room' => $request['room'],
             'room_type' => $request['room_type']
         ]);
-//        return $phone->toJson();
-        return $this->return_data($phone);
+        $data[] = $this->return_data($phone);
+        return json_encode($data);
     }
 
-    public function return_data($phones)
+    public function return_data($phone)
     {
-        $data = [];
-
-        foreach ($phones as $phone)
-        {
-            $building = $phone->building;
-            $data[] = [
-                'id' => $phone->id,
-                'fio' => $phone->fio,
-                'position' => $phone->position,
-                'phone' => $phone->phone,
-                'ip_phone' => $phone->ip_phone,
-                'building' => $building->name . ", " . $phone->room . " " . $phone->room_type,
-                'address' => $building->address,
-                'group' => $phone->group->name,
-            ];
-        }
-
-        return json_encode($data);
+        $building = $phone->building;
+        return [
+            'id' => $phone->id,
+            'fio' => $phone->fio,
+            'position' => $phone->position,
+            'phone' => $phone->phone,
+            'ip_phone' => $phone->ip_phone,
+            'building' => $building->name . ", " . $phone->room . " " . $phone->room_type,
+            'address' => $building->address,
+            'group' => $phone->group->name,
+        ];
     }
 }
