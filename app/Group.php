@@ -18,7 +18,7 @@ class Group extends Model
 
     public function phones()
     {
-        return $this->hasMany('App\hone');
+        return $this->hasMany('App\Phone');
     }
 
     protected $fillable = ['name', 'parent_id', 'priority'];
