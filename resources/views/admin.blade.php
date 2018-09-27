@@ -54,42 +54,22 @@
                 <h4>Клиенты</h4>
                 <div class="card-body row">
                     <div id="accordion2" class="col-md-8">
-                        <div class="building-header">
-                            <div class="card-header" id="uheading1">
-                                <h5 class="mb-0">
-                                    <button class="btn btn-link" data-toggle="collapse" data-target="#ucollapse1"
-                                            aria-expanded="true" aria-controls="ucollapse1">
-                                        Пользователь №1
-                                    </button>
-                                </h5>
-                            </div>
 
-                            <div id="ucollapse1" class="collapse show" aria-labelledby="uheading1"
-                                 data-parent="#accordion2">
-                                <div class="card-body building-body">
-                                    <ul>
-                                        <li><span><b>Номер договора: </b></span>Общежитие</li>
-                                        <li><span><b>Номер телефона: </b></span>Серадзская 7, 25</li>
-                                        <li><span><b>Информация: </b></span>Серадзская 7, 25</li>
-                                        <li><span><b>Информация: </b></span>Серадзская 7, 25</li>
-                                        <li><span><b>Информация: </b></span>Серадзская 7, 25</li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
                     </div>
                     <div class="col-md-4">
-                        <form action="" class="admin-form">
+                        <form class="admin-form" action="javascript:void(null);"
+                              onsubmit="sendPhoneForm()" id="phoneForm">
+                            @csrf
                             <div class="form-group">
-                                <input name="cl-name" type="text" class="form-control" placeholder="ФИО">
+                                <input name="fio" type="text" class="form-control" placeholder="ФИО">
                             </div>
                             <div class="form-group">
-                                <select class="form-control" name="" id="group-select2">
-                                    <option value="">Родительский элемент</option>
+                                <select class="form-control" name="group_id" id="group-select2">
+                                    <option value="">Группа</option>
                                 </select>
                             </div>
                             <div class="form-group">
-                                <input name="cl-cid" type="text" class="form-control" placeholder="Должность">
+                                <input name="position" type="text" class="form-control" placeholder="Должность">
                             </div>
                             <div class="form-row form-group">
                                 <div class="col">
@@ -100,26 +80,26 @@
                                     </select>
                                 </div>
                                 <div class="col">
-                                    <input id="phone" type="text" class="form-control">
+                                    <input id="phone" name="phone" type="text" class="form-control">
                                 </div>
                             </div>
                             <div class="form-group">
-                                <input name="cl-info" type="text" class="form-control" placeholder="Внутренний номер" maxlength="4">
+                                <input name="ip_phone" type="text" class="form-control" placeholder="Внутренний номер" maxlength="4">
                             </div>
 
                             <div class="form-row form-group">
                                 <div class="col">
-                                    <select class="form-control" name="building" id="building">
+                                    <select class="form-control" name="building_id" id="building">
                                         <option value="" selected>Здание</option>
                                     </select>
                                 </div>
                                 <div class="col">
-                                    <input name="cl-info" type="text" class="form-control" placeholder="кабинет/этаж">
+                                    <input name="room" type="text" class="form-control" placeholder="кабинет/этаж">
                                 </div>
                                 <div class="col">
-                                    <select class="form-control" name="" id="">
-                                        <option value="1">кабинет</option>
-                                        <option value="2">этаж</option>
+                                    <select class="form-control" name="room_type" id="">
+                                        <option value="кабинет">кабинет</option>
+                                        <option value="этаж">этаж</option>
                                     </select>
                                 </div>
                             </div>
@@ -135,30 +115,27 @@
             <div class="card admin-card-header">
                 <h4>Группы</h4>
                 <div class="card-body row">
-                    <div id="accordion2" class="col-md-6">
-                        <div class="building-header">
-                            <div class="card-header">
-                                <h5 class="mb-0">
-                                    <button class="btn btn-link">
-                                        Группа №1
-                                    </button>
-                                </h5>
-                            </div>
-                        </div>
+                    <div id="accordion3" class="col-md-6">
+
                     </div>
                     <div class="col-md-6">
-                        <form action="{{ url('/group/add') }}" class="admin-form" method="POST">
+                        <form class="admin-form" method="POST" action="javascript:void(null);"
+                              onsubmit="sendGroupForm()" id="groupForm">
                             @csrf
                             <div class="form-group">
-                                <select class="form-control" name="" id="group-select">
-                                    <option value="">Родительский элемент</option>
+                                <select class="form-control" name="parent_id" id="group-select">
+                                    <option value="" selected>Родительский элемент</option>
                                 </select>
                             </div>
-                            <div class="form-group"><input name="ev-name" type="text" class="form-control"
+                            <div class="form-group"><input name="name" type="text" class="form-control"
                                                            placeholder="Название группы"></div>
                             <div class="form-group">
-                                <select class="form-control" name="" id="">
-                                    <option value="">Приоритет</option>
+                                <select class="form-control" name="priority" id="">
+                                    <option value="1">Очень высокий</option>
+                                    <option value="2">Высокий</option>
+                                    <option value="3" selected>Средний</option>
+                                    <option value="4">Низкий</option>
+                                    <option value="5">Очень низкий</option>
                                 </select>
                             </div>
                             <div class="form-group"><input type="submit" class="form-control"></div>
@@ -173,38 +150,12 @@
                 <h4>Здания</h4>
                 <div class="card-body row">
                     <div id="accordion1" class="col-md-6">
-                        <div class="building-header">
-                            <div class="card-header" id="heading2">
-                                <h5 class="mb-0">
-                                    <button class="btn btn-link" data-toggle="collapse" data-target="#collapse1"
-                                            aria-expanded="true" aria-controls="collapse1">
-                                        Общежитие №1
-                                    </button>
-                                </h5>
-                            </div>
-
-                            <div id="collapse1" class="collapse show" aria-labelledby="heading1"
-                                 data-parent="#accordion1">
-                                <div class="card-body building-body">
-                                    <ul>
-                                        <li><span><b>Тип: </b></span>Общежитие</li>
-                                        <li><span><b>Адрес: </b></span>Серадзская 7, 25</li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
                     </div>
                     <div class="col-md-6">
-                        <form action="{{ url('/building/add') }}" class="admin-form" method="POST">
+                        <form class="admin-form" action="javascript:void(null);" onsubmit="sendBuildingForm()" id="buildingForm">
                             @csrf
                             <div class="form-group">
                                 <input name="name" type="text" class="form-control" placeholder="Название">
-                            </div>
-                            <div class="form-group">
-                                <select class="form-control" name="type" id="">
-                                    <option value="1">Общежитие</option>
-                                    <option value="2">Корпус</option>
-                                </select>
                             </div>
                             <div class="form-group">
                                 <input name="address" type="text" class="form-control" placeholder="Адрес">

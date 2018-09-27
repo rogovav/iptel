@@ -21,5 +21,5 @@ class Group extends Model
         return $this->hasMany('App\Phone');
     }
 
-    protected $fillable = ['name', 'parent_id', 'priority'];
+    protected $fillable = ['name', 'parent_id', 'priority', 'level'];
 }

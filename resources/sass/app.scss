@@ -83,12 +83,12 @@ body {
     padding: 5px;
 }
 
-#accordion1, #accordion2 {
+#accordion1, #accordion2, #accordion3 {
     height: 400px;
     overflow-y: scroll;
 }
 
-#accordion1 .card-header, #accordion2 .card-header {
+#accordion1 .card-header, #accordion2 .card-header, #accordion3 .card-header {
     padding: 5px;
     background-color: white !important;
 }
@@ -116,7 +116,7 @@ body {
     color: #041e42;
 }
 
-.admin-card-header h4{
+.admin-card-header h4 {
     margin-top: 20px;
 }
 

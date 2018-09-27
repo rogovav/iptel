@@ -52,7 +52,7 @@ class PhoneController extends Controller
 
     public function get_all()
     {
-        $groups = Group::all('id', 'name', 'parent_id', 'level');
+        $groups = Group::all();
         $data = ['data' => $this->add_to_data_req($groups)];
         return json_encode($data);
     }
@@ -80,15 +80,17 @@ class PhoneController extends Controller
             $data = [];
             foreach ($phones as $phone)
             {
+                $building = $phone->building;
                 $data[] = [
                     'name' => $phone->fio,
                     'phone' => $phone->phone,
                     'ip_phone' => $phone->ip_phone,
                     'position' => $phone->position,
-                    'address' => $phone->address,
+                    'building' => $building->name . ", " . $phone->room . " " . $phone->room_type,
+                    'address' => $building->address,
                 ];
             }
-            return $data;
+            return [$group->name => $data];
         } else {
             return [
                 $group->name => $child
