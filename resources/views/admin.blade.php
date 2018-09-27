@@ -80,7 +80,7 @@
                                     </select>
                                 </div>
                                 <div class="col">
-                                    <input id="phone" type="text" class="form-control">
+                                    <input id="phone" name="phone" type="text" class="form-control">
                                 </div>
                             </div>
                             <div class="form-group">
@@ -98,8 +98,8 @@
                                 </div>
                                 <div class="col">
                                     <select class="form-control" name="room_type" id="">
-                                        <option value="1">кабинет</option>
-                                        <option value="2">этаж</option>
+                                        <option value="кабинет">кабинет</option>
+                                        <option value="этаж">этаж</option>
                                     </select>
                                 </div>
                             </div>
@@ -131,12 +131,11 @@
                                                            placeholder="Название группы"></div>
                             <div class="form-group">
                                 <select class="form-control" name="priority" id="">
-                                    <option selected disabled>Приоритет</option>
-                                    <option value="1">1</option>
-                                    <option value="2">2</option>
-                                    <option value="3">3</option>
-                                    <option value="4">4</option>
-                                    <option value="5">5</option>
+                                    <option value="1">Очень высокий</option>
+                                    <option value="2">Высокий</option>
+                                    <option value="3" selected>Средний</option>
+                                    <option value="4">Низкий</option>
+                                    <option value="5">Очень низкий</option>
                                 </select>
                             </div>
                             <div class="form-group"><input type="submit" class="form-control"></div>

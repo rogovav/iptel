@@ -50,20 +50,6 @@ $(document).ready(function () {
     }
 
 
-    function LiveSearch(val) {
-        let table = $("#phones");
-        let rows = table[0].rows;
-        for (let i = 1; i < rows.length; i += 1) {
-            if (rows[i].innerHTML.includes(val)) {
-                rows[i].style.display = 'table-row';
-            }
-            else {
-                rows[i].style.display = 'none';
-            }
-        }
-    }
-
-
     $('a#ShowMenu').click(function () {
         $('#searchbg').toggle("slow");
     });
@@ -84,13 +70,12 @@ $(document).ready(function () {
                 "                                 data-parent=\"#accordion2\">\n" +
                 "                                <div class=\"card-body building-body\">\n" +
                 "                                    <ul>\n" +
-                "                                        <li><span><b>Группа: </b></span>" + v.group_id + "</li>\n" +
+                "                                        <li><span><b>Группа: </b></span>" + v.group + "</li>\n" +
                 "                                        <li><span><b>Должность: </b></span>" + v.position + "</li>\n" +
                 "                                        <li><span><b>Номер телефона: </b></span>" + v.phone + "</li>\n" +
                 "                                        <li><span><b>Внутренний номер: </b></span>" + v.ip_phone + "</li>\n" +
-                "                                        <li><span><b>Здание: </b></span>" + v.building_id + "</li>\n" +
-                "                                        <li><span><b>Кабинет: </b></span>" + v.room_type + "</li>\n" +
-                "                                        <li><span><b>Этаж: </b></span>" + v.room + "</li>\n" +
+                "                                        <li><span><b>Здание: </b></span>" + v.building + "</li>\n" +
+                "                                        <li><span><b>Кабинет: </b></span>" + v.address + "</li>\n" +
                 "                                    </ul>\n" +
                 "                                </div>\n" +
                 "                            </div>\n" +
@@ -227,8 +212,7 @@ function sendPhoneForm() {
         data: data.serialize(),
         success: function (newdata) {
             data[0].reset();
-            newdata = JSON.parse(newdata);
-            console.log(newdata);
+            newdata = JSON.parse(newdata)[0];
             $("#accordion2").append("<div class=\"building-header\">\n" +
                 "                            <div class=\"card-header\" id=\"uheading" + newdata["id"] + "\">\n" +
                 "                                <h5 class=\"mb-0\">\n" +
@@ -243,13 +227,12 @@ function sendPhoneForm() {
                 "                                 data-parent=\"#accordion2\">\n" +
                 "                                <div class=\"card-body building-body\">\n" +
                 "                                    <ul>\n" +
-                "                                        <li><span><b>Группа: </b></span>" + newdata["group_id"] + "</li>\n" +
+                "                                        <li><span><b>Группа: </b></span>" + newdata["group"] + "</li>\n" +
                 "                                        <li><span><b>Должность: </b></span>" + newdata["position"] + "</li>\n" +
                 "                                        <li><span><b>Номер телефона: </b></span>" + newdata["phone"] + "</li>\n" +
                 "                                        <li><span><b>Внутренний номер: </b></span>" + newdata["ip_phone"] + "</li>\n" +
-                "                                        <li><span><b>Здание: </b></span>" + newdata["building_id"] + "</li>\n" +
-                "                                        <li><span><b>Кабинет: </b></span>" + newdata["room_type"] + "</li>\n" +
-                "                                        <li><span><b>Этаж: </b></span>" + newdata["room"] + "</li>\n" +
+                "                                        <li><span><b>Здание: </b></span>" + newdata["building"] + "</li>\n" +
+                "                                        <li><span><b>Кабинет: </b></span>" + newdata["address"] + "</li>\n" +
                 "                                    </ul>\n" +
                 "                                </div>\n" +
                 "                            </div>\n" +
@@ -260,4 +243,17 @@ function sendPhoneForm() {
         }
     })
 
+}
+
+function LiveSearch(val) {
+    let table = $("#phones");
+    let rows = table[0].rows;
+    for (let i = 1; i < rows.length; i += 1) {
+        if (rows[i].innerHTML.includes(val)) {
+            rows[i].style.display = 'table-row';
+        }
+        else {
+            rows[i].style.display = 'none';
+        }
+    }
 }
