@@ -56,26 +56,6 @@ class PhoneController extends Controller
         return json_encode($data);
     }
 
-
-    function add_phones($phones)
-    {
-        $data = [];
-        if ($phones->count() > 0) {
-            foreach ($phones as $phone) {
-                $building = $phone->building;
-                $data[] = [
-                    'name' => $phone->fio,
-                    'phone' => $phone->phone,
-                    'ip_phone' => $phone->ip_phone,
-                    'position' => $phone->position,
-                    'building' => $building->name . ", " . $phone->room . " " . $phone->room_type,
-                    'address' => $building->address,
-                ];
-            }
-        }
-        return $data;
-    }
-
     public function add_to_data_req($groups, $level = 0)
     {
         $data = [];
