@@ -13,12 +13,14 @@ class PhoneController extends Controller
         $phones = Phone::all();
         foreach ($phones as $phone)
         {
+            $building = $phone->building;
             $data[] = [
                 'fio' => $phone->fio,
                 'position' => $phone->position,
                 'phone' => $phone->phone,
                 'ip_phone' => $phone->ip_phone,
-                'building' => $phone->building->name,
+                'building' => $building->name . ", " . $phone->room . " " . $phone->room_type,
+                'address' => $building->address,
                 'group' => $phone->group->name,
             ];
         }
@@ -27,7 +29,7 @@ class PhoneController extends Controller
 
     public function add(Request $request)
     {
-        $phone = Phone::create([
+        Phone::create([
             'fio' => $request['fio'],
             'position' => $request['position'],
             'phone' => $request['phone'],
@@ -37,6 +39,6 @@ class PhoneController extends Controller
             'room' => $request['room'],
             'room_type' => $request['room_type']
         ]);
-        return $phone->toJson();
+        return json_encode('success');
     }
 }
