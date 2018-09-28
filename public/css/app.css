@@ -11,7 +11,17 @@
 }
 
 .group {
-  background-color: #041e42;
+  background-color: rgba(4, 30, 66, 0.75);
+  color: white;
+}
+
+.company {
+  background-color: rgba(4, 30, 66, 0.5);
+  color: white;
+}
+
+.sub_company {
+  background-color: rgba(4, 30, 66, 0.25);
   color: white;
 }
 
@@ -140,6 +150,28 @@
 .admin-form input[type="submit"] {
   background-color: #041e42;
   color: white;
+}
+
+.bglink {
+  color: white;
+  font-size: 20px;
+}
+
+.bglink:hover {
+  color: white;
+}
+
+.delete-link {
+  margin: 0px;
+  text-decoration: none;
+  height: 100%;
+  display: inline-block;
+  width: 30px;
+}
+
+.delete-link:hover {
+  text-decoration: none;
+  color: red;
 }
 
 @media (min-width: 992px) {

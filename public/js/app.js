@@ -1,27 +1,34 @@
 $(document).ready(function () {
-    $.getJSON("/test.json", function (data) {
+    $.getJSON("/phones/all", function (data) {
         let tbl_body = "";
         let ul_body = "";
+        let i = 0;
+        let j = 0;
+        let z = 0;
         $.each(data["data"], function () {
             $.each(this, function (k, v) {// all data
-                tbl_body += "<tr class='group'><td colspan='5'><h3>" + k + "</h3></td>></tr>";
-                ul_body += "<li>" + k + "</li><ul>";
+                console.log(i);
+                tbl_body += "<tr class='group' id='group_" + i + "'><td colspan='5'><h3>" + k + "</h3></td>></tr>";
+                ul_body += "<li class='group' onclick='hideBg()'><a class='bglink' href='#group_" + i + "'>" + k + "</a></li><ul>";
+                ++i;
                 $.each(v, function (k, v) { // company
                     if (v["name"]) {
                         tbl_body += InsertValue(v);
                     }
                     else {
                         $.each(v, function (k, v) { //company sub_company
-                            tbl_body += "<tr class='company'><td colspan='5'><h4>" + k + "</h4></td>></tr>";
-                            ul_body += "<li>" + k + "</li><ul>";
+                            tbl_body += "<tr class='company' id='company_" + j + "'><td colspan='5'><h4>" + k + "</h4></td>></tr>";
+                            ul_body += "<li class='company' onclick='hideBg()'><a class='bglink' href='#company_" + j + "'>" + k + "</a></li><ul>";
+                            ++j;
                             $.each(v, function (k, v) { //sub_company object
                                 if (v["name"]) {
                                     tbl_body += InsertValue(v);
                                 }
                                 else {
                                     $.each(v, function (k, v) { //object element
-                                        tbl_body += "<tr class='sub_company'><td colspan='5'><h5>" + k + "</h5></td>></tr>";
-                                        ul_body += "<li>" + k + "</li>";
+                                        tbl_body += "<tr class='sub_company' id='sub_company_" + z + "'><td colspan='5'><h5>" + k + "</h5></td>></tr>";
+                                        ul_body += "<li class='sub_company' onclick='hideBg()'><a class='bglink' href='#company_" + z + "'>" + k + "</a></li>";
+                                        z++;
                                         $.each(v, function (k, v) { //sub_company object
                                             tbl_body += InsertValue(v);
                                         });
@@ -44,7 +51,7 @@ $(document).ready(function () {
      * @return {string}
      */
     function InsertValue(v) {
-        return "<tr>" + "<td>" + v["name"] + "</td>" + "<td>" + v["position"] +
+        return "<tr class='tr-rendered'>" + "<td>" + v["name"] + "</td>" + "<td>" + v["position"] +
             "</td>" + "<td>" + v["phone"] + "</td>" + "<td>" + v["ip_phone"] +
             "</td>" + "<td>" + v["address"] + "</td>" + "</tr>";
     }
@@ -63,6 +70,7 @@ $(document).ready(function () {
                 "                                            aria-expanded=\"false\" aria-controls=\"ucollapse" + v.id + "\">\n" +
                 v.fio +
                 "                                    </button>\n" +
+                "<a href='/phone/delete/" + v.id + "' class='delete-link' data-method='delete'>&#10006;</a>" +
                 "                                </h5>\n" +
                 "                            </div>\n" +
                 "\n" +
@@ -111,6 +119,8 @@ $(document).ready(function () {
                 }))
         })
     });
+
+    $(".popovers").popover('toggle');
 
     $.getJSON("/groups", function (data) {
         let groups = $("#group-select, #group-select2");
@@ -257,3 +267,10 @@ function LiveSearch(val) {
         }
     }
 }
+
+
+function hideBg() {
+    console.log("clicked");
+    $("#searchbg").slideToggle()
+}
+

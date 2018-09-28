@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use \App\Phone;
+use \App\Group;
 
 class PhoneController extends Controller
 {
@@ -11,8 +12,7 @@ class PhoneController extends Controller
     {
         $data = [];
         $phones = Phone::all();
-        foreach ($phones as $phone)
-        {
+        foreach ($phones as $phone) {
             $data[] = $this->return_data($phone);
         }
         return json_encode($data);
@@ -47,5 +47,52 @@ class PhoneController extends Controller
             'address' => $building->address,
             'group' => $phone->group->name,
         ];
+    }
+
+    public function get_all()
+    {
+        $groups = Group::all();
+        $data = ['data' => $this->add_to_data_req($groups)];
+        return json_encode($data);
+    }
+
+    public function add_to_data_req($groups, $level = 0)
+    {
+        $data = [];
+        foreach ($groups as $group) {
+            if ($group->level == $level) {
+                if ($group->children->count() > 0) {
+                    $data[] = $this->add_to_data($group, $this->add_to_data_req($group->children, $level + 1));
+                } else {
+                    $data[] = $this->add_to_data($group);
+                }
+
+            }
+        }
+        return $data;
+    }
+
+    public function add_to_data($group, $child = [])
+    {
+        $phones = $group->phones;
+        $data = [];
+        if ($phones->count() > 0) {
+            foreach ($phones as $phone) {
+                $building = $phone->building;
+                $data[] = [
+                    'name' => $phone->fio,
+                    'phone' => $phone->phone,
+                    'ip_phone' => $phone->ip_phone,
+                    'position' => $phone->position,
+                    'building' => $building->name . ", " . $phone->room . " " . $phone->room_type,
+                    'address' => $building->address,
+                ];
+            }
+            return [$group->name => array_merge($data, $child)];
+        } else {
+            return [
+                $group->name => $child
+            ];
+        }
     }
 }

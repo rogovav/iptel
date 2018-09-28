@@ -46,6 +46,7 @@ class GroupController extends Controller
         $group = Group::create([
             'name' => $request['name'],
             'parent_id' => $request['parent_id'],
+            'level' => ($request['parent_id'] ? Group::find($request['parent_id'])->level + 1 : 0),
             'priority' => $request['priority'],
         ]);
 
