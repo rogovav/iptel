@@ -52,11 +52,7 @@ class PhoneController extends Controller
     public function get_all()
     {
         $groups = Group::all();
-        if ($groups->count() > 0) {
-            $data = ['data' => $this->add_to_data_req($groups)];
-        } else {
-            $data = [];
-        }
+        $data = ['data' => $this->add_to_data_req($groups)];
         return json_encode($data);
     }
 

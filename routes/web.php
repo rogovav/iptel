@@ -34,5 +34,3 @@ Route::get('/phones/all', 'PhoneController@get_all');
 Route::delete('/phone/delete/{id}', 'PhoneController@delete');
 
 Auth::routes();
-
-Route::get('/home', 'HomeController@index')->name('home');

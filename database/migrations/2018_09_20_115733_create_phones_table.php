@@ -20,7 +20,9 @@ class CreatePhonesTable extends Migration
             $table->string('phone')->nullable();
             $table->string('ip_phone')->nullable();
             $table->integer('building_id')->nullable()->unsigned();
+            $table->foreign('building_id')->references('id')->on('buildings')->onDelete('cascade');
             $table->integer('group_id')->nullable()->unsigned();
+            $table->foreign('group_id')->references('id')->on('groups')->onDelete('cascade');
             $table->string('room')->nullable();
             $table->string('room_type')->nullable();
             $table->timestamps();
@@ -34,6 +36,11 @@ class CreatePhonesTable extends Migration
      */
     public function down()
     {
+        Schema::table('phones', function (Blueprint $table)
+        {
+            $table->dropForeign('phones_building_id_foreign');
+            $table->dropForeign('phones_group_id_foreign');
+        });
         Schema::dropIfExists('phones');
     }
 }

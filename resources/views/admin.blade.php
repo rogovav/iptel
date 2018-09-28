@@ -39,7 +39,7 @@
                        onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                         <i class="fas fa-key"></i> Выйти</a>
                 </li>
-                <form id="logout-form" action="" method="POST" style="display: none;">
+                <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                     @csrf
                 </form>
             </ul>
@@ -58,42 +58,59 @@
                               onsubmit="sendPhoneForm()" id="phoneForm">
                             @csrf
                             <div class="form-group">
-                                <input name="fio" type="text" class="form-control" placeholder="ФИО">
+                                <input required name="fio" type="text" class="form-control" placeholder="ФИО">
                             </div>
                             <div class="form-group">
-                                <select class="form-control" name="group_id" id="group-select2">
+                                <select required class="form-control" name="group_id" id="group-select2">
                                 </select>
                             </div>
                             <div class="form-group">
-                                <input name="position" type="text" class="form-control" placeholder="Должность">
+                                <input required name="position" type="text" class="form-control"
+                                       placeholder="Должность">
                             </div>
-                            <div class="form-row form-group">
-                                <div class="col">
-                                    <select id="country" class="form-control">
-                                        <option value="ru"><img src="">Саранск +7 (8342)</option>
-                                        <option value="ua">Рузаевка +7 (83451)</option>
-                                        <option value="by">Ковылкино +7 (83453)</option>
-                                    </select>
-                                </div>
-                                <div class="col">
-                                    <input id="phone" name="phone" type="text" class="form-control">
+                            <div class="phones-rendered">
+                                <div class="form-row form-group">
+                                    <div class="col">
+                                        <select required id="country" class="form-control country">
+                                            <option value="ru"><img src="">Саранск +7 (8342)</option>
+                                            <option value="ua">Рузаевка +7 (83451)</option>
+                                            <option value="by">Ковылкино +7 (83453)</option>
+                                        </select>
+                                    </div>
+                                    <div class="col numbers">
+                                        <input required id="phone" name="phone[]" type="text"
+                                               class="form-control phone-input">
+                                    </div>
+                                    <div class="col">
+                                        <button type="button" class="btn" onclick="AddNumber()">Добавить номер</button>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="form-group">
-                                <input name="ip_phone" type="text" class="form-control" placeholder="Внутренний номер" maxlength="4">
+                            <div class="ip_phones-rendered">
+                                <div class="form-row form-group">
+                                    <div class="col-8">
+                                        <input required name="ip_phone[]" type="text" class="form-control"
+                                               placeholder="Внутренний номер" maxlength="4">
+                                    </div>
+                                    <div class="col-4">
+                                        <button type="button" class="btn" onclick="AddIpNumber()">Добавить номер
+                                        </button>
+                                    </div>
+                                </div>
                             </div>
 
                             <div class="form-row form-group">
                                 <div class="col">
-                                    <select class="form-control" name="building_id" id="building">
+                                    <select required class="form-control" name="building_id" id="building">
                                         <option value="" selected>Здание</option>
                                     </select>
                                 </div>
                                 <div class="col">
-                                    <input name="room" type="text" class="form-control" placeholder="кабинет/этаж">
+                                    <input required name="room" type="text" class="form-control"
+                                           placeholder="кабинет/этаж">
                                 </div>
                                 <div class="col">
-                                    <select class="form-control" name="room_type" id="">
+                                    <select required class="form-control" name="room_type" id="">
                                         <option value="кабинет">кабинет</option>
                                         <option value="этаж">этаж</option>
                                     </select>
@@ -122,10 +139,10 @@
                                 <select class="form-control" name="parent_id" id="group-select">
                                 </select>
                             </div>
-                            <div class="form-group"><input name="name" type="text" class="form-control"
+                            <div class="form-group"><input required name="name" type="text" class="form-control"
                                                            placeholder="Название группы"></div>
                             <div class="form-group">
-                                <select class="form-control" name="priority" id="">
+                                <select required class="form-control" name="priority" id="">
                                     <option value="1">Очень высокий</option>
                                     <option value="2">Высокий</option>
                                     <option value="3" selected>Средний</option>
@@ -147,13 +164,14 @@
                     <div id="accordion1" class="col-md-6">
                     </div>
                     <div class="col-md-6">
-                        <form class="admin-form" action="javascript:void(null);" onsubmit="sendBuildingForm()" id="buildingForm">
+                        <form class="admin-form" action="javascript:void(null);" onsubmit="sendBuildingForm()"
+                              id="buildingForm">
                             @csrf
                             <div class="form-group">
-                                <input name="name" type="text" class="form-control" placeholder="Название">
+                                <input required name="name" type="text" class="form-control" placeholder="Название">
                             </div>
                             <div class="form-group">
-                                <input name="address" type="text" class="form-control" placeholder="Адрес">
+                                <input required name="address" type="text" class="form-control" placeholder="Адрес">
                             </div>
                             <div class="form-group"><input type="submit" class="form-control"></div>
                         </form>
@@ -180,26 +198,26 @@
     $('.collapse').collapse('toggle');
 </script>
 <script>
-    $(function () {
-        function maskPhone() {
-            var country = $('#country option:selected').val();
-            switch (country) {
-                case "ru":
-                    $("#phone").mask("+7(8342) 99-99-99");
-                    break;
-                case "ua":
-                    $("#phone").mask("+7(83451) 9-99-99");
-                    break;
-                case "by":
-                    $("#phone").mask("+7(83453) 9-99-99");
-                    break;
-            }
-        }
-
-        maskPhone();
-        $('#country').change(function () {
-            maskPhone();
-        })
-    });
+    // $(function () {
+    //     function maskPhone() {
+    //         var country = $('#country option:selected').val();
+    //         switch (country) {
+    //             case "ru":
+    //                 $("#phone").mask("+7(8342) 99-99-99");
+    //                 break;
+    //             case "ua":
+    //                 $("#phone").mask("+7(83451) 9-99-99");
+    //                 break;
+    //             case "by":
+    //                 $("#phone").mask("+7(83453) 9-99-99");
+    //                 break;
+    //         }
+    //     }
+    //
+    //     maskPhone();
+    //     $('#country').change(function () {
+    //         maskPhone();
+    //     })
+    // });
 </script>
 </html>
