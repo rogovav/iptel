@@ -57,8 +57,16 @@ $(document).ready(function () {
 
 
     $('a#ShowMenu').click(function () {
-        $('#searchbg').toggle("slow");
+        $('#searchbg').slideToggle("slow");
     });
+});
+
+$(document).mouseup(function (e){ // событие клика по веб-документу
+    var div = $("#searchbg"); // тут указываем ID элемента
+    if (!div.is(e.target) // если клик был не по нашему блоку
+        && div.has(e.target).length === 0) { // и не по его дочерним элементам
+        div.slideUp("slow");; // скрываем его
+    }
 });
 
 function sendGroupForm() {
@@ -317,16 +325,7 @@ $(document).on('click', 'a.delete-link', function (e) {
 })
 
 function LiveSearch(val) {
-    let table = $("#phones");
-    let rows = table[0].rows;
-    for (let i = 1; i < rows.length; i += 1) {
-        if (rows[i].innerHTML.includes(val)) {
-            rows[i].style.display = 'table-row';
-        }
-        else {
-            rows[i].style.display = 'none';
-        }
-    }
+
 }
 
 

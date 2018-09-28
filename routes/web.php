@@ -20,7 +20,7 @@ Route::get('/', function () {
 
 Route::get('/admin-panel', function () {
     return view('admin');
-});
+})->middleware("auth");
 
 Route::get('/buildings', 'BuildingController@index');
 Route::post('/building/add', 'BuildingController@add');
