@@ -23,8 +23,8 @@ class PhoneController extends Controller
         $phone = Phone::create([
             'fio' => $request['fio'],
             'position' => $request['position'],
-            'phone' => $request['phone'],
-            'ip_phone' => $request['ip_phone'],
+            'phone' => implode(", ", $request['phone']),
+            'ip_phone' => implode(", ", $request['ip_phone']),
             'building_id' => $request['building_id'],
             'group_id' => $request['group_id'],
             'room' => $request['room'],

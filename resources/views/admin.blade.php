@@ -76,7 +76,7 @@
                                     </select>
                                 </div>
                                 <div class="col">
-                                    <input id="phone" name="phone" type="text" class="form-control">
+                                    <input id="phone" name="phone[]" type="text" class="form-control">
                                 </div>
                             </div>
                             <div class="form-group">
