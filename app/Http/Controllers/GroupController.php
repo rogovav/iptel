@@ -12,7 +12,7 @@ class GroupController extends Controller
     {
         $groups = Group::all('id', 'name', 'parent_id', 'level');
         $data = $this->add_to_data_req($groups);
-        return json_encode($data);
+        return $groups->toJson();
     }
 
     public function add_to_data_req($groups, $level = 0)
@@ -51,5 +51,10 @@ class GroupController extends Controller
         ]);
 
         return $group->toJson();
+    }
+
+    public function delete(Request $request){
+        Group::find($request['id'])->delete();
+        return json_encode('success');
     }
 }

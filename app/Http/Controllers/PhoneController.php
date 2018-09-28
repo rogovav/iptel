@@ -52,7 +52,11 @@ class PhoneController extends Controller
     public function get_all()
     {
         $groups = Group::all();
-        $data = ['data' => $this->add_to_data_req($groups)];
+        if ($groups->count() > 0) {
+            $data = ['data' => $this->add_to_data_req($groups)];
+        } else {
+            $data = [];
+        }
         return json_encode($data);
     }
 
@@ -66,7 +70,6 @@ class PhoneController extends Controller
                 } else {
                     $data[] = $this->add_to_data($group);
                 }
-
             }
         }
         return $data;
@@ -94,5 +97,11 @@ class PhoneController extends Controller
                 $group->name => $child
             ];
         }
+    }
+
+    public function delete(Request $request)
+    {
+        Phone::find($request['id'])->delete();
+        return json_encode('success');
     }
 }

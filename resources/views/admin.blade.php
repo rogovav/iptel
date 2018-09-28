@@ -62,7 +62,6 @@
                             </div>
                             <div class="form-group">
                                 <select class="form-control" name="group_id" id="group-select2">
-                                    <option value="">Группа</option>
                                 </select>
                             </div>
                             <div class="form-group">
@@ -121,7 +120,6 @@
                             @csrf
                             <div class="form-group">
                                 <select class="form-control" name="parent_id" id="group-select">
-                                    <option value="" selected>Родительский элемент</option>
                                 </select>
                             </div>
                             <div class="form-group"><input name="name" type="text" class="form-control"

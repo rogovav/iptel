@@ -16,7 +16,8 @@ class CreateGroupsTable extends Migration
         Schema::create('groups', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
-            $table->integer('parent_id')->nullable();
+            $table->integer('parent_id')->unsigned()->nullable();
+            $table->foreign('parent_id')->references('id')->on('groups')->onDelete('cascade');
             $table->integer('level')->unsigned()->default(0);
             $table->integer('priority');
             $table->timestamps();
@@ -30,6 +31,10 @@ class CreateGroupsTable extends Migration
      */
     public function down()
     {
+        Schema::table('groups', function (Blueprint $table)
+        {
+            $table->dropForeign(['parent_id']);
+        });
         Schema::dropIfExists('groups');
     }
 }

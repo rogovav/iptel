@@ -23,4 +23,10 @@ class BuildingController extends Controller
 
         return $building->toJson();
     }
+
+    public function delete(Request $request)
+    {
+        Building::find($request['id'])->delete();
+        return json_encode('success');
+    }
 }

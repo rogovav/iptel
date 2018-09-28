@@ -63,14 +63,14 @@ $(document).ready(function () {
 
     $.getJSON("/phones", function (data) {
         $.each(data, function (k, v) {
-            $("#accordion2").append("<div class=\"building-header\">\n" +
+            $("#accordion2").append("<div class=\"building-header\" id=\"phone-header-" + v.id + "\">\n" +
                 "                            <div class=\"card-header\" id=\"uheading" + v.id + "\">\n" +
                 "                                <h5 class=\"mb-0\">\n" +
                 "                                    <button class=\"btn btn-link\" data-toggle=\"collapse\" data-target=\"#ucollapse" + v.id + "\"\n" +
                 "                                            aria-expanded=\"false\" aria-controls=\"ucollapse" + v.id + "\">\n" +
                 v.fio +
                 "                                    </button>\n" +
-                "<a href='/phone/delete/" + v.id + "' class='delete-link' data-method='delete'>&#10006;</a>" +
+                "<a href='/api/phone/delete/" + v.id + "' data-id='" + v.id + "' data-name='phone' class='delete-link' data-method='delete'>&#10006;</a>" +
                 "                                </h5>\n" +
                 "                            </div>\n" +
                 "\n" +
@@ -94,13 +94,14 @@ $(document).ready(function () {
     $.getJSON("/buildings", function (data) {
         let buildings = $("#building");
         $.each(data, function (k, v) {
-            $("#accordion1").append("<div class=\"building-header\">\n" +
+            $("#accordion1").append("<div class=\"building-header\" id=\"building-header-" + v.id + "\">\n" +
                 "                            <div class=\"card-header\" id=\"heading" + v.id + "\">\n" +
                 "                                <h5 class=\"mb-0\">\n" +
                 "                                    <button class=\"btn btn-link\" data-toggle=\"collapse\" data-target=\"#collapse" + v.id + "\"\n" +
                 "                                            aria-expanded=\"false\" aria-controls=\"collapse" + v.id + "\">\n" +
                 v.name +
                 "                                    </button>\n" +
+                "<a href='/api/building/delete/" + v.id + "' data-id='" + v.id + "' data-name='building' class='delete-link' data-method='delete'>&#10006;</a>" +
                 "                                </h5>\n" +
                 "                            </div>\n" +
                 "\n" +
@@ -115,31 +116,14 @@ $(document).ready(function () {
                 "                        </div>"),
                 buildings.append($("<option>", {
                     value: v.id,
-                    text: v.name
+                    text: v.name,
+                    class: "building-header-" + v.id
                 }))
         })
     });
 
     $(".popovers").popover('toggle');
 
-    $.getJSON("/groups", function (data) {
-        let groups = $("#group-select, #group-select2");
-        $.each(data, function (k, v) {
-            $("#accordion3").append("<div class=\"building-header\">\n" +
-                "                            <div class=\"card-header\">\n" +
-                "                                <h5 class=\"mb-0\">\n" +
-                "                                    <button class=\"btn btn-link\">\n" +
-                v.name +
-                "                                    </button>\n" +
-                "                                </h5>\n" +
-                "                            </div>\n" +
-                "                        </div>"),
-
-                groups.append($("<option></option>")
-                    .attr("value", v.value)
-                    .text(v.name));
-        })
-    });
 });
 
 function sendGroupForm() {
@@ -158,6 +142,8 @@ function sendGroupForm() {
                 "                                    <button class=\"btn btn-link\">\n" +
                 newdata["name"] +
                 "                                    </button>\n" +
+                "<a href='/api/group/delete/" + newdata["id"] + "' data-id='" + newdata["id"] + "' data-name='group' class='delete-link' data-method='delete'>&#10006;</a>" +
+
                 "                                </h5>\n" +
                 "                            </div>\n" +
                 "                        </div>"),
@@ -182,13 +168,15 @@ function sendBuildingForm() {
         success: function (newdata) {
             data[0].reset();
             newdata = JSON.parse(newdata);
-            $("#accordion1").append("<div class=\"building-header\">\n" +
+            $("#accordion1").append("<div class=\"building-header\"id=\"building-header-" + newdata["id"] + "\">\n" +
                 "                            <div class=\"card-header\" id=\"heading" + newdata["id"] + "\">\n" +
                 "                                <h5 class=\"mb-0\">\n" +
                 "                                    <button class=\"btn btn-link\" data-toggle=\"collapse\" data-target=\"#collapse" + newdata["id"] + "\"\n" +
                 "                                            aria-expanded=\"false\" aria-controls=\"collapse" + newdata["id"] + "\">\n" +
                 newdata["name"] +
                 "                                    </button>\n" +
+                "<a href='/api/building/delete/" + newdata["id"] + "' data-id='" + newdata["id"] + "'data-name='building' class='delete-link' data-method='delete'>&#10006;</a>" +
+
                 "                                </h5>\n" +
                 "                            </div>\n" +
                 "\n" +
@@ -203,7 +191,8 @@ function sendBuildingForm() {
                 "                        </div>"),
                 buildings.append($("<option>", {
                     value: newdata["id"],
-                    text: newdata["name"]
+                    text: newdata["name"],
+                    class: "building-header-" + newdata["id"]
                 }))
         },
         error: function (xhr, str) {
@@ -223,13 +212,14 @@ function sendPhoneForm() {
         success: function (newdata) {
             data[0].reset();
             newdata = JSON.parse(newdata)[0];
-            $("#accordion2").append("<div class=\"building-header\">\n" +
+            $("#accordion2").append("<div class=\"building-header\" id=\"phone-header-" + newdata["id"] + "\">\n" +
                 "                            <div class=\"card-header\" id=\"uheading" + newdata["id"] + "\">\n" +
                 "                                <h5 class=\"mb-0\">\n" +
                 "                                    <button class=\"btn btn-link\" data-toggle=\"collapse\" data-target=\"#ucollapse" + newdata["id"] + "\"\n" +
                 "                                            aria-expanded=\"false\" aria-controls=\"ucollapse" + newdata["id"] + "\">\n" +
                 newdata["fio"] +
                 "                                    </button>\n" +
+                "<a href='/api/phone/delete/" + newdata["id"] + "' data-id='" + newdata["id"] + "'data-name='phone' class='delete-link' data-method='delete'>&#10006;</a>" +
                 "                                </h5>\n" +
                 "                            </div>\n" +
                 "\n" +
@@ -255,6 +245,54 @@ function sendPhoneForm() {
 
 }
 
+function getGroups() {
+    $.getJSON("/groups", function (data) {
+        let groups = $("#group-select, #group-select2");
+        groups.append($("<option></option>")
+            .attr("value", '')
+            .text('Родительский элемент'));
+        $.each(data, function (k, v) {
+            $("#accordion3").append("<div class=\"building-header\">\n" +
+                "                            <div class=\"card-header\">\n" +
+                "                                <h5 class=\"mb-0\">\n" +
+                "                                    <button class=\"btn btn-link\">\n" +
+                v.name +
+                "                                    </button>\n" +
+                "<a href='/api/group/delete/" + v.id + "' data-id='" + v.id + "' data-name='group' class='delete-link' data-method='delete'>&#10006;</a>" +
+
+                "                                </h5>\n" +
+                "                            </div>\n" +
+                "                        </div>"),
+
+                groups.append($("<option></option>")
+                    .attr("value", v.id)
+                    .text(v.name));
+        })
+    });
+}
+
+getGroups();
+
+
+$(document).on('click', 'a.delete-link', function (e) {
+    e.preventDefault();
+    var $this = $(this);
+    let id = $(this).attr("data-id");
+    let name = $(this).attr("data-name");
+    let groups = $("#group-select, #group-select2");
+    console.log(id);
+    $.post({
+        type: $this.data('method'),
+        url: $this.attr('href')
+    }).done(function (data) {
+        groups.empty();
+        $("#accordion3").empty();
+        getGroups();
+        $("#" + name + "-header-" + id).remove();
+        $("." + name + "-header-" + id).remove();
+    });
+})
+
 function LiveSearch(val) {
     let table = $("#phones");
     let rows = table[0].rows;
@@ -273,4 +311,6 @@ function hideBg() {
     console.log("clicked");
     $("#searchbg").slideToggle()
 }
+
+
 

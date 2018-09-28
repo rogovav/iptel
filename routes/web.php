@@ -31,6 +31,7 @@ Route::post('/group/add', 'GroupController@add');
 Route::get('/phones', 'PhoneController@index');
 Route::post('/phone/add', 'PhoneController@add');
 Route::get('/phones/all', 'PhoneController@get_all');
+Route::delete('/phone/delete/{id}', 'PhoneController@delete');
 
 Auth::routes();
 
