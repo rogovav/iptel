@@ -20,7 +20,7 @@ Route::get('/', function () {
 
 Route::get('/admin-panel', function () {
     return view('admin');
-});
+})->middleware('auth');
 
 Route::get('/buildings', 'BuildingController@index');
 Route::post('/building/add', 'BuildingController@add');
@@ -31,7 +31,6 @@ Route::post('/group/add', 'GroupController@add');
 Route::get('/phones', 'PhoneController@index');
 Route::post('/phone/add', 'PhoneController@add');
 Route::get('/phones/all', 'PhoneController@get_all');
+Route::delete('/phone/delete/{id}', 'PhoneController@delete');
 
 Auth::routes();
-
-Route::get('/home', 'HomeController@index')->name('home');

@@ -23,7 +23,7 @@
 </div>
 <div class="container-fluid">
     <nav class="navbar header-top fixed-top navbar-expand-lg navbar-dark bg-dark">
-        <a class="navbar-brand">Телефонный справочник</a>
+        <a href="{{ url('/') }}" class="navbar-brand">Телефонный справочник</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText"
                 aria-controls="navbarText"
                 aria-expanded="false" aria-label="Toggle navigation">
@@ -35,14 +35,11 @@
                     <a class="nav-link" id="ShowMenu" href="#searchbg"><i class="fas fa-search"></i> Поиск по оглавлению</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href=""><i class="fas fa-users-cog"></i> Админ-панель</a>
-                </li>
-                <li class="nav-item">
                     <a class="nav-link" href=""
                        onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                        <i class="fas fa-key"></i> Logout</a>
+                        <i class="fas fa-key"></i> Выйти</a>
                 </li>
-                <form id="logout-form" action="" method="POST" style="display: none;">
+                <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                     @csrf
                 </form>
             </ul>

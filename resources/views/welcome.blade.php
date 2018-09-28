@@ -34,17 +34,6 @@
                 <li class="nav-item">
                     <a class="nav-link" id="ShowMenu" href="#searchbg"><i class="fas fa-search"></i> Поиск по оглавлению</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href=""><i class="fas fa-users-cog"></i> Админ-панель</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href=""
-                       onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                        <i class="fas fa-key"></i> Logout</a>
-                </li>
-                <form id="logout-form" action="" method="POST" style="display: none;">
-                    @csrf
-                </form>
             </ul>
         </div>
     </nav>

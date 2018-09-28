@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use \App\Phone;
 use \App\Group;
+use Illuminate\Support\Facades\Log;
 
 class PhoneController extends Controller
 {
@@ -66,7 +67,6 @@ class PhoneController extends Controller
                 } else {
                     $data[] = $this->add_to_data($group);
                 }
-
             }
         }
         return $data;
@@ -94,5 +94,10 @@ class PhoneController extends Controller
                 $group->name => $child
             ];
         }
+    }
+
+    public function delete(Request $request){
+        Phone::find($request['id'])->delete();
+        return json_encode('success');
     }
 }
