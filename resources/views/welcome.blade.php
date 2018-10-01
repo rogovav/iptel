@@ -46,15 +46,6 @@
                 </div>
                 <div class="table-responsive">
                     <table class="table" id="phones">
-                        <thead>
-                        <th width="30%">ФИО</th>
-                        <th width="20%">Должность</th>
-                        <th width="20%">Внешний</th>
-                        <th width="10%">IP</th>
-                        <th width="30%">Адрес</th>
-                        </thead>
-                        <tbody>
-                        </tbody>
                     </table>
                 </div>
             </div>

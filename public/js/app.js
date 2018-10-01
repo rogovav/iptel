@@ -1,13 +1,19 @@
 $(document).ready(function () {
     $.getJSON("/phones/all", function (data) {
-        let tbl_body = "";
+        let tbl_body = "<thead>\n" +
+            "                        <th width=\"30%\">ФИО</th>\n" +
+            "                        <th width=\"20%\">Должность</th>\n" +
+            "                        <th width=\"20%\">Внешний</th>\n" +
+            "                        <th width=\"10%\">IP</th>\n" +
+            "                        <th width=\"30%\">Адрес</th>\n" +
+            "                        </thead>";
         let ul_body = "";
         let i = 0;
         let j = 0;
         let z = 0;
         $.each(data["data"], function () {
             $.each(this, function (k, v) {// all data
-                tbl_body += "<tr class='group' id='group_" + i + "'><td colspan='5'><h3>" + k + "</h3></td>></tr>";
+                tbl_body += "<tbody class='search-body'><tr class='group' id='group_" + i + "'><td colspan='5'><h3>" + k + "</h3></td></tr>";
                 ul_body += "<li class='group' onclick='hideBg()'><a class='bglink' href='#group_" + i + "'>" + k + "</a></li><ul>";
                 ++i;
                 $.each(v, function (k, v) { // company
@@ -40,9 +46,10 @@ $(document).ready(function () {
                     }
                 });
                 ul_body += "</ul>";
+                tbl_body += "</tbody>";
             });
         });
-        $("#phones tbody").html(tbl_body);
+        $("#phones").html(tbl_body);
         $("#title").html(ul_body);
     });
 
@@ -61,11 +68,12 @@ $(document).ready(function () {
     });
 });
 
-$(document).mouseup(function (e){ // событие клика по веб-документу
+$(document).mouseup(function (e) { // событие клика по веб-документу
     var div = $("#searchbg"); // тут указываем ID элемента
     if (!div.is(e.target) // если клик был не по нашему блоку
         && div.has(e.target).length === 0) { // и не по его дочерним элементам
-        div.slideUp("slow");; // скрываем его
+        div.slideUp("slow");
+        ; // скрываем его
     }
 });
 
@@ -325,7 +333,24 @@ $(document).on('click', 'a.delete-link', function (e) {
 })
 
 function LiveSearch(val) {
+    $(".tr-rendered").each(function () {
+        if ($(this).text().indexOf(val)) {
+            $(this).hide();
+        }
+        else {
+            $(".search-body").children(".group").hide();
+            $(".search-body").children(".company").hide();
+            $(this).closest(".search-body").children(".group").show();
+            $(this).show();
+        }
 
+        if (val == '') {
+            $(this).show();
+            $(".group").show();
+            $(".company").show();
+            $(".search-body").show();
+        }
+    })
 }
 
 
