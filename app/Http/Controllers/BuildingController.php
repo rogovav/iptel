@@ -29,4 +29,13 @@ class BuildingController extends Controller
         Building::find($request['id'])->delete();
         return json_encode('success');
     }
+
+    public function update(Request $request)
+    {
+        $building = Building::find($request['id']);
+        $building->name = $request['name'];
+        $building->address = $request['address'];
+        $building->save();
+        return json_encode('success');
+    }
 }
