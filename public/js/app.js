@@ -219,6 +219,7 @@ function getPhones() {
                 "                                        <li><span><b>Должность: </b></span>" + v.position + "</li>\n" +
                 "                                        <li><span><b>Номер телефона: </b></span>" + v.phone + "</li>\n" +
                 "                                        <li><span><b>Внутренний номер: </b></span>" + v.ip_phone + "</li>\n" +
+                "                                        <li><span><b>Почта: </b></span>" + v.email + "</li>\n" +
                 "                                        <li><span><b>Здание: </b></span>" + v.building + "</li>\n" +
                 "                                        <li><span><b>Кабинет: </b></span>" + v.address + "</li>\n" +
                 "                                    </ul>\n" +
@@ -379,6 +380,24 @@ function AddNumber(e) {
     setMask();
 }
 
+function AddFax(e) {
+    $(".fax-rendered").append("<div class=\"form-row form-group\">\n" +
+        "                                    <div class=\"col\">\n" +
+        "                                        <select required id=\"country\" class=\"form-control country\">\n" +
+        "                                            <option value=\"tel\">Телефон</option>\n" +
+        "                                            <option value=\"fax\">Факс</option>\n" +
+        "                                        </select>\n" +
+        "                                    </div>\n" +
+        "                                    <div class=\"col numbers\">\n" +
+        "                                        <input required id=\"phone\" name=\"phone[]\" type=\"text\" class=\"form-control phone-input\">\n" +
+        "                                    </div>\n" +
+        "                                    <div class=\"col\">\n" +
+        "                                        <button type=\"button\" class=\"btn btn-delete-number\">Удалить номер</button>\n" +
+        "                                    </div>\n" +
+        "                                </div>"
+    )
+}
+
 function AddIpNumber(e) {
     $(".ip_phones-rendered").append("<div class=\"form-row form-group\">\n" +
         "                                    <div class=\"col-8\">\n" +
@@ -387,6 +406,19 @@ function AddIpNumber(e) {
         "                                    </div>\n" +
         "                                    <div class=\"col-4\">\n" +
         "                                        <button type=\"button\" class=\"btn btn-delete-number\">Удалить номер\n" +
+        "                                        </button>\n" +
+        "                                    </div>\n" +
+        "                                </div>")
+}
+
+function AddEmail(e) {
+    $(".email-rendered").append("<div class=\"form-row form-group\">\n" +
+        "                                    <div class=\"col-8\">\n" +
+        "                                        <input required name=\"email[]\" type=\"text\" class=\"form-control\"\n" +
+        "                                               placeholder=\"Email\" maxlength=\"4\">\n" +
+        "                                    </div>\n" +
+        "                                    <div class=\"col-4\">\n" +
+        "                                        <button type=\"button\" class=\"btn btn-delete-number\">Удалить email\n" +
         "                                        </button>\n" +
         "                                    </div>\n" +
         "                                </div>")

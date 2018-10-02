@@ -158,6 +158,73 @@ body {
     color: red;
 }
 
+.thumbnail {
+    position: relative;
+    margin: 0;
+    border-radius: 0;
+    box-shadow: none;
+    border: none;
+    padding: 0;
+    background: none;
+    padding: 4px;
+}
+
+.thumbnail figure {
+    filter: brightness(0.6);
+}
+
+.thumbnail a {
+    color: #aaa;
+    font-size: 12px;
+
+}
+
+.thumbnail p i {
+    color: rgb(219, 219, 219);
+    margin-right: 10px;
+}
+
+.thumbnail p:last-child i {
+    margin-left: 4px;
+}
+
+.ministr-logo {
+    max-width: 100%;
+}
+
+.footer2 {
+    background: #000;
+    padding: 15px 0;
+    color: #aaa;
+    font-size: 12px;
+}
+
+.footer2 a {
+    color: #aaa;
+}
+
+.footer2 a:hover {
+    color: #fff;
+}
+
+.footer2 p {
+    margin: 0;
+}
+
+.text_right {
+    text-align: right;
+}
+
+footer {
+    padding-top: 30px;
+    border-top: 1px solid #e5e5e5;
+    background: #D8D8D8;
+}
+
+.ministr-logo {
+    max-width: 100%;
+}
+
 @media(min-width: 992px) {
     .leftmenutrigger {
         display: block;

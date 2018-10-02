@@ -141,6 +141,35 @@
                             </div>
                             <div class="form-group"><input required name="name" type="text" class="form-control"
                                                            placeholder="Название группы"></div>
+                            <div class="email-rendered">
+                                <div class="form-row form-group">
+                                    <div class="col-8">
+                                        <input required name="email[]" type="email" class="form-control"
+                                               placeholder="Email">
+                                    </div>
+                                    <div class="col-4">
+                                        <button type="button" class="btn" onclick="AddEmail()">Добавить email
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="fax-rendered">
+                                <div class="form-row form-group">
+                                    <div class="col">
+                                        <select required id="country" class="form-control country">
+                                            <option value="tel"><img src="">Телефон</option>
+                                            <option value="fax">Факс</option>
+                                        </select>
+                                    </div>
+                                    <div class="col numbers">
+                                        <input required id="phone" name="fax[]" type="text"
+                                               class="form-control phone-input">
+                                    </div>
+                                    <div class="col">
+                                        <button type="button" class="btn" onclick="AddFax()">Добавить номер</button>
+                                    </div>
+                                </div>
+                            </div>
                             <div class="form-group">
                                 <select required class="form-control" name="priority" id="">
                                     <option value="1">Очень высокий</option>
