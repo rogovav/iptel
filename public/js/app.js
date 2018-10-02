@@ -87,15 +87,24 @@ function sendGroupForm() {
         success: function (newdata) {
             data[0].reset();
             newdata = JSON.parse(newdata);
-            $("#accordion3").append("<div class=\"building-header\">\n" +
-                "                            <div class=\"card-header\">\n" +
+            $("#accordion3").append("<div class=\"building-header\"id=\"group-header-" + newdata["id"] + "\">\n" +
+                "                            <div class=\"card-header\" id=\"heading" + newdata["id"] + "\">\n" +
                 "                                <h5 class=\"mb-0\">\n" +
-                "                                    <button class=\"btn btn-link\">\n" +
+                "                                    <button class=\"btn btn-link\" data-toggle=\"collapse\" data-target=\"#collapse" + newdata["id"] + "\"\n" +
+                "                                            aria-expanded=\"false\" aria-controls=\"collapse" + newdata["id"] + "\">\n" +
                 newdata["name"] +
                 "                                    </button>\n" +
-                "<a href='/api/group/delete/" + newdata["id"] + "' data-id='" + newdata["id"] + "' data-name='group' class='delete-link' data-method='delete'>&#10006;</a>" +
-
+                "<a href='/api/group/delete/" + newdata["id"] + "' data-id='" + newdata["id"] + "'data-name='group' class='delete-link' data-method='delete'>&#10006;</a>" +
                 "                                </h5>\n" +
+                "                            </div>\n" +
+                "\n" +
+                "                            <div id=\"collapse" + newdata["id"] + "\" class=\"collapse\" aria-labelledby=\"heading" + newdata["id"] + "\"\n" +
+                "                                 data-parent=\"#accordion3\">\n" +
+                "                                <div class=\"card-body building-body\">\n" +
+                "                                    <ul>\n" +
+                "                                        <li><span><b>Email: </b></span>" + newdata["email"] + "</li>\n" +
+                "                                        <li>" + newdata["phone"] + "</li>\n" + "                                    </ul>\n" +
+                "                                </div>\n" +
                 "                            </div>\n" +
                 "                        </div>"),
                 groups.append($("<option></option>")
@@ -127,7 +136,7 @@ function sendBuildingForm() {
                 newdata["name"] +
                 "                                    </button>\n" +
                 "<a href='/api/building/delete/" + newdata["id"] + "' data-id='" + newdata["id"] + "'data-name='building' class='delete-link' data-method='delete'>&#10006;</a>" +
-
+                "<a href='/api/building/" + newdata["id"] + "' data-id='" + newdata["id"] + "'data-name='building' class='delete-link' data-method='delete'>&#10000;</a>" +
                 "                                </h5>\n" +
                 "                            </div>\n" +
                 "\n" +
@@ -243,6 +252,7 @@ function getBuildings() {
                 v.name +
                 "                                    </button>\n" +
                 "<a href='/api/building/delete/" + v.id + "' data-id='" + v.id + "' data-name='building' class='delete-link' data-method='delete'>&#10006;</a>" +
+                "<a href='/api/building/" + v.id + "' data-id='" + v.id + "'data-name='building' class='delete-link' data-method='edit'>&#10000;</a>" +
                 "                                </h5>\n" +
                 "                            </div>\n" +
                 "\n" +
@@ -272,15 +282,25 @@ function getGroups() {
             .attr("value", '')
             .text('Родительский элемент'));
         $.each(data, function (k, v) {
-            $("#accordion3").append("<div class=\"building-header\">\n" +
-                "                            <div class=\"card-header\">\n" +
+            $("#accordion3").append("<div class=\"building-header\" id=\"group-header-" + v.id + "\">\n" +
+                "                            <div class=\"card-header\" id=\"heading" + v.id + "\">\n" +
                 "                                <h5 class=\"mb-0\">\n" +
-                "                                    <button class=\"btn btn-link\">\n" +
+                "                                    <button class=\"btn btn-link\" data-toggle=\"collapse\" data-target=\"#collapse" + v.id + "\"\n" +
+                "                                            aria-expanded=\"false\" aria-controls=\"collapse" + v.id + "\">\n" +
                 v.name +
                 "                                    </button>\n" +
                 "<a href='/api/group/delete/" + v.id + "' data-id='" + v.id + "' data-name='group' class='delete-link' data-method='delete'>&#10006;</a>" +
-
                 "                                </h5>\n" +
+                "                            </div>\n" +
+                "\n" +
+                "                            <div id=\"collapse" + v.id + "\" class=\"collapse\" aria-labelledby=\"heading" + v.id + "\"\n" +
+                "                                 data-parent=\"#accordion3\">\n" +
+                "                                <div class=\"card-body building-body\">\n" +
+                "                                    <ul>\n" +
+                "                                        <li><span><b>Email: </b></span>" + v.email + "</li>\n" +
+                "                                        <li>" + v.phone + "</li>\n" +
+                "                                    </ul>\n" +
+                "                                </div>\n" +
                 "                            </div>\n" +
                 "                        </div>"),
 
@@ -383,19 +403,20 @@ function AddNumber(e) {
 function AddFax(e) {
     $(".fax-rendered").append("<div class=\"form-row form-group\">\n" +
         "                                    <div class=\"col\">\n" +
-        "                                        <select required id=\"country\" class=\"form-control country\">\n" +
-        "                                            <option value=\"tel\">Телефон</option>\n" +
-        "                                            <option value=\"fax\">Факс</option>\n" +
+        "                                        <select required id=\"country\" class=\"form-control faxes\">\n" +
+        "                                            <option value=\"Телефон\">Телефон</option>\n" +
+        "                                            <option value=\"Факс\">Факс</option>\n" +
         "                                        </select>\n" +
         "                                    </div>\n" +
-        "                                    <div class=\"col numbers\">\n" +
-        "                                        <input required id=\"phone\" name=\"phone[]\" type=\"text\" class=\"form-control phone-input\">\n" +
+        "                                    <div class=\"col numbers need\">\n" +
+        "                                        <input required name=\"phone[]\" type=\"text\" class=\"form-control phone-input fax\">\n" +
         "                                    </div>\n" +
         "                                    <div class=\"col\">\n" +
         "                                        <button type=\"button\" class=\"btn btn-delete-number\">Удалить номер</button>\n" +
         "                                    </div>\n" +
         "                                </div>"
     )
+
 }
 
 function AddIpNumber(e) {
@@ -415,7 +436,7 @@ function AddEmail(e) {
     $(".email-rendered").append("<div class=\"form-row form-group\">\n" +
         "                                    <div class=\"col-8\">\n" +
         "                                        <input required name=\"email[]\" type=\"text\" class=\"form-control\"\n" +
-        "                                               placeholder=\"Email\" maxlength=\"4\">\n" +
+        "                                               placeholder=\"Email\">\n" +
         "                                    </div>\n" +
         "                                    <div class=\"col-4\">\n" +
         "                                        <button type=\"button\" class=\"btn btn-delete-number\">Удалить email\n" +
@@ -423,6 +444,24 @@ function AddEmail(e) {
         "                                    </div>\n" +
         "                                </div>")
 }
+
+$(document).on('click', '.faxes', function (e) {
+    let $this = $(this);
+    let tel = $(this).closest(".form-row").children(".need").children("input");
+    console.log(tel.val(""))
+})
+
+
+$(document).on('blur', 'input.fax', function (e) {
+    let $this = $(this);
+    let tel = $(this).closest(".form-row").children(0).children(".faxes").val();
+    if (~$(this).val().indexOf("Телефон") || ~$(this).val().indexOf("Факс")) {
+        $(this).val($(this).val())
+    }
+    else {
+        $(this).val(tel + ": " + $(this).val())
+    }
+})
 
 
 $(document).on('change', 'select.country', function (e) {

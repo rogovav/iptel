@@ -156,14 +156,14 @@
                             <div class="fax-rendered">
                                 <div class="form-row form-group">
                                     <div class="col">
-                                        <select required id="country" class="form-control country">
-                                            <option value="tel"><img src="">Телефон</option>
-                                            <option value="fax">Факс</option>
+                                        <select required class="form-control faxes">
+                                            <option selected value="Телефон">Телефон</option>
+                                            <option value="Факс">Факс</option>
                                         </select>
                                     </div>
-                                    <div class="col numbers">
-                                        <input required id="phone" name="fax[]" type="text"
-                                               class="form-control phone-input">
+                                    <div class="col numbers need">
+                                        <input required name="phone[]" type="text"
+                                               class="form-control phone-input fax">
                                     </div>
                                     <div class="col">
                                         <button type="button" class="btn" onclick="AddFax()">Добавить номер</button>
