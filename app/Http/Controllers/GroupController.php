@@ -10,7 +10,7 @@ class GroupController extends Controller
 {
     public function index()
     {
-        $groups = Group::all('id', 'name', 'parent_id', 'level');
+        $groups = Group::all('id', 'name', 'parent_id', 'level', 'phone', 'email');
         $data = $this->add_to_data_req($groups);
         return $groups->toJson();
     }
@@ -37,6 +37,8 @@ class GroupController extends Controller
             'value' => $group->id,
             'name' => $group->name,
             'level' => $group->level,
+            'phone' => $group->phone,
+            'email' => $group->email,
             'child' => $child
         ];
     }
@@ -48,6 +50,8 @@ class GroupController extends Controller
             'parent_id' => $request['parent_id'],
             'level' => ($request['parent_id'] ? Group::find($request['parent_id'])->level + 1 : 0),
             'priority' => $request['priority'],
+            'phone' => implode(", ", $request['phone']),
+            'email' => implode(", ", $request['email']),
         ]);
 
         return $group->toJson();
