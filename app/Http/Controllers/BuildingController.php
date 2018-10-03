@@ -16,11 +16,17 @@ class BuildingController extends Controller
 
     public function add(Request $request)
     {
-        $building = Building::create([
-            'name' => $request['name'],
-            'address' => $request['address']
-        ]);
-
+        if ($request['id']) {
+            $building = Building::find($request['id']);
+            $building->name = $request['name'];
+            $building->address = $request['address'];
+            $building->save();
+        } else {
+            $building = Building::create([
+                'name' => $request['name'],
+                'address' => $request['address']
+            ]);
+        }
         return $building->toJson();
     }
 
