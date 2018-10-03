@@ -73,7 +73,6 @@ $(document).mouseup(function (e) { // событие клика по веб-до
     if (!div.is(e.target) // если клик был не по нашему блоку
         && div.has(e.target).length === 0) { // и не по его дочерним элементам
         div.slideUp("slow");
-        ; // скрываем его
     }
 });
 
@@ -457,7 +456,7 @@ setMask();
 
 $(document).on('click', '.btn-delete-number', function (e) {
     $(this).closest(".form-row").remove();
-})
+});
 
 
 //edit-link
@@ -466,7 +465,7 @@ $(document).on('click', '.edit-link', function (e) {
     e.preventDefault();
     let link = $(this).attr("href");
     let form_name = $(this).attr("data-name");
-    let form = form_name + "Form"
+    let form = form_name + "Form";
     console.log(form);
     $.getJSON(link, function (data) {
         console.log(data);

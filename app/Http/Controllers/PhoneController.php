@@ -18,6 +18,22 @@ class PhoneController extends Controller
         return json_encode($data);
     }
 
+    public function return_data($phone)
+    {
+        $building = $phone->building;
+        return [
+            'id' => $phone->id,
+            'fio' => $phone->fio,
+            'position' => $phone->position,
+            'phone' => $phone->phone,
+            'email' => $phone->email,
+            'ip_phone' => $phone->ip_phone,
+            'building' => $building->name . ", " . $phone->room . " " . $phone->room_type,
+            'address' => $building->address,
+            'group' => $phone->group->name,
+        ];
+    }
+
     public function add(Request $request)
     {
         if ($request['id']) {
@@ -25,6 +41,7 @@ class PhoneController extends Controller
                 'fio' => $request['fio'],
                 'position' => $request['position'],
                 'phone' => implode(", ", $request['phone']),
+                'email' => implode(", ", $request['email']),
                 'ip_phone' => implode(", ", $request['ip_phone']),
                 'building_id' => $request['building_id'],
                 'group_id' => $request['group_id'],
@@ -36,6 +53,7 @@ class PhoneController extends Controller
                 'fio' => $request['fio'],
                 'position' => $request['position'],
                 'phone' => implode(", ", $request['phone']),
+                'email' => implode(", ", $request['email']),
                 'ip_phone' => implode(", ", $request['ip_phone']),
                 'building_id' => $request['building_id'],
                 'group_id' => $request['group_id'],
@@ -44,21 +62,6 @@ class PhoneController extends Controller
             ]);
         }
         return json_encode('success');
-    }
-
-    public function return_data($phone)
-    {
-        $building = $phone->building;
-        return [
-            'id' => $phone->id,
-            'fio' => $phone->fio,
-            'position' => $phone->position,
-            'phone' => $phone->phone,
-            'ip_phone' => $phone->ip_phone,
-            'building' => $building->name . ", " . $phone->room . " " . $phone->room_type,
-            'address' => $building->address,
-            'group' => $phone->group->name,
-        ];
     }
 
     public function get_all()
@@ -94,6 +97,7 @@ class PhoneController extends Controller
                     'name' => $phone->fio,
                     'phone' => $phone->phone,
                     'ip_phone' => $phone->ip_phone,
+                    'email' => $phone->email,
                     'position' => $phone->position,
                     'building' => $building->name . ", " . $phone->room . " " . $phone->room_type,
                     'address' => $building->address,
