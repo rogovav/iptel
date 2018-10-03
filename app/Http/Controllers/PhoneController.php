@@ -20,18 +20,32 @@ class PhoneController extends Controller
 
     public function add(Request $request)
     {
-        $phone = Phone::create([
-            'fio' => $request['fio'],
-            'position' => $request['position'],
-            'phone' => implode(", ", $request['phone']),
-            'ip_phone' => implode(", ", $request['ip_phone']),
-            'building_id' => $request['building_id'],
-            'group_id' => $request['group_id'],
-            'room' => $request['room'],
-            'room_type' => $request['room_type']
-        ]);
-        $data[] = $this->return_data($phone);
-        return json_encode($data);
+        if ($request['id']) {
+            Phone::find($request['id'])->update([
+                'fio' => $request['fio'],
+                'position' => $request['position'],
+                'phone' => implode(", ", $request['phone']),
+                'ip_phone' => implode(", ", $request['ip_phone']),
+                'building_id' => $request['building_id'],
+                'group_id' => $request['group_id'],
+                'room' => $request['room'],
+                'room_type' => $request['room_type'],
+                'email' => $request['email']
+            ]);
+        } else {
+            Phone::create([
+                'fio' => $request['fio'],
+                'position' => $request['position'],
+                'phone' => implode(", ", $request['phone']),
+                'ip_phone' => implode(", ", $request['ip_phone']),
+                'building_id' => $request['building_id'],
+                'group_id' => $request['group_id'],
+                'room' => $request['room'],
+                'room_type' => $request['room_type'],
+                'email' => $request['email']
+            ]);
+        }
+        return json_encode('success');
     }
 
     public function return_data($phone)
@@ -46,6 +60,7 @@ class PhoneController extends Controller
             'building' => $building->name . ", " . $phone->room . " " . $phone->room_type,
             'address' => $building->address,
             'group' => $phone->group->name,
+            'email' => $phone->group->email
         ];
     }
 
@@ -99,5 +114,10 @@ class PhoneController extends Controller
     {
         Phone::find($request['id'])->delete();
         return json_encode('success');
+    }
+
+    public function get(Request $request)
+    {
+        return Phone::find($request['id'])->toJson();
     }
 }

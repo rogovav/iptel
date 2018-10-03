@@ -17,31 +17,22 @@ class BuildingController extends Controller
     public function add(Request $request)
     {
         if ($request['id']) {
-            $building = Building::find($request['id']);
-            $building->name = $request['name'];
-            $building->address = $request['address'];
-            $building->save();
+            Building::find($request['id'])->update([
+                'name' => $request['name'],
+                'address' => $request['address']
+            ]);
         } else {
-            $building = Building::create([
+            Building::create([
                 'name' => $request['name'],
                 'address' => $request['address']
             ]);
         }
-        return $building->toJson();
+        return json_encode('success');
     }
 
     public function delete(Request $request)
     {
         Building::find($request['id'])->delete();
-        return json_encode('success');
-    }
-
-    public function update(Request $request)
-    {
-        $building = Building::find($request['id']);
-        $building->name = $request['name'];
-        $building->address = $request['address'];
-        $building->save();
         return json_encode('success');
     }
 

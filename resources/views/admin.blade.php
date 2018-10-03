@@ -53,71 +53,8 @@
                     <div id="accordion2" class="col-md-8">
 
                     </div>
-                    <div class="col-md-4">
-                        <form class="admin-form" action="javascript:void(null);"
-                              onsubmit="sendPhoneForm()" id="phoneForm">
-                            @csrf
-                            <div class="form-group">
-                                <input required name="fio" type="text" class="form-control" placeholder="ФИО">
-                            </div>
-                            <div class="form-group">
-                                <select required class="form-control" name="group_id" id="group-select2">
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <input required name="position" type="text" class="form-control"
-                                       placeholder="Должность">
-                            </div>
-                            <div class="phones-rendered">
-                                <div class="form-row form-group">
-                                    <div class="col">
-                                        <select required id="country" class="form-control country">
-                                            <option value="ru"><img src="">Саранск +7 (8342)</option>
-                                            <option value="ua">Рузаевка +7 (83451)</option>
-                                            <option value="by">Ковылкино +7 (83453)</option>
-                                        </select>
-                                    </div>
-                                    <div class="col numbers">
-                                        <input required id="phone" name="phone[]" type="text"
-                                               class="form-control phone-input">
-                                    </div>
-                                    <div class="col">
-                                        <button type="button" class="btn" onclick="AddNumber()">Добавить номер</button>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="ip_phones-rendered">
-                                <div class="form-row form-group">
-                                    <div class="col-8">
-                                        <input required name="ip_phone[]" type="text" class="form-control"
-                                               placeholder="Внутренний номер" maxlength="4">
-                                    </div>
-                                    <div class="col-4">
-                                        <button type="button" class="btn" onclick="AddIpNumber()">Добавить номер
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
+                    <div class="col-md-4 form-phone-rendered">
 
-                            <div class="form-row form-group">
-                                <div class="col">
-                                    <select required class="form-control" name="building_id" id="building">
-                                        <option value="" selected>Здание</option>
-                                    </select>
-                                </div>
-                                <div class="col">
-                                    <input required name="room" type="text" class="form-control"
-                                           placeholder="кабинет/этаж">
-                                </div>
-                                <div class="col">
-                                    <select required class="form-control" name="room_type" id="">
-                                        <option value="кабинет">кабинет</option>
-                                        <option value="этаж">этаж</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="form-group"><input type="submit" class="form-control"></div>
-                        </form>
                     </div>
                 </div>
             </div>
@@ -131,57 +68,8 @@
                     <div id="accordion3" class="col-md-6">
 
                     </div>
-                    <div class="col-md-6">
-                        <form class="admin-form" method="POST" action="javascript:void(null);"
-                              onsubmit="sendGroupForm()" id="groupForm">
-                            @csrf
-                            <div class="form-group">
-                                <select class="form-control" name="parent_id" id="group-select">
-                                </select>
-                            </div>
-                            <div class="form-group"><input required name="name" type="text" class="form-control"
-                                                           placeholder="Название группы"></div>
-                            <div class="email-rendered">
-                                <div class="form-row form-group">
-                                    <div class="col-8">
-                                        <input required name="email[]" type="email" class="form-control"
-                                               placeholder="Email">
-                                    </div>
-                                    <div class="col-4">
-                                        <button type="button" class="btn" onclick="AddEmail()">Добавить email
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="fax-rendered">
-                                <div class="form-row form-group">
-                                    <div class="col">
-                                        <select required class="form-control faxes">
-                                            <option selected value="Телефон">Телефон</option>
-                                            <option value="Факс">Факс</option>
-                                        </select>
-                                    </div>
-                                    <div class="col numbers need">
-                                        <input required name="phone[]" type="text"
-                                               class="form-control phone-input fax">
-                                    </div>
-                                    <div class="col">
-                                        <button type="button" class="btn" onclick="AddFax()">Добавить номер</button>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <select required class="form-control" name="priority" id="">
-                                    <option value="1">Очень высокий</option>
-                                    <option value="2">Высокий</option>
-                                    <option value="3" selected>Средний</option>
-                                    <option value="4">Низкий</option>
-                                    <option value="5">Очень низкий</option>
-                                </select>
-                            </div>
-                            <div class="form-group"><input type="submit" class="form-control"></div>
+                    <div class="col-md-6 form-group-rendered">
 
-                        </form>
                     </div>
                 </div>
             </div>
@@ -192,21 +80,8 @@
                 <div class="card-body row">
                     <div id="accordion1" class="col-md-6">
                     </div>
-                    <div class="col-md-6">
-                        <form class="admin-form" action="javascript:void(null);" onsubmit="sendBuildingForm()"
-                              id="buildingForm">
-                            @csrf
-                            <div class="form-group">
-                                <input type="text" name="id" class="form-control" readonly>
-                            </div>
-                            <div class="form-group">
-                                <input required name="name" type="text" class="form-control" placeholder="Название">
-                            </div>
-                            <div class="form-group">
-                                <input required name="address" type="text" class="form-control" placeholder="Адрес">
-                            </div>
-                            <div class="form-group"><input type="submit" class="form-control"></div>
-                        </form>
+                    <div class="col-md-6 form-building-rendered">
+
                     </div>
                 </div>
             </div>

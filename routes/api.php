@@ -17,6 +17,11 @@ Route::delete('/phone/delete/{id}', 'PhoneController@delete');
 Route::delete('/group/delete/{id}', 'GroupController@delete');
 Route::delete('/building/delete/{id}', 'BuildingController@delete');
 
+Route::post('/group/add', 'GroupController@add');
+Route::post('/building/add', 'BuildingController@add');
+Route::post('/phone/add', 'PhoneController@add');
+
+
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
