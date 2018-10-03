@@ -197,6 +197,9 @@
                               id="buildingForm">
                             @csrf
                             <div class="form-group">
+                                <input type="text" name="id" class="form-control" readonly>
+                            </div>
+                            <div class="form-group">
                                 <input required name="name" type="text" class="form-control" placeholder="Название">
                             </div>
                             <div class="form-group">
@@ -225,28 +228,5 @@
 <script src="{{ asset('js/app.js') }}"></script>
 <script>
     $('.collapse').collapse('toggle');
-</script>
-<script>
-    // $(function () {
-    //     function maskPhone() {
-    //         var country = $('#country option:selected').val();
-    //         switch (country) {
-    //             case "ru":
-    //                 $("#phone").mask("+7(8342) 99-99-99");
-    //                 break;
-    //             case "ua":
-    //                 $("#phone").mask("+7(83451) 9-99-99");
-    //                 break;
-    //             case "by":
-    //                 $("#phone").mask("+7(83453) 9-99-99");
-    //                 break;
-    //         }
-    //     }
-    //
-    //     maskPhone();
-    //     $('#country').change(function () {
-    //         maskPhone();
-    //     })
-    // });
 </script>
 </html>
