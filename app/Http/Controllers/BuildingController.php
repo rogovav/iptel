@@ -38,4 +38,9 @@ class BuildingController extends Controller
         $building->save();
         return json_encode('success');
     }
+
+    public function get(Request $request)
+    {
+        return Building::find($request['id'])->toJson();
+    }
 }

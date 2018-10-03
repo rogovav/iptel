@@ -24,6 +24,7 @@ Route::get('/admin-panel', function () {
 
 Route::get('/buildings', 'BuildingController@index');
 Route::post('/building/add', 'BuildingController@add');
+Route::get('/building/{id}', 'BuildingController@get');
 Route::post('/building/{id}', 'BuildingController@update');
 
 Route::get('/groups', 'GroupController@index');
