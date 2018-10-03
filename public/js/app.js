@@ -73,33 +73,19 @@ $(document).mouseup(function (e) { // событие клика по веб-до
     if (!div.is(e.target) // если клик был не по нашему блоку
         && div.has(e.target).length === 0) { // и не по его дочерним элементам
         div.slideUp("slow");
+        ; // скрываем его
     }
 });
 
 function sendGroupForm() {
     let data = $("#groupForm");
-    let groups = $("#group-select, #group-select2");
     $.ajax({
         type: 'POST',
         url: "/group/add",
         data: data.serialize(),
         success: function (newdata) {
             data[0].reset();
-            newdata = JSON.parse(newdata);
-            $("#accordion3").append("<div class=\"building-header\">\n" +
-                "                            <div class=\"card-header\">\n" +
-                "                                <h5 class=\"mb-0\">\n" +
-                "                                    <button class=\"btn btn-link\">\n" +
-                newdata["name"] +
-                "                                    </button>\n" +
-                "<a href='/api/group/delete/" + newdata["id"] + "' data-id='" + newdata["id"] + "' data-name='group' class='delete-link' data-method='delete'>&#10006;</a>" +
-
-                "                                </h5>\n" +
-                "                            </div>\n" +
-                "                        </div>"),
-                groups.append($("<option></option>")
-                    .attr("value", newdata["id"])
-                    .text(newdata["name"]));
+            getGroups();
         },
         error: function (xhr, str) {
             console.log('Возникла ошибка: ' + xhr.responseCode);
@@ -110,40 +96,15 @@ function sendGroupForm() {
 
 function sendBuildingForm() {
     let data = $("#buildingForm");
-    let buildings = $("#building");
+    console.log(data);
     $.ajax({
         type: 'POST',
         url: "/building/add",
         data: data.serialize(),
         success: function (newdata) {
             data[0].reset();
-            newdata = JSON.parse(newdata);
-            $("#accordion1").append("<div class=\"building-header\"id=\"building-header-" + newdata["id"] + "\">\n" +
-                "                            <div class=\"card-header\" id=\"heading" + newdata["id"] + "\">\n" +
-                "                                <h5 class=\"mb-0\">\n" +
-                "                                    <button class=\"btn btn-link\" data-toggle=\"collapse\" data-target=\"#collapse" + newdata["id"] + "\"\n" +
-                "                                            aria-expanded=\"false\" aria-controls=\"collapse" + newdata["id"] + "\">\n" +
-                newdata["name"] +
-                "                                    </button>\n" +
-                "<a href='/api/building/delete/" + newdata["id"] + "' data-id='" + newdata["id"] + "'data-name='building' class='delete-link' data-method='delete'>&#10006;</a>" +
+            getBuildings();
 
-                "                                </h5>\n" +
-                "                            </div>\n" +
-                "\n" +
-                "                            <div id=\"collapse" + newdata["id"] + "\" class=\"collapse\" aria-labelledby=\"heading" + newdata["id"] + "\"\n" +
-                "                                 data-parent=\"#accordion1\">\n" +
-                "                                <div class=\"card-body building-body\">\n" +
-                "                                    <ul>\n" +
-                "                                        <li><span><b>Адрес: </b></span>" + newdata["address"] + "</li>\n" +
-                "                                    </ul>\n" +
-                "                                </div>\n" +
-                "                            </div>\n" +
-                "                        </div>"),
-                buildings.append($("<option>", {
-                    value: newdata["id"],
-                    text: newdata["name"],
-                    class: "building-header-" + newdata["id"]
-                }))
         },
         error: function (xhr, str) {
             console.log('Возникла ошибка: ' + xhr.responseCode);
@@ -161,6 +122,7 @@ function sendPhoneForm() {
         data: data.serialize(),
         success: function (newdata) {
             data[0].reset();
+            $("#accordion3").empty();
             newdata = JSON.parse(newdata)[0];
             $("#accordion2").append("<div class=\"building-header\" id=\"phone-header-" + newdata["id"] + "\">\n" +
                 "                            <div class=\"card-header\" id=\"uheading" + newdata["id"] + "\">\n" +
@@ -218,6 +180,7 @@ function getPhones() {
                 "                                        <li><span><b>Должность: </b></span>" + v.position + "</li>\n" +
                 "                                        <li><span><b>Номер телефона: </b></span>" + v.phone + "</li>\n" +
                 "                                        <li><span><b>Внутренний номер: </b></span>" + v.ip_phone + "</li>\n" +
+                "                                        <li><span><b>Почта: </b></span>" + v.email + "</li>\n" +
                 "                                        <li><span><b>Здание: </b></span>" + v.building + "</li>\n" +
                 "                                        <li><span><b>Кабинет: </b></span>" + v.address + "</li>\n" +
                 "                                    </ul>\n" +
@@ -232,6 +195,7 @@ function getPhones() {
 function getBuildings() {
     $.getJSON("/buildings", function (data) {
         let buildings = $("#building");
+        $("#accordion1").empty();
         $.each(data, function (k, v) {
             $("#accordion1").append("<div class=\"building-header\" id=\"building-header-" + v.id + "\">\n" +
                 "                            <div class=\"card-header\" id=\"heading" + v.id + "\">\n" +
@@ -241,6 +205,7 @@ function getBuildings() {
                 v.name +
                 "                                    </button>\n" +
                 "<a href='/api/building/delete/" + v.id + "' data-id='" + v.id + "' data-name='building' class='delete-link' data-method='delete'>&#10006;</a>" +
+                "<a href='/building/" + v.id + "' data-id='" + v.id + "'data-name='building' class='edit-link' data-method='edit'>&#10000;</a>" +
                 "                                </h5>\n" +
                 "                            </div>\n" +
                 "\n" +
@@ -270,15 +235,27 @@ function getGroups() {
             .attr("value", '')
             .text('Родительский элемент'));
         $.each(data, function (k, v) {
-            $("#accordion3").append("<div class=\"building-header\">\n" +
-                "                            <div class=\"card-header\">\n" +
+            $("#accordion3").append("<div class=\"building-header\" id=\"group-header-" + v.id + "\">\n" +
+                "                            <div class=\"card-header\" id=\"heading" + v.id + "\">\n" +
                 "                                <h5 class=\"mb-0\">\n" +
-                "                                    <button class=\"btn btn-link\">\n" +
+                "                                    <button class=\"btn btn-link\" data-toggle=\"collapse\" data-target=\"#collapse" + v.id + "\"\n" +
+                "                                            aria-expanded=\"false\" aria-controls=\"collapse" + v.id + "\">\n" +
                 v.name +
                 "                                    </button>\n" +
                 "<a href='/api/group/delete/" + v.id + "' data-id='" + v.id + "' data-name='group' class='delete-link' data-method='delete'>&#10006;</a>" +
+                "<a href='/group/" + v.id + "' data-id='" + v.id + "'data-name='group' class='edit-link' data-method='edit'>&#10000;</a>" +
 
                 "                                </h5>\n" +
+                "                            </div>\n" +
+                "\n" +
+                "                            <div id=\"collapse" + v.id + "\" class=\"collapse\" aria-labelledby=\"heading" + v.id + "\"\n" +
+                "                                 data-parent=\"#accordion3\">\n" +
+                "                                <div class=\"card-body building-body\">\n" +
+                "                                    <ul>\n" +
+                "                                        <li><span><b>Email: </b></span>" + v.email + "</li>\n" +
+                "                                        <li>" + v.phone + "</li>\n" +
+                "                                    </ul>\n" +
+                "                                </div>\n" +
                 "                            </div>\n" +
                 "                        </div>"),
 
@@ -378,6 +355,25 @@ function AddNumber(e) {
     setMask();
 }
 
+function AddFax(e) {
+    $(".fax-rendered").append("<div class=\"form-row form-group\">\n" +
+        "                                    <div class=\"col\">\n" +
+        "                                        <select required id=\"country\" class=\"form-control faxes\">\n" +
+        "                                            <option value=\"Телефон\">Телефон</option>\n" +
+        "                                            <option value=\"Факс\">Факс</option>\n" +
+        "                                        </select>\n" +
+        "                                    </div>\n" +
+        "                                    <div class=\"col numbers need\">\n" +
+        "                                        <input required name=\"phone[]\" type=\"text\" class=\"form-control phone-input fax\">\n" +
+        "                                    </div>\n" +
+        "                                    <div class=\"col\">\n" +
+        "                                        <button type=\"button\" class=\"btn btn-delete-number\">Удалить номер</button>\n" +
+        "                                    </div>\n" +
+        "                                </div>"
+    )
+
+}
+
 function AddIpNumber(e) {
     $(".ip_phones-rendered").append("<div class=\"form-row form-group\">\n" +
         "                                    <div class=\"col-8\">\n" +
@@ -390,6 +386,37 @@ function AddIpNumber(e) {
         "                                    </div>\n" +
         "                                </div>")
 }
+
+function AddEmail(e) {
+    $(".email-rendered").append("<div class=\"form-row form-group\">\n" +
+        "                                    <div class=\"col-8\">\n" +
+        "                                        <input required name=\"email[]\" type=\"text\" class=\"form-control\"\n" +
+        "                                               placeholder=\"Email\">\n" +
+        "                                    </div>\n" +
+        "                                    <div class=\"col-4\">\n" +
+        "                                        <button type=\"button\" class=\"btn btn-delete-number\">Удалить email\n" +
+        "                                        </button>\n" +
+        "                                    </div>\n" +
+        "                                </div>")
+}
+
+$(document).on('click', '.faxes', function (e) {
+    let $this = $(this);
+    let tel = $(this).closest(".form-row").children(".need").children("input");
+    console.log(tel.val(""))
+})
+
+
+$(document).on('blur', 'input.fax', function (e) {
+    let $this = $(this);
+    let tel = $(this).closest(".form-row").children(0).children(".faxes").val();
+    if (~$(this).val().indexOf("Телефон") || ~$(this).val().indexOf("Факс")) {
+        $(this).val($(this).val())
+    }
+    else {
+        $(this).val(tel + ": " + $(this).val())
+    }
+})
 
 
 $(document).on('change', 'select.country', function (e) {
@@ -432,5 +459,24 @@ $(document).on('click', '.btn-delete-number', function (e) {
     $(this).closest(".form-row").remove();
 })
 
+
+//edit-link
+
+$(document).on('click', '.edit-link', function (e) {
+    e.preventDefault();
+    let link = $(this).attr("href");
+    let form_name = $(this).attr("data-name");
+    let form = form_name + "Form"
+    console.log(form);
+    $.getJSON(link, function (data) {
+        console.log(data);
+        $.each(data, function (k, v) {
+            if ($("#" + form).children(".form-group").children("input[name='" + k + "']")) {
+                $("#" + form).children(".form-group").children("input[name='" + k + "']").val(v);
+            }
+        })
+    })
+
+})
 
 

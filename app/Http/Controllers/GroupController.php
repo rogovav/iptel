@@ -45,7 +45,17 @@ class GroupController extends Controller
 
     public function add(Request $request)
     {
-        $group = Group::create([
+        if ($request['id']) {
+            Group::find($request['id'])->update([
+                'name' => $request['name'],
+                'parent_id' => $request['parent_id'],
+                'level' => ($request['parent_id'] ? Group::find($request['parent_id'])->level + 1 : 0),
+                'priority' => $request['priority'],
+                'phone' => implode(", ", $request['phone']),
+                'email' => implode(", ", $request['email']),
+            ]);
+        }
+        Group::create([
             'name' => $request['name'],
             'parent_id' => $request['parent_id'],
             'level' => ($request['parent_id'] ? Group::find($request['parent_id'])->level + 1 : 0),
@@ -53,12 +63,16 @@ class GroupController extends Controller
             'phone' => implode(", ", $request['phone']),
             'email' => implode(", ", $request['email']),
         ]);
-
-        return $group->toJson();
+        return json_encode('success');
     }
 
     public function delete(Request $request){
         Group::find($request['id'])->delete();
         return json_encode('success');
+    }
+
+    public function get(Request $request)
+    {
+        return Group::find($request['id'])->toJson();
     }
 }

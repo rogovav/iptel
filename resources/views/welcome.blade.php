@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css"
           integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
-    <title>IpTel</title>
+    <title>Телефонный справочник МГУ им. Н.П. Огарёва</title>
 </head>
 <body>
 <div id="searchbg">
@@ -23,7 +23,9 @@
 </div>
 <div class="container-fluid">
     <nav class="navbar header-top fixed-top navbar-expand-lg navbar-dark bg-dark">
-        <a class="navbar-brand">Телефонный справочник</a>
+        <a class="navbar-brand">
+            <img src="{{ asset("images/ver_logo.png") }}" height="56px" alt="">
+        </a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText"
                 aria-controls="navbarText"
                 aria-expanded="false" aria-label="Toggle navigation">
@@ -52,6 +54,74 @@
         </div>
     </div>
 </div>
+<footer id="footer" style="background-color: black;">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-4 col-md-4 col-sm-6 col-6">
+                <div class="thumbnail">
+                    <a href="http://mrsu.ru/" target="_blank">
+                        <figure style="max-width: 300px !important; margin-left: auto; margin-right: auto;"><img
+                                class="ministr-logo" src="images/logo.png" alt=""></figure>
+                    </a>
+                    <a href="http://minsvyaz.ru/ru/" target="_blank">
+                        <figure style="max-width: 300px !important; margin-left: auto; margin-right: auto;"><img
+                                class="ministr-logo" src="images/mks_logo_shield.png" alt=""></figure>
+                    </a>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-6 col-6">
+                <div class="thumbnail">
+                    <a href="https://rkn.gov.ru/" target="_blank">
+                        <figure style="max-width: 300px !important; margin-left: auto; margin-right: auto;"><img
+                                class="ministr-logo" src="images/rkn.png" alt=""></figure>
+                    </a>
+                    <a href="http://xn--80abucjiibhv9a.xn--p1ai/" target="_blank">
+                        <figure style="max-width: 300px !important; margin-left: auto; margin-right: auto;"><img
+                                class="ministr-logo" src="images/logo.minobr.png" alt=""></figure>
+                    </a>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-12 col-12">
+                <div class="thumbnail">
+                    <p><i class="fab fa-internet-explorer"></i><a href="https://ci.mrsu.ru"> ci.mrsu.ru</a></p>
+                    <p><i class="fa fa-phone"></i><a href="tel:+78342777250"> +7 (8342) 777-250</a></p>
+                    <p><i class="fa fa-envelope"></i><a href="mailto:ic@mrsu.ru"> ic@mrsu.ru</a></p>
+                    <p><i class="fab fa-vk"></i><a href="https://vk.com/cimrsu"> vk.com/cimrsu</a></p>
+                    <p><i class="fa fa-map-marker"></i>
+                        <a href="https://yandex.ru/maps/-/CBeXVMq0KD" lang="ru"> 430005, г. Саранск, ул. Большевистская,
+                            д. 68/1</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div class="clear"></div>
+    </div>
+    <div class="footer2">
+        <div class="container">
+            <div class="row">
+                <div class="col-12 col-sm-12 col-md-6 col-lg-6 panel">
+                    <div class="panel-body1">
+                        <p class="simplenav">
+                            <a href="https://ci.mrsu.ru/price">
+                                <span lang="ru">Доступ в Интернет</span>
+                            </a> | <a href="http://bgbilling.mrsu.ru:8080/bgbilling/webexecuter">
+                                <span lang="ru">Личный кабинет</span>
+                            </a> | <a href="http://ci.mrsu.ru/sp">SpeedTest</a>
+                        </p>
+                    </div>
+                </div>
+                <div class="col-12 col-sm-12 col-md-6 col-lg-6 panel">
+                    <div class="panel-body">
+                        <p class="text_right">
+                            Copyright &copy; 2018. Made by Center Internet
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
 </body>
 <script
     src="http://code.jquery.com/jquery-3.3.1.js"

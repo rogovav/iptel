@@ -141,6 +141,35 @@
                             </div>
                             <div class="form-group"><input required name="name" type="text" class="form-control"
                                                            placeholder="Название группы"></div>
+                            <div class="email-rendered">
+                                <div class="form-row form-group">
+                                    <div class="col-8">
+                                        <input required name="email[]" type="email" class="form-control"
+                                               placeholder="Email">
+                                    </div>
+                                    <div class="col-4">
+                                        <button type="button" class="btn" onclick="AddEmail()">Добавить email
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="fax-rendered">
+                                <div class="form-row form-group">
+                                    <div class="col">
+                                        <select required class="form-control faxes">
+                                            <option selected value="Телефон">Телефон</option>
+                                            <option value="Факс">Факс</option>
+                                        </select>
+                                    </div>
+                                    <div class="col numbers need">
+                                        <input required name="phone[]" type="text"
+                                               class="form-control phone-input fax">
+                                    </div>
+                                    <div class="col">
+                                        <button type="button" class="btn" onclick="AddFax()">Добавить номер</button>
+                                    </div>
+                                </div>
+                            </div>
                             <div class="form-group">
                                 <select required class="form-control" name="priority" id="">
                                     <option value="1">Очень высокий</option>
@@ -167,6 +196,9 @@
                         <form class="admin-form" action="javascript:void(null);" onsubmit="sendBuildingForm()"
                               id="buildingForm">
                             @csrf
+                            <div class="form-group">
+                                <input type="text" name="id" class="form-control" readonly>
+                            </div>
                             <div class="form-group">
                                 <input required name="name" type="text" class="form-control" placeholder="Название">
                             </div>
@@ -196,28 +228,5 @@
 <script src="{{ asset('js/app.js') }}"></script>
 <script>
     $('.collapse').collapse('toggle');
-</script>
-<script>
-    // $(function () {
-    //     function maskPhone() {
-    //         var country = $('#country option:selected').val();
-    //         switch (country) {
-    //             case "ru":
-    //                 $("#phone").mask("+7(8342) 99-99-99");
-    //                 break;
-    //             case "ua":
-    //                 $("#phone").mask("+7(83451) 9-99-99");
-    //                 break;
-    //             case "by":
-    //                 $("#phone").mask("+7(83453) 9-99-99");
-    //                 break;
-    //         }
-    //     }
-    //
-    //     maskPhone();
-    //     $('#country').change(function () {
-    //         maskPhone();
-    //     })
-    // });
 </script>
 </html>
