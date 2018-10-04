@@ -23,7 +23,9 @@
 </div>
 <div class="container-fluid">
     <nav class="navbar header-top fixed-top navbar-expand-lg navbar-dark bg-dark">
-        <a href="{{ url('/') }}" class="navbar-brand">Телефонный справочник</a>
+        <a class="navbar-brand" href="{{ url('/') }}">
+            <img src="{{ asset("images/ver_logo.png") }}" height="56px" alt="">
+        </a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText"
                 aria-controls="navbarText"
                 aria-expanded="false" aria-label="Toggle navigation">
