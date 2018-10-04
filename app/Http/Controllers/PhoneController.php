@@ -80,7 +80,40 @@ class PhoneController extends Controller
 
     public function add_to_data($group, $child = [])
     {
-        $group_info = implode(",", [$group->name, $group->phone, $group->email]);
+        $group_phones_info = "";
+        $group_emails_info = "";
+        if ($group->phone) {
+            $group_phones = explode(",", $group->phone);
+            $tel = "";
+            $fax = "";
+            foreach ($group_phones as $phone)
+            {
+                $phone_array = explode(":", $phone);
+                if (trim($phone_array[0]) == 'Телефон') {
+                    $number = str_replace("-", "", trim($phone_array[1]));
+                    $tel .=  $tel? ", " : "";
+                    $tel .= "<a href=\"tel:$number\">$number</a>";
+                } elseif (trim($phone_array[0]) == 'Факс') {
+                    $number = str_replace("-", "", trim($phone_array[1]));
+                    $fax .=  $fax? ", " : "";
+                    $fax .= "<a href=\"fax:$number\">$number</a>";
+                }
+            }
+            $group_phones_info .= $tel? 'Телефон: ' . $tel : "";
+            $group_phones_info .= $fax? ' Факс: ' . $fax : "";
+            Log::debug($group_phones_info);
+        }
+        if ($group->email) {
+            $group_emails = explode(",", $group->email);
+            foreach ($group_emails as $email)
+            {
+                $group_emails_info .= $group_emails_info? ", " : "";
+                $group_emails_info .= "<a href=\"mailto:$email\">$email</a>";
+            }
+        }
+
+        $group_emails_info = $group_emails_info? "Email: $group_emails_info" : "";
+        $group_info = "$group->name <p>$group_phones_info $group_emails_info</p>";
         $phones = $group->phones;
         $data = [];
         if ($phones->count() > 0) {
