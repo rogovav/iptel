@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use \App\Phone;
 use \App\Group;
+use Illuminate\Support\Facades\Log;
 
 class PhoneController extends Controller
 {
@@ -36,30 +37,21 @@ class PhoneController extends Controller
 
     public function add(Request $request)
     {
+        $data = [
+            'fio' => $request['fio'],
+            'position' => $request['position'],
+            'phone' => implode(", ", $request['phone']? $request['phone'] : []),
+            'email' => $request['email'],
+            'ip_phone' => implode(", ", $request['ip_phone']? $request['ip_phone'] : []),
+            'building_id' => $request['building_id'],
+            'group_id' => $request['group_id'],
+            'room' => $request['room'],
+            'room_type' => $request['room_type']
+        ];
         if ($request['id']) {
-            Phone::find($request['id'])->update([
-                'fio' => $request['fio'],
-                'position' => $request['position'],
-                'phone' => implode(", ", $request['phone']),
-                'email' => implode(", ", $request['email']),
-                'ip_phone' => implode(", ", $request['ip_phone']),
-                'building_id' => $request['building_id'],
-                'group_id' => $request['group_id'],
-                'room' => $request['room'],
-                'room_type' => $request['room_type']
-            ]);
+            Phone::find($request['id'])->update($data);
         } else {
-            Phone::create([
-                'fio' => $request['fio'],
-                'position' => $request['position'],
-                'phone' => implode(", ", $request['phone']),
-                'email' => implode(", ", $request['email']),
-                'ip_phone' => implode(", ", $request['ip_phone']),
-                'building_id' => $request['building_id'],
-                'group_id' => $request['group_id'],
-                'room' => $request['room'],
-                'room_type' => $request['room_type']
-            ]);
+            Phone::create($data);
         }
         return json_encode('success');
     }

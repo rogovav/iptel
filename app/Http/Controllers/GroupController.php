@@ -45,29 +45,24 @@ class GroupController extends Controller
 
     public function add(Request $request)
     {
+        $data = [
+            'name' => $request['name'],
+            'parent_id' => $request['parent_id'],
+            'level' => ($request['parent_id'] ? Group::find($request['parent_id'])->level + 1 : 0),
+            'priority' => $request['priority'],
+            'phone' => implode(", ", $request['phone']? $request['phone'] : []),
+            'email' => implode(", ", $request['email']? $request['email'] : []),
+        ];
         if ($request['id']) {
-            Group::find($request['id'])->update([
-                'name' => $request['name'],
-                'parent_id' => $request['parent_id'],
-                'level' => ($request['parent_id'] ? Group::find($request['parent_id'])->level + 1 : 0),
-                'priority' => $request['priority'],
-                'phone' => implode(", ", $request['phone']),
-                'email' => implode(", ", $request['email']),
-            ]);
+            Group::find($request['id'])->update($data);
         } else {
-            Group::create([
-                'name' => $request['name'],
-                'parent_id' => $request['parent_id'],
-                'level' => ($request['parent_id'] ? Group::find($request['parent_id'])->level + 1 : 0),
-                'priority' => $request['priority'],
-                'phone' => implode(", ", $request['phone']),
-                'email' => implode(", ", $request['email']),
-            ]);
+            Group::create($data);
         }
         return json_encode('success');
     }
 
-    public function delete(Request $request){
+    public function delete(Request $request)
+    {
         Group::find($request['id'])->delete();
         return json_encode('success');
     }

@@ -73,6 +73,7 @@ $(document).mouseup(function (e) { // событие клика по веб-до
     if (!div.is(e.target) // если клик был не по нашему блоку
         && div.has(e.target).length === 0) { // и не по его дочерним элементам
         div.slideUp("slow");
+        ; // скрываем его
     }
 });
 
@@ -80,7 +81,7 @@ function sendGroupForm() {
     let data = $("#groupForm");
     $.ajax({
         type: 'POST',
-        url: "/group/add",
+        url: "/api/group/add",
         data: data.serialize(),
         success: function (newdata) {
             data[0].reset();
@@ -98,7 +99,7 @@ function sendBuildingForm() {
     console.log(data);
     $.ajax({
         type: 'POST',
-        url: "/building/add",
+        url: "/api/building/add",
         data: data.serialize(),
         success: function (newdata) {
             data[0].reset();
@@ -115,39 +116,14 @@ function sendBuildingForm() {
 function sendPhoneForm() {
     let data = $("#phoneForm");
     let buildings = $("#building");
+    buildings
     $.ajax({
         type: 'POST',
-        url: "/phone/add",
+        url: "/api/phone/add",
         data: data.serialize(),
         success: function (newdata) {
             data[0].reset();
-            $("#accordion3").empty();
-            newdata = JSON.parse(newdata)[0];
-            $("#accordion2").append("<div class=\"building-header\" id=\"phone-header-" + newdata["id"] + "\">\n" +
-                "                            <div class=\"card-header\" id=\"uheading" + newdata["id"] + "\">\n" +
-                "                                <h5 class=\"mb-0\">\n" +
-                "                                    <button class=\"btn btn-link\" data-toggle=\"collapse\" data-target=\"#ucollapse" + newdata["id"] + "\"\n" +
-                "                                            aria-expanded=\"false\" aria-controls=\"ucollapse" + newdata["id"] + "\">\n" +
-                newdata["fio"] +
-                "                                    </button>\n" +
-                "<a href='/api/phone/delete/" + newdata["id"] + "' data-id='" + newdata["id"] + "'data-name='phone' class='delete-link' data-method='delete'>&#10006;</a>" +
-                "                                </h5>\n" +
-                "                            </div>\n" +
-                "\n" +
-                "                            <div id=\"ucollapse" + newdata["id"] + "\" class=\"collapse\" aria-labelledby=\"uheading" + newdata["id"] + "\"\n" +
-                "                                 data-parent=\"#accordion2\">\n" +
-                "                                <div class=\"card-body building-body\">\n" +
-                "                                    <ul>\n" +
-                "                                        <li><span><b>Группа: </b></span>" + newdata["group"] + "</li>\n" +
-                "                                        <li><span><b>Должность: </b></span>" + newdata["position"] + "</li>\n" +
-                "                                        <li><span><b>Номер телефона: </b></span>" + newdata["phone"] + "</li>\n" +
-                "                                        <li><span><b>Внутренний номер: </b></span>" + newdata["ip_phone"] + "</li>\n" +
-                "                                        <li><span><b>Здание: </b></span>" + newdata["building"] + "</li>\n" +
-                "                                        <li><span><b>Кабинет: </b></span>" + newdata["address"] + "</li>\n" +
-                "                                    </ul>\n" +
-                "                                </div>\n" +
-                "                            </div>\n" +
-                "                        </div>")
+            getPhones();
         },
         error: function (xhr, str) {
             console.log('Возникла ошибка: ' + xhr.responseCode);
@@ -159,6 +135,7 @@ function sendPhoneForm() {
 
 function getPhones() {
     $.getJSON("/phones", function (data) {
+        $("#accordion2").empty();
         $.each(data, function (k, v) {
             $("#accordion2").append("<div class=\"building-header\" id=\"phone-header-" + v.id + "\">\n" +
                 "                            <div class=\"card-header\" id=\"uheading" + v.id + "\">\n" +
@@ -168,6 +145,8 @@ function getPhones() {
                 v.fio +
                 "                                    </button>\n" +
                 "<a href='/api/phone/delete/" + v.id + "' data-id='" + v.id + "' data-name='phone' class='delete-link' data-method='delete'>&#10006;</a>" +
+                "<a href='/phone/" + v.id + "' data-id='" + v.id + "'data-name='phone' class='edit-link' data-method='edit'>&#10000;</a>" +
+
                 "                                </h5>\n" +
                 "                            </div>\n" +
                 "\n" +
@@ -194,6 +173,10 @@ function getPhones() {
 function getBuildings() {
     $.getJSON("/buildings", function (data) {
         let buildings = $("#building");
+        buildings.empty();
+        buildings.append($("<option></option>")
+            .attr("value", '')
+            .text('Здание'));
         $("#accordion1").empty();
         $.each(data, function (k, v) {
             $("#accordion1").append("<div class=\"building-header\" id=\"building-header-" + v.id + "\">\n" +
@@ -230,6 +213,8 @@ function getBuildings() {
 function getGroups() {
     $.getJSON("/groups", function (data) {
         let groups = $("#group-select, #group-select2");
+        $("#accordion3").empty();
+        groups.empty();
         groups.append($("<option></option>")
             .attr("value", '')
             .text('Родительский элемент'));
@@ -265,10 +250,121 @@ function getGroups() {
     });
 }
 
+function setBuildingForm() {
+    $(".form-building-rendered").empty();
+    $(".form-building-rendered").append("<form class=\"admin-form\" action=\"javascript:void(null);\" onsubmit=\"sendBuildingForm()\"\n" +
+        "                              id=\"buildingForm\">\n" +
+        "                            <div class=\"form-group\">\n" +
+        "                                <input type=\"text\" name=\"id\" class=\"form-control\" readonly>\n" +
+        "                            </div>\n" +
+        "                            <div class=\"form-group\">\n" +
+        "                                <input required name=\"name\" type=\"text\" class=\"form-control\" placeholder=\"Название\">\n" +
+        "                            </div>\n" +
+        "                            <div class=\"form-group\">\n" +
+        "                                <input required name=\"address\" type=\"text\" class=\"form-control\" placeholder=\"Адрес\">\n" +
+        "                            </div>\n" +
+        "                            <div class=\"form-group\"><input type=\"submit\" class=\"form-control\"></div>\n" +
+        "                            <div class=\"form-group\">\n" +
+        "                                <button type=\"button\" class=\"form-control clear-button\" onclick='setBuildingForm()'>\n" +
+        "                                    Очистить форму\n" +
+        "                                </button>\n" +
+        "                            </div>\n" +
+        "\n" +
+        "                        </form>")
+    getBuildings();
+}
+
+async function setGroupForm() {
+    $(".form-group-rendered").empty();
+    $(".form-group-rendered").append("                        <form class=\"admin-form\" method=\"POST\" action=\"javascript:void(null);\"\n" +
+        "                              onsubmit=\"sendGroupForm()\" id=\"groupForm\">\n" +
+        "                            <div class=\"form-group\"><input name=\"id\" type=\"text\" class=\"form-control\" readonly></div>\n" +
+        "                            <div class=\"form-group\">\n" +
+        "                                <select class=\"form-control\" name=\"parent_id\" id=\"group-select\">\n" +
+        "                                </select>\n" +
+        "                            </div>\n" +
+        "                            <div class=\"form-group\"><input required name=\"name\" type=\"text\" class=\"form-control\"\n" +
+        "                                                           placeholder=\"Название группы\"></div>\n" +
+        "<div class='form-group'><button type='button' class='form-control clear-button btn' onclick='AddEmail()'>Добавить email</button></div>" +
+        "                            <div class=\"email-rendered\">\n" +
+        "                            </div>\n" +
+        "<div class='form-group'><button type='button' class='form-control clear-button btn' onclick='AddFax()'>Добавить номер</button></div>" +
+        "                            <div class=\"fax-rendered\"></div>\n" +
+        "                            <div class=\"form-group\">\n" +
+        "                                <select required class=\"form-control\" name=\"priority\" id=\"priority-selected\">\n" +
+        "                                    <option value=\"1\">Очень высокий</option>\n" +
+        "                                    <option value=\"2\">Высокий</option>\n" +
+        "                                    <option value=\"3\" selected>Средний</option>\n" +
+        "                                    <option value=\"4\">Низкий</option>\n" +
+        "                                    <option value=\"5\">Очень низкий</option>\n" +
+        "                                </select>\n" +
+        "                            </div>\n" +
+        "                            <div class=\"form-group\"><input type=\"submit\" class=\"form-control\"></div>\n" +
+        "                            <div class=\"form-group\"><button type=\"button\" class=\"form-control\" onclick='setGroupForm()'>Очистить форму</button></div>\n" +
+        "                        </form>"
+    )
+    getGroups();
+}
+
+async function setPhoneForm() {
+    $(".form-phone-rendered").empty();
+    $(".form-phone-rendered").append("<form class=\"admin-form\" action=\"javascript:void(null);\"\n" +
+        "                              onsubmit=\"sendPhoneForm()\" id=\"phoneForm\">\n" +
+        "                            <div class=\"form-group\"><input name=\"id\" type=\"text\" class=\"form-control\" readonly></div>\n" +
+        "                            <div class=\"form-group\">\n" +
+        "                                <input required name=\"fio\" type=\"text\" class=\"form-control\" placeholder=\"ФИО\">\n" +
+        "                            </div>\n" +
+        "                            <div class=\"form-group\">\n" +
+        "                                <select required class=\"form-control\" name=\"group_id\" id=\"group-select2\">\n" +
+        "                                </select>\n" +
+        "                            </div>\n" +
+        "                            <div class=\"form-group\">\n" +
+        "                                <input required name=\"position\" type=\"text\" class=\"form-control\"\n" +
+        "                                       placeholder=\"Должность\">\n" +
+        "                            </div>\n" +
+        "                               <div class='form-group'> <input name=\"email\" type=\"text\" class=\"form-control\"\n" +
+        "                                       placeholder=\"Email\"></div>\n" +
+        "                            </div>\n" +
+        "                            <div class=\"phones-rendered\">\n" +
+        "<div class='form-group'><button type=\"button\" class=\"form-control btn clear-button\" onclick=\"AddNumber()\">Добавить номер</button></div>\n" +
+        "                            </div>\n" +
+        "                            <div class=\"ip_phones-rendered\">\n" +
+        "                            <div class='form-group'><button type=\"button\" class=\"form-control btn clear-button\" onclick=\"AddIpNumber()\">Добавить IP номер\n" +
+        "                                        </button></div>\n" +
+        "                            </div>\n" +
+        "\n" +
+        "                            <div class=\"form-row form-group\">\n" +
+        "                                <div class=\"col\">\n" +
+        "                                    <select required class=\"form-control\" name=\"building_id\" id=\"building\">\n" +
+        "                                        <option value=\"\" selected>Здание</option>\n" +
+        "                                    </select>\n" +
+        "                                </div>\n" +
+        "                                <div class=\"col\">\n" +
+        "                                    <input required name=\"room\" type=\"text\" class=\"form-control\"\n" +
+        "                                           placeholder=\"кабинет/этаж\">\n" +
+        "                                </div>\n" +
+        "                                <div class=\"col\">\n" +
+        "                                    <select required class=\"form-control\" name=\"room_type\" id=\"\">\n" +
+        "                                        <option value=\"кабинет\">кабинет</option>\n" +
+        "                                        <option value=\"этаж\">этаж</option>\n" +
+        "                                    </select>\n" +
+        "                                </div>\n" +
+        "                            </div>\n" +
+        "                            <div class=\"form-group\"><input type=\"submit\" class=\"form-control\"></div>\n" +
+        "                            <div class=\"form-group\"><button type=\"button\" class=\"form-control\" onclick='setPhoneForm()'>Очистить форму</button></div>\n" +
+
+        "                        </form>");
+    getPhones();
+    getBuildings();
+    getGroups();
+}
+
 getGroups();
 getBuildings();
 getPhones();
-
+setGroupForm();
+setBuildingForm();
+setPhoneForm();
 
 $(document).on('click', 'a.delete-link', function (e) {
     e.preventDefault();
@@ -330,54 +426,60 @@ function LiveSearch(val) {
 
 
 function hideBg() {
-    console.log("clicked");
     $("#searchbg").slideToggle()
 }
 
-function AddNumber(e) {
+function AddNumber(type = "", number = "") {
     $(".phones-rendered").append("<div class=\"form-row form-group\">\n" +
         "                                    <div class=\"col\">\n" +
-        "                                        <select required id=\"country\" class=\"form-control country\">\n" +
-        "                                            <option value=\"ru\"><img src=\"\">Саранск +7 (8342)</option>\n" +
-        "                                            <option value=\"ua\">Рузаевка +7 (83451)</option>\n" +
-        "                                            <option value=\"by\">Ковылкино +7 (83453)</option>\n" +
+        "                                        <select required name='ip_city' id=\"country\" class=\"form-control country\">\n" +
+        "                                            <option value=\"ru\">Саранск +7(8342)</option>\n" +
+        "                                            <option value=\"ua\">Рузаевка +7(83451)</option>\n" +
+        "                                            <option value=\"by\">Ковылкино +7(83453)</option>\n" +
         "                                        </select>\n" +
         "                                    </div>\n" +
         "                                    <div class=\"col numbers\">\n" +
-        "                                        <input required id=\"phone\" name=\"phone[]\" type=\"text\" class=\"form-control phone-input\">\n" +
+        "                                        <input required id=\"phone\" name=\"phone[]\" type=\"text\" class=\"form-control phone-input\" value='" + number + "'>\n" +
         "                                    </div>\n" +
         "                                    <div class=\"col\">\n" +
         "                                        <button type=\"button\" class=\"btn btn-delete-number\">Удалить номер</button>\n" +
         "                                    </div>\n" +
         "                                </div>"
     )
-    setMask();
+    if (type) {
+        $("select[name=ip_city] option[value=" + type + "]").prop('selected', true);
+    }
+
+
+    $(".phone-input").mask('+7(8342) 00-00-00');
 }
 
-function AddFax(e) {
+function AddFax(type = "", fax = "") {
     $(".fax-rendered").append("<div class=\"form-row form-group\">\n" +
         "                                    <div class=\"col\">\n" +
         "                                        <select required id=\"country\" class=\"form-control faxes\">\n" +
-        "                                            <option value=\"Телефон\">Телефон</option>\n" +
-        "                                            <option value=\"Факс\">Факс</option>\n" +
+        (type == "Телефон" ?
+            "                                            <option value=\"Телефон\" selected>Телефон</option>\n" +
+            "                                            <option value=\"Факс\">Факс</option>\n" :
+            "                                            <option value=\"Телефон\">Телефон</option>\n" +
+            "                                            <option value=\"Факс\" selected>Факс</option>\n") +
         "                                        </select>\n" +
         "                                    </div>\n" +
         "                                    <div class=\"col numbers need\">\n" +
-        "                                        <input required name=\"phone[]\" type=\"text\" class=\"form-control phone-input fax\">\n" +
+        "                                        <input required name=\"phone[]\" type=\"text\" class=\"form-control phone-input fax\" value='" + fax + "'>\n" +
         "                                    </div>\n" +
         "                                    <div class=\"col\">\n" +
         "                                        <button type=\"button\" class=\"btn btn-delete-number\">Удалить номер</button>\n" +
         "                                    </div>\n" +
         "                                </div>"
     )
-
 }
 
-function AddIpNumber(e) {
+function AddIpNumber(ip = "") {
     $(".ip_phones-rendered").append("<div class=\"form-row form-group\">\n" +
         "                                    <div class=\"col-8\">\n" +
         "                                        <input required name=\"ip_phone[]\" type=\"text\" class=\"form-control\"\n" +
-        "                                               placeholder=\"Внутренний номер\" maxlength=\"4\">\n" +
+        "                                               placeholder=\"Внутренний номер\" maxlength=\"4\" value='" + ip + "'>\n" +
         "                                    </div>\n" +
         "                                    <div class=\"col-4\">\n" +
         "                                        <button type=\"button\" class=\"btn btn-delete-number\">Удалить номер\n" +
@@ -386,11 +488,11 @@ function AddIpNumber(e) {
         "                                </div>")
 }
 
-function AddEmail(e) {
+function AddEmail(email = "") {
     $(".email-rendered").append("<div class=\"form-row form-group\">\n" +
         "                                    <div class=\"col-8\">\n" +
         "                                        <input required name=\"email[]\" type=\"text\" class=\"form-control\"\n" +
-        "                                               placeholder=\"Email\">\n" +
+        "                                               placeholder=\"Email\" value='" + email + "'>\n" +
         "                                    </div>\n" +
         "                                    <div class=\"col-4\">\n" +
         "                                        <button type=\"button\" class=\"btn btn-delete-number\">Удалить email\n" +
@@ -402,7 +504,6 @@ function AddEmail(e) {
 $(document).on('click', '.faxes', function (e) {
     let $this = $(this);
     let tel = $(this).closest(".form-row").children(".need").children("input");
-    console.log(tel.val(""))
 })
 
 
@@ -437,7 +538,8 @@ $(document).on('change', 'select.country', function (e) {
 
 function setMask() {
     var country = $(".country").each(function () {
-        let tel = $(this).closest(".form-row").children(".numbers").children();
+        let tel = $(this).closest(".form-row").children(".numbers").children(0);
+        console.log($(this).val());
         switch ($(this).val()) {
             case "ru":
                 tel.mask("+7(8342) 99-99-99");
@@ -452,30 +554,117 @@ function setMask() {
     })
 }
 
-setMask();
-
 $(document).on('click', '.btn-delete-number', function (e) {
     $(this).closest(".form-row").remove();
-});
+})
 
 
 //edit-link
 
 $(document).on('click', '.edit-link', function (e) {
-    e.preventDefault();
-    let link = $(this).attr("href");
-    let form_name = $(this).attr("data-name");
-    let form = form_name + "Form";
-    console.log(form);
-    $.getJSON(link, function (data) {
-        console.log(data);
-        $.each(data, function (k, v) {
-            if ($("#" + form).children(".form-group").children("input[name='" + k + "']")) {
-                $("#" + form).children(".form-group").children("input[name='" + k + "']").val(v);
-            }
-        })
-    })
+        e.preventDefault();
+        let link = $(this).attr("href");
+        let form_name = $(this).attr("data-name");
+        let form = form_name + "Form"
+        //$(".form-group-rendered")
+        if (form_name == "building") {
+            $.getJSON(link, function (data) {
+                $.each(data, function (k, v) {
+                    $("#" + form).find("input[name='" + k + "']").val(v);
+                })
+            })
+        }
 
-})
+        if (form_name == "phone") {
+            setPhoneForm().then(function () {
+                    $.getJSON(link, function (data) {
+                        $.each(data, function (k, v) {
+                            if (k == "group_id") {
+                                $("#group-select2 option[value=" + v + "]").prop('selected', true);
+                            }
+
+                            else if (k == "building_id") {
+                                $("select[name=building_id] option[value=" + v + "]").prop('selected', true);
+                            }
+
+                            else if (k == "room_type") {
+                                $("select[name=room_type] option[value=" + v + "]").prop('selected', true);
+                            }
+
+                            else if (k == "ip_phone") {
+                                let mass = v.split(",");
+                                for (let i = 0; i < mass.length; ++i) {
+                                    AddIpNumber(mass[i]);
+
+                                }
+                            }
+                            else if (k == "phone") {
+                                let mass = v.split(",");
+                                let tel_val = "";
+                                for (let i = 0; i < mass.length; ++i) {
+                                    if (mass[i].split(" ")[0].trim() == "+7(8342)") {
+                                        tel_val = "ru";
+                                    }
+                                    else if (mass[i].split(" ")[0].trim() == "+7(83453)") {
+                                        tel_val = "by";
+                                    }
+                                    else if (mass[i].split(" ")[0].trim() == "+7(83451)") {
+                                        tel_val = "ua";
+                                    }
+
+                                    console.log(mass[i].trim());
+                                    AddNumber(tel_val, mass[i].trim().split(" ")[1])
+
+                                }
+
+                            }
+
+                            else {
+                                $("#" + form).find("input[name='" + k + "']").val(v);
+                            }
+
+                        })
+                    })
+                }
+            )
+
+        }
+
+        if (form_name == "group") {
+            setGroupForm().then(function () {
+                $.getJSON(link, function (data) {
+                    $.each(data, function (k, v) {
+                        if (k == "email") {
+                            let mass = v.split(",");
+                            for (let i = 0; i < mass.length; ++i) {
+                                AddEmail(mass[i]);
+                            }
+                        }
+
+                        else if (k == "parent_id") {
+                            $("#group-select option[value=" + v + "]").prop('selected', true);
+                        }
+                        else if (k == "phone") {
+                            let mass = v.split(",");
+                            for (let i = 0; i < mass.length; ++i) {
+                                AddFax(mass[i].split(",")[0].trim().split(":")[0], mass[i].split(",")[0].trim());
+                            }
+                        }
+
+                        else if (k == "priority") {
+                            $("select[name=priority] option[value=" + v + "]").prop('selected', true);
+                        }
+                        else {
+                            $("#" + form).find("input[name='" + k + "']").val(v)
+                        }
+
+                    })
+
+                })
+            })
+        }
+
+    }
+)
 
 
