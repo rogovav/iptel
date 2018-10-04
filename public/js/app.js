@@ -124,6 +124,7 @@ function sendPhoneForm() {
         success: function (newdata) {
             data[0].reset();
             getPhones();
+            setPhoneForm();
         },
         error: function (xhr, str) {
             console.log('Возникла ошибка: ' + xhr.responseCode);
@@ -433,36 +434,29 @@ function AddNumber(type = "", number = "") {
     $(".phones-rendered").append("<div class=\"form-row form-group\">\n" +
         "                                    <div class=\"col\">\n" +
         "                                        <select required name='ip_city' id=\"country\" class=\"form-control country\">\n" +
-        "                                            <option value=\"ru\">Саранск +7(8342)</option>\n" +
-        "                                            <option value=\"ua\">Рузаевка +7(83451)</option>\n" +
-        "                                            <option value=\"by\">Ковылкино +7(83453)</option>\n" +
+        "                                            <option value=\"ru\" " + (type == "ru" ? "selected" : "") + ">Саранск +7(8342)</option>\n" +
+        "                                            <option value=\"ua\" " + (type == "ua" ? "selected" : "") + ">Рузаевка +7(83451)</option>\n" +
+        "                                            <option value=\"by\" " + (type == "by" ? "selected" : "") + ">Ковылкино +7(83453)</option>\n" +
         "                                        </select>\n" +
         "                                    </div>\n" +
         "                                    <div class=\"col numbers\">\n" +
-        "                                        <input required id=\"phone\" name=\"phone[]\" type=\"text\" class=\"form-control phone-input\" value='" + number + "'>\n" +
+        "                                        <input required name=\"phone[]\" type=\"text\" class=\"form-control phone-input\" value='" + number + "'>\n" +
         "                                    </div>\n" +
         "                                    <div class=\"col\">\n" +
         "                                        <button type=\"button\" class=\"btn btn-delete-number\">Удалить номер</button>\n" +
         "                                    </div>\n" +
         "                                </div>"
     )
-    if (type) {
-        $("select[name=ip_city] option[value=" + type + "]").prop('selected', true);
-    }
+    setMask();
 
-
-    $(".phone-input").mask('+7(8342) 00-00-00');
 }
 
 function AddFax(type = "", fax = "") {
     $(".fax-rendered").append("<div class=\"form-row form-group\">\n" +
         "                                    <div class=\"col\">\n" +
-        "                                        <select required id=\"country\" class=\"form-control faxes\">\n" +
-        (type == "Телефон" ?
-            "                                            <option value=\"Телефон\" selected>Телефон</option>\n" +
-            "                                            <option value=\"Факс\">Факс</option>\n" :
-            "                                            <option value=\"Телефон\">Телефон</option>\n" +
-            "                                            <option value=\"Факс\" selected>Факс</option>\n") +
+        "                                        <select required name='faxes_name' class=\"form-control faxes\">\n" +
+        "                                            <option value=\"Телефон\" " + (type == "Телефон" ? "selected" : "") + ">Телефон</option>\n" +
+        "                                            <option value=\"Факс\" "+ (type == "Факс" ? "selected" : "") +">Факс</option>\n" +
         "                                        </select>\n" +
         "                                    </div>\n" +
         "                                    <div class=\"col numbers need\">\n" +
@@ -473,6 +467,7 @@ function AddFax(type = "", fax = "") {
         "                                    </div>\n" +
         "                                </div>"
     )
+    setMaskFax();
 }
 
 function AddIpNumber(ip = "") {
@@ -506,31 +501,58 @@ $(document).on('click', '.faxes', function (e) {
     let tel = $(this).closest(".form-row").children(".need").children("input");
 })
 
+function setMaskFax() {
+    var country = $(".faxes").each(function () {
+        var $this = $(this);
+        let tel = $(this).closest(".form-row").children(".numbers").children();
+        switch ($(this).val()) {
+            case "Телефон":
+                tel.mask("Телефон: Z",{
+                    translation: {
+                        'Z': {
+                            pattern: /[+0-9]/, recursive: true
+                        }
+                    }
+                });
+                break;
+            case "Факс":
+                tel.mask("Факс: 00-00-00");
+                break;
+        }
+    })
+}
 
-$(document).on('blur', 'input.fax', function (e) {
-    let $this = $(this);
-    let tel = $(this).closest(".form-row").children(0).children(".faxes").val();
-    if (~$(this).val().indexOf("Телефон") || ~$(this).val().indexOf("Факс")) {
-        $(this).val($(this).val())
-    }
-    else {
-        $(this).val(tel + ": " + $(this).val())
+$(document).on('change', 'select.faxes', function (e) {
+    var $this = $(this);
+    let tel = $(this).closest(".form-row").children(".numbers").children();
+    switch ($(this).val()) {
+        case "Телефон":
+            tel.mask("Телефон: 00-00-00");
+            break;
+        case "Факс":
+            tel.mask("Факс: 00-00-00");
+            break;
     }
 })
-
 
 $(document).on('change', 'select.country', function (e) {
     var $this = $(this);
     let tel = $(this).closest(".form-row").children(".numbers").children();
     switch ($(this).val()) {
         case "ru":
-            tel.mask("+7(8342) 99-99-99");
+            tel.mask("+7(8342) 00-00-00", {
+                placeholder: "+7(8342) __-__-__"
+            });
             break;
         case "ua":
-            tel.mask("+7(83451) 9-99-99");
+            tel.mask("+7(83451) 0-00-00", {
+                placeholder: "+7(83451) _-__-__"
+            });
             break;
         case "by":
-            tel.mask("+7(83453) 9-99-99");
+            tel.mask("+7(83453) 0-00-00", {
+                placeholder: "+7(83453) _-__-__"
+            });
             break;
     }
 })
@@ -539,16 +561,21 @@ $(document).on('change', 'select.country', function (e) {
 function setMask() {
     var country = $(".country").each(function () {
         let tel = $(this).closest(".form-row").children(".numbers").children(0);
-        console.log($(this).val());
         switch ($(this).val()) {
             case "ru":
-                tel.mask("+7(8342) 99-99-99");
+                tel.mask("+7(8342) 00-00-00", {
+                    placeholder: "+7(8342) __-__-__"
+                });
                 break;
             case "ua":
-                tel.mask("+7(83451) 9-99-99");
+                tel.mask("+7(83451) 0-00-00", {
+                    placeholder: "+7(83451) _-__-__"
+                });
                 break;
             case "by":
-                tel.mask("+7(83453) 9-99-99");
+                tel.mask("+7(83453) 0-00-00", {
+                    placeholder: "+7(83453) _-__-__"
+                });
                 break;
         }
     })
@@ -602,19 +629,18 @@ $(document).on('click', '.edit-link', function (e) {
                                 let mass = v.split(",");
                                 let tel_val = "";
                                 for (let i = 0; i < mass.length; ++i) {
-                                    if (mass[i].split(" ")[0].trim() == "+7(8342)") {
+                                    if (mass[i].trim().split(" ")[0] == "+7(8342)") {
                                         tel_val = "ru";
                                     }
-                                    else if (mass[i].split(" ")[0].trim() == "+7(83453)") {
+                                    else if (mass[i].trim().split(" ")[0] == "+7(83453)") {
                                         tel_val = "by";
                                     }
-                                    else if (mass[i].split(" ")[0].trim() == "+7(83451)") {
+                                    else if (mass[i].trim().split(" ")[0] == "+7(83451)") {
                                         tel_val = "ua";
                                     }
 
                                     console.log(mass[i].trim());
-                                    AddNumber(tel_val, mass[i].trim().split(" ")[1])
-
+                                    AddNumber(tel_val, mass[i].trim());
                                 }
 
                             }

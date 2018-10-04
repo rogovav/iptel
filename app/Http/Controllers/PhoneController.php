@@ -80,6 +80,7 @@ class PhoneController extends Controller
 
     public function add_to_data($group, $child = [])
     {
+        $group_info = implode(",", [$group->name, $group->phone, $group->email]);
         $phones = $group->phones;
         $data = [];
         if ($phones->count() > 0) {
@@ -95,10 +96,10 @@ class PhoneController extends Controller
                     'address' => $building->address,
                 ];
             }
-            return [$group->name => array_merge($data, $child)];
+            return [$group_info => array_merge($data, $child)];
         } else {
             return [
-                $group->name => $child
+                $group_info => $child
             ];
         }
     }
