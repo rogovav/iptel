@@ -449,8 +449,6 @@ function AddNumber(type = "", number = "") {
     if (type) {
         $("select[name=ip_city] option[value=" + type + "]").prop('selected', true);
     }
-    setMask();
-
 }
 
 function AddFax(type = "", fax = "") {
@@ -537,7 +535,8 @@ $(document).on('change', 'select.country', function (e) {
 
 function setMask() {
     var country = $(".country").each(function () {
-        let tel = $(this).closest(".form-row").children(".numbers").children();
+        let tel = $(this).closest(".form-row").children(".numbers").children(0);
+        console.log($(this).val());
         switch ($(this).val()) {
             case "ru":
                 tel.mask("+7(8342) 99-99-99");
@@ -614,7 +613,6 @@ $(document).on('click', '.edit-link', function (e) {
                                     AddNumber(tel_val, mass[i].split(" ")[1])
                                 }
 
-
                             }
 
                             else {
@@ -625,6 +623,7 @@ $(document).on('click', '.edit-link', function (e) {
                     })
                 }
             )
+
         }
 
         if (form_name == "group") {
@@ -635,7 +634,6 @@ $(document).on('click', '.edit-link', function (e) {
                             let mass = v.split(",");
                             for (let i = 0; i < mass.length; ++i) {
                                 AddEmail(mass[i]);
-
                             }
                         }
 
@@ -646,8 +644,6 @@ $(document).on('click', '.edit-link', function (e) {
                             let mass = v.split(",");
                             for (let i = 0; i < mass.length; ++i) {
                                 AddFax(mass[i].split(",")[0].trim().split(":")[0], mass[i].split(",")[0].trim());
-
-
                             }
                         }
 
