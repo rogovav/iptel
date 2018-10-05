@@ -4,6 +4,10 @@ body {
     font-family: 'Roboto', sans-serif;
 }
 
+.container-fluid{
+    padding: 82px 50px !important;
+}
+
 .navbar-brand {
     color: white !important;
 }
@@ -13,6 +17,8 @@ body {
 }
 
 .banner {
+    width: 110vw;
+    margin-left: -50px;
     background-image: url("../images/contact-biolink.jpg");
     height: 250px;
     background-repeat: no-repeat;

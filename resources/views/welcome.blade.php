@@ -61,11 +61,7 @@
             </ul>
         </div>
     </nav>
-    <div class="row">
-        <div class="col banner">
-
-        </div>
-    </div>
+    <div class="banner"></div>
     <div class="row">
         <div class="col col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 wrap-table-div card">
             <div class="card-body">
