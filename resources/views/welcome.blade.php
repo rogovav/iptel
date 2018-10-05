@@ -9,15 +9,37 @@
           integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css"
           integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
+    <link rel="shortcut icon" href="{{ asset('images/phone25.png') }}">
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
     <title>Телефонный справочник МГУ им. Н.П. Огарёва</title>
 </head>
 <body>
+
 <div id="searchbg">
     <div class="row">
         <div>
             <ul id="title">
             </ul>
+        </div>
+    </div>
+</div>
+<div class="container-fluid my-row hidden-row">
+    <div class="row">
+        <div class="col col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 wrap-table-div">
+            <div class="card-body my-card-body">
+                <div class="table-responsive">
+                    <table class="table table-hidden">
+                        <thead>
+                        <th width="20%">ФИО</th>
+                        <th width="20%">Должность</th>
+                        <th width="15%">Внешний номер</th>
+                        <th width="15%">Внутренний номер</th>
+                        <th width="10%">Email</th>
+                        <th width="20%">Место</th>
+                        </thead>
+                    </table>
+                </div>
+            </div>
         </div>
     </div>
 </div>
@@ -40,6 +62,11 @@
         </div>
     </nav>
     <div class="row">
+        <div class="col banner">
+
+        </div>
+    </div>
+    <div class="row">
         <div class="col col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 wrap-table-div card">
             <div class="card-body">
                 <div class="search-area col col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
@@ -47,7 +74,7 @@
                            onkeyup="LiveSearch(this.value)" placeholder="Поиск">
                 </div>
                 <div class="table-responsive">
-                    <table class="table" id="phones">
+                    <table class="table table-fixed" id="phones">
                     </table>
                 </div>
             </div>
@@ -134,5 +161,4 @@
         integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
         crossorigin="anonymous"></script>
 <script src="{{ asset('js/app.js') }}"></script>
-
 </html>

@@ -1,72 +1,136 @@
 $(document).ready(function () {
-    $.getJSON("/phones/all", function (data) {
-        let tbl_body = "<thead>\n" +
-            "                        <th width=\"30%\">ФИО</th>\n" +
-            "                        <th width=\"20%\">Должность</th>\n" +
-            "                        <th width=\"20%\">Внешний</th>\n" +
-            "                        <th width=\"10%\">IP</th>\n" +
-            "                        <th width=\"30%\">Адрес</th>\n" +
-            "                        </thead>";
-        let ul_body = "";
-        let i = 0;
-        let j = 0;
-        let z = 0;
-        $.each(data["data"], function () {
-            $.each(this, function (k, v) {// all data
-                tbl_body += "<tbody class='search-body'><tr class='group' id='group_" + i + "'><td colspan='5'><h3>" + k + "</h3></td></tr>";
-                ul_body += "<li class='group' onclick='hideBg()'><a class='bglink' href='#group_" + i + "'>" + k + "</a></li><ul>";
-                ++i;
-                $.each(v, function (k, v) { // company
-                    if (v["name"]) {
-                        tbl_body += InsertValue(v);
-                    }
-                    else {
-                        $.each(v, function (k, v) { //company sub_company
-                            tbl_body += "<tr class='company' id='company_" + j + "'><td colspan='5'><h4>" + k + "</h4></td>></tr>";
-                            ul_body += "<li class='company' onclick='hideBg()'><a class='bglink' href='#company_" + j + "'>" + k + "</a></li><ul>";
-                            ++j;
-                            $.each(v, function (k, v) { //sub_company object
-                                if (v["name"]) {
-                                    tbl_body += InsertValue(v);
-                                }
-                                else {
-                                    $.each(v, function (k, v) { //object element
-                                        tbl_body += "<tr class='sub_company' id='sub_company_" + z + "'><td colspan='5'><h5>" + k + "</h5></td>></tr>";
-                                        ul_body += "<li class='sub_company' onclick='hideBg()'><a class='bglink' href='#sub_company_" + z + "'>" + k + "</a></li>";
-                                        z++;
-                                        $.each(v, function (k, v) { //sub_company object
-                                            tbl_body += InsertValue(v);
+
+    async function InitTable() {
+        $.getJSON("/phones/all", function (data) {
+            let tbl_body = "<thead class='main-thead'>\n" +
+                "                        <th width=\"20%\">ФИО</th>\n" +
+                "                        <th width=\"20%\">Должность</th>\n" +
+                "                        <th width=\"15%\">Внешний номер</th>\n" +
+                "                        <th width=\"15%\">Внутренний номер</th>\n" +
+                "                        <th width=\"10%\">Email</th>\n" +
+                "                        <th width=\"20%\">Место</th>\n" +
+                "                        </thead>";
+            let ul_body = "";
+            let i = 0;
+            let j = 0;
+            let z = 0;
+            $.each(data["data"], function () {
+                $.each(this, function (k, v) {// all data
+                    tbl_body += "<tbody class='search-body'><tr class='group' id='group_" + i + "'><td colspan='6'><h3>" + k + "</h3></td></tr>";
+                    ul_body += "<li class='group' onclick='hideBg()'><a class='bglink_li' href='#group_" + i + "'>" + k + "</a></li><ul>";
+                    ++i;
+                    $.each(v, function (k, v) { // company
+                        if (v["name"]) {
+                            tbl_body += InsertValue(v);
+                        }
+                        else {
+                            $.each(v, function (k, v) { //company sub_company
+                                tbl_body += "<tr class='company' id='company_" + j + "'><td colspan='6'><h4>" + k + "</h4></td>></tr>";
+                                ul_body += "<li class='company' onclick='hideBg()'><a class='bglink_li' href='#company_" + j + "'>" + k + "</a></li><ul>";
+                                ++j;
+                                $.each(v, function (k, v) { //sub_company object
+                                    if (v["name"]) {
+                                        tbl_body += InsertValue(v);
+                                    }
+                                    else {
+                                        $.each(v, function (k, v) { //object element
+                                            tbl_body += "<tr class='sub_company' id='sub_company_" + z + "'><td colspan='6'><h5>" + k + "</h5></td>></tr>";
+                                            ul_body += "<li class='sub_company' onclick='hideBg()'><a class='bglink_li' href='#sub_company_" + z + "'>" + k + "</a></li>";
+                                            z++;
+                                            $.each(v, function (k, v) { //sub_company object
+                                                tbl_body += InsertValue(v);
+                                            });
                                         });
-                                    });
-                                }
+                                    }
+                                });
+
+                                ul_body += "</ul>";
                             });
-
-                            ul_body += "</ul>";
-                        });
-                    }
+                        }
+                    });
+                    ul_body += "</ul>";
+                    tbl_body += "</tbody>";
                 });
-                ul_body += "</ul>";
-                tbl_body += "</tbody>";
             });
+            $("#phones").html(tbl_body);
+            $("#title").html(ul_body);
+            $(".table-button").each(function () {
+                console.log($(this));
+                $(this).popover();
+            })
         });
-        $("#phones").html(tbl_body);
-        $("#title").html(ul_body);
-    });
 
-    /**
-     * @return {string}
-     */
-    function InsertValue(v) {
-        return "<tr class='tr-rendered'>" + "<td>" + v["name"] + "</td>" + "<td>" + v["position"] +
-            "</td>" + "<td>" + v["phone"] + "</td>" + "<td>" + v["ip_phone"] +
-            "</td>" + "<td>" + v["address"] + "</td>" + "</tr>";
+        /**
+         * @return {string}
+         */
+        function InsertValue(v) {
+            MassPhone = v["phone"];
+            MassMail = v["email"];
+            if (v["phone"].indexOf(",") > -1) {
+                MassPhone = v["phone"].split(",");
+                for (let i = 0; i < MassPhone.length; ++i) {
+                    let lastMass = MassPhone[i];
+                    MassPhone[i] = MassPhone[i].replace(/\s/g, '');
+                    MassPhone[i] = MassPhone[i].replace("-", "");
+                    MassPhone[i] = MassPhone[i].replace("-", "");
+                    MassPhone[i] = MassPhone[i].replace("(", "");
+                    MassPhone[i] = MassPhone[i].replace(")", "");
+                    MassPhone[i] = "<a href='tel:" + MassPhone[i] + "'>" + lastMass + "<a><br>";
+                }
+
+            }
+            else {
+                MassPhone = "<a href='tel:" + MassPhone + "'>" + MassPhone + "<a> ";
+            }
+            if (v["email"].indexOf(",") > -1) {
+                MassMail = v["email"].split(",");
+                for (let i = 0; i < MassMail.length; ++i) {
+                    MassMail[i] = "<a href='mailto:" + MassMail[i] + "'>" + MassMail[i] + "<a><br>";
+                }
+
+            }
+            else {
+                MassMail = "<a href='mailto:" + MassMail + "'>" + MassMail + "<a>";
+            }
+
+            MassPhone = MassPhone.toString().replace(',','');
+            MassMail = MassMail.toString().replace(',','');
+
+            let data_content = "<ul class='rendered-ul'>" +
+                "<li> Внешний номер: <br>" + MassPhone + "</li>" +
+                "<li> Внутренний номер: " + v["ip_phone"] + "</li>" +
+                "<li> Email: " + MassMail + "</li>" +
+                "<li> Место: " + v["building"] + "</li>" +
+                "<li> Адрес: " + v["address"] + "</li>" +
+                "</ul>"
+            console.log(data_content)
+            return "<tr class='tr-rendered'>" + "<td><button type='button' class='btn btn-link table-button hidden-btn-link' data-container=\"body\" data-toggle=\"popover\" data-placement=\"bottom\" data-content=\"" + data_content + "\" data-html='true'> " + v["name"] + "</button></td>" + "<td>" + v["position"] +
+                "</td>" + "<td>" + MassPhone + "</td>" + "<td>" + v["ip_phone"] + "<td>" + MassMail +
+                "</td>" + "<td><button type='button' class='btn btn-link table-button' data-container=\"body\" data-toggle=\"popover\" data-placement=\"top\" data-content=\"" + v["address"] + "\">" + v["building"] + "</button></td>" + "</tr>";
+        }
     }
+
+    InitTable().then(function () {
+
+    });
 
 
     $('a#ShowMenu').click(function () {
-        $('#searchbg').slideToggle("slow");
+        if ($('#searchbg').is(':visible')) {
+            $('#searchbg').slideUp("slow");
+        }
+        else {
+            $('#searchbg').slideDown("slow");
+        }
+
     });
 });
+
+
+// $(document).on('click', 'button.table-button', function (e) {
+//     let $this = $(this);
+//     $(this).popover();
+// });
 
 $(document).mouseup(function (e) { // событие клика по веб-документу
     var div = $("#searchbg"); // тут указываем ID элемента
@@ -74,6 +138,9 @@ $(document).mouseup(function (e) { // событие клика по веб-до
         && div.has(e.target).length === 0) { // и не по его дочерним элементам
         div.slideUp("slow");
         ; // скрываем его
+    }
+    else {
+        div.slideDown("slow");
     }
 });
 
@@ -160,8 +227,8 @@ function getPhones() {
                 "                                        <li><span><b>Номер телефона: </b></span>" + v.phone + "</li>\n" +
                 "                                        <li><span><b>Внутренний номер: </b></span>" + v.ip_phone + "</li>\n" +
                 "                                        <li><span><b>Почта: </b></span>" + v.email + "</li>\n" +
-                "                                        <li><span><b>Здание: </b></span>" + v.building + "</li>\n" +
-                "                                        <li><span><b>Кабинет: </b></span>" + v.address + "</li>\n" +
+                "                                        <li><span><b>Место: </b></span>" + v.building + "</li>\n" +
+                "                                        <li><span><b>Адрес: </b></span>" + v.address + "</li>\n" +
                 "                                    </ul>\n" +
                 "                                </div>\n" +
                 "                            </div>\n" +
@@ -300,7 +367,7 @@ async function setGroupForm() {
         "                                    <option value=\"5\">Очень низкий</option>\n" +
         "                                </select>\n" +
         "                            </div>\n" +
-        "                            <div class=\"form-group\"><input type=\"submit\" class=\"form-control\"></div>\n" +
+        "                            <div class=\"form-group\"><input type=\"submit\" class=\"form-control\" ></div>\n" +
         "                            <div class=\"form-group\"><button type=\"button\" class=\"form-control\" onclick='setGroupForm()'>Очистить форму</button></div>\n" +
         "                        </form>"
     )
@@ -456,7 +523,7 @@ function AddFax(type = "", fax = "") {
         "                                    <div class=\"col\">\n" +
         "                                        <select required name='faxes_name' class=\"form-control faxes\">\n" +
         "                                            <option value=\"Телефон\" " + (type == "Телефон" ? "selected" : "") + ">Телефон</option>\n" +
-        "                                            <option value=\"Факс\" "+ (type == "Факс" ? "selected" : "") +">Факс</option>\n" +
+        "                                            <option value=\"Факс\" " + (type == "Факс" ? "selected" : "") + ">Факс</option>\n" +
         "                                        </select>\n" +
         "                                    </div>\n" +
         "                                    <div class=\"col numbers need\">\n" +
@@ -507,7 +574,7 @@ function setMaskFax() {
         let tel = $(this).closest(".form-row").children(".numbers").children();
         switch ($(this).val()) {
             case "Телефон":
-                tel.mask("Телефон: Z",{
+                tel.mask("Телефон: Z", {
                     translation: {
                         'Z': {
                             pattern: /[+0-9]/, recursive: true
@@ -693,4 +760,14 @@ $(document).on('click', '.edit-link', function (e) {
     }
 )
 
-
+$(window).scroll(function () {
+    if ($(window).scrollTop() > $(".main-thead").offset().top) {
+        console.log(">");
+        $(".my-row").addClass('show-row');
+        $(".my-row").removeClass('hidden-row');
+    }
+    else {
+        $(".my-row").removeClass('show-row');
+        $(".my-row").addClass('hidden-row');
+    }
+})

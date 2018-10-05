@@ -13,14 +13,6 @@
     <title>IpTel</title>
 </head>
 <body>
-<div id="searchbg">
-    <div class="row">
-        <div>
-            <ul id="title">
-            </ul>
-        </div>
-    </div>
-</div>
 <div class="container-fluid">
     <nav class="navbar header-top fixed-top navbar-expand-lg navbar-dark bg-dark">
         <a class="navbar-brand" href="{{ url('/') }}">
@@ -50,7 +42,7 @@
     <div class="row">
         <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 admin-card">
             <div class="card admin-card-header">
-                <h4>Клиенты</h4>
+                <h4>Сотрудники</h4>
                 <div class="card-body row">
                     <div id="accordion2" class="col-md-8">
 

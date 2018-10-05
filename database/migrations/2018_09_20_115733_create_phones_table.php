@@ -18,6 +18,7 @@ class CreatePhonesTable extends Migration
             $table->string('fio')->nullable();
             $table->string('position')->nullable();
             $table->string('phone')->nullable();
+            $table->string('email')->nullable();
             $table->string('ip_phone')->nullable();
             $table->integer('building_id')->nullable()->unsigned();
             $table->foreign('building_id')->references('id')->on('buildings')->onDelete('cascade');
