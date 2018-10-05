@@ -90,18 +90,19 @@ class PhoneController extends Controller
             {
                 $phone_array = explode(":", $phone);
                 if (trim($phone_array[0]) == 'Телефон') {
-                    $number = str_replace("-", "", trim($phone_array[1]));
+                    $number_original = trim($phone_array[1]);
+                    $number = str_replace("-", "", $number_original);
                     $tel .=  $tel? ", " : "";
-                    $tel .= "<a href=\"tel:$number\">$number</a>";
+                    $tel .= "<a href=\"tel:$number\">$number_original</a>";
                 } elseif (trim($phone_array[0]) == 'Факс') {
-                    $number = str_replace("-", "", trim($phone_array[1]));
+                    $number_original = trim($phone_array[1]);
+                    $number = str_replace("-", "", $number_original);
                     $fax .=  $fax? ", " : "";
-                    $fax .= "<a href=\"fax:$number\">$number</a>";
+                    $fax .= "<a href=\"fax:$number\">$number_original</a>";
                 }
             }
             $group_phones_info .= $tel? 'Телефон: ' . $tel : "";
             $group_phones_info .= $fax? ' Факс: ' . $fax : "";
-            Log::debug($group_phones_info);
         }
         if ($group->email) {
             $group_emails = explode(",", $group->email);

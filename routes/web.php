@@ -20,7 +20,7 @@ Route::get('/', function () {
 
 Route::get('/admin-panel', function () {
     return view('admin');
-});
+})->middleware('auth');
 
 Route::get('/buildings', 'BuildingController@index');
 Route::post('/building/add', 'BuildingController@add');
@@ -36,4 +36,11 @@ Route::get('/phone/{id}', 'PhoneController@get');
 Route::get('/phones/all', 'PhoneController@get_all');
 Route::delete('/phone/delete/{id}', 'PhoneController@delete');
 
-Auth::routes();
+//Auth::routes();
+Route::get('/login', 'Auth\LoginController@showLoginForm')->name('login');
+Route::post('/login', 'Auth\LoginController@login');
+
+Route::get('/register', 'Auth\RegisterController@showRegistrationForm')->name('register');
+Route::post('/register', 'Auth\RegisterController@register');
+
+Route::post('/logout', 'Auth\LoginController@logout')->name('logout');
