@@ -28,6 +28,7 @@ Route::get('/building/{id}', 'BuildingController@get');
 
 Route::get('/groups', 'GroupController@index');
 Route::post('/group/add', 'GroupController@add');
+Route::get('/group/children/{id}', 'GroupController@get_chidren');
 Route::get('/group/{id}', 'GroupController@get');
 
 Route::get('/phones', 'PhoneController@index');

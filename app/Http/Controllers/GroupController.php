@@ -71,4 +71,9 @@ class GroupController extends Controller
     {
         return Group::find($request['id'])->toJson();
     }
+
+    public function get_children(Request $request)
+    {
+        return Group::find($request['id'])->children->toJson();
+    }
 }
