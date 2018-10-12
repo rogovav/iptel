@@ -1,12 +1,21 @@
 @import url(https://fonts.googleapis.com/css?family=Roboto&subset=cyrillic);
 
 body {
+    overflow-x: hidden;
     font-family: 'Roboto', sans-serif;
 }
 
-.container-fluid{
+.container-fluid {
     padding: 82px 50px !important;
 }
+
+#ShowMenu, #ShowMenu1, #ShowMenu2 {
+    display: block;
+    float: right !important;
+    color: white;
+}
+
+
 
 .navbar-brand {
     color: white !important;
@@ -14,6 +23,11 @@ body {
 
 #wrapper {
     padding: 75px 15px 90px;
+}
+
+.hidden-btn-link {
+    color: black;
+    text-decoration: none;
 }
 
 .banner {
@@ -28,17 +42,23 @@ body {
 }
 
 .group {
-    background-color: rgba(4, 30, 66, 0.75);
+    background-color: rgba(4, 30, 66, 0.9);
     color: white;
+    margin-top: 15px;
 }
 
 .company {
-    background-color: rgba(4, 30, 66, 0.5);
+    background-color: rgba(4, 30, 66, 0.7);
     color: white;
 }
 
 .sub_company {
-    background-color: rgba(4, 30, 66, 0.25);
+    background-color: rgba(4, 30, 66, 0.5);
+    color: white;
+}
+
+.sub_sub_company {
+    background-color: rgba(4, 30, 66, 0.3);
     color: white;
 }
 
@@ -113,7 +133,7 @@ body {
 #searchbg {
     padding: 100px;
     color: white;
-    z-index: 100;
+    z-index: 99999;
     background-color: #041e42;
     position: fixed;
     width: 50%;
@@ -121,10 +141,54 @@ body {
     right: 0;
     top: 0;
     display: none;
+    overflow-y: scroll;
 }
+#searchbg1 {
+    padding: 100px;
+    color: white;
+    z-index: 99999;
+    background-color: #041e42;
+    position: fixed;
+    width: 50%;
+    height: 100vh;
+    right: 0;
+    top: 0;
+    display: none;
+    overflow-y: scroll;
+}
+#searchbg2 {
+    padding: 100px;
+    color: white;
+    z-index: 99999;
+    background-color: #041e42;
+    position: fixed;
+    width: 50%;
+    height: 100vh;
+    right: 0;
+    top: 0;
+    display: none;
+    overflow-y: scroll;
+}
+
+#searchbg2 a, #searchbg1 a{
+    color: white;
+    text-decoration: underline;
+}
+
+::-webkit-scrollbar { width: 3px; height: 3px;}
+::-webkit-scrollbar-button {  background-color: #666; }
+::-webkit-scrollbar-track {  background-color: #999;}
+::-webkit-scrollbar-track-piece { background-color: #ffffff;}
+::-webkit-scrollbar-thumb { height: 50px; background-color: #666; border-radius: 3px;}
+::-webkit-scrollbar-corner { background-color: #999;}
+::-webkit-resizer { background-color: #666;}
 
 .admin-card {
     padding: 5px;
+}
+
+#title p {
+    display: none;
 }
 
 #accordion1,
@@ -194,6 +258,7 @@ body {
 
 .table-hidden {
     margin-bottom: 0;
+    z-index: 10000 !important;
 }
 
 li.group > p {
@@ -210,8 +275,13 @@ li.group > p {
     display: none;
 }
 
+.header-top {
+    z-index: 99999;
+}
+
 .my-row {
-    padding: 0px 50px;
+    padding: 0px 50px !important;
+    z-index: 10000 !important;
 }
 
 .show-row {
@@ -223,13 +293,13 @@ li.group > p {
     background-color: white;
 }
 
-.group p, .company p, .sub_company p {
+.group p, .company p, .sub_company p, .sub_sub_company p {
     margin-bottom: 0;
     margin-top: 10px;
     font-size: 14px;
 }
 
-.group p a, .company p a, .sub_company p a {
+.group p a, .company p a, .sub_company p a, .sub_sub_company p a  {
     color: white;
 }
 
@@ -282,7 +352,7 @@ li.group > p {
 }
 
 .footer2 {
-    background: #000;
+    background: #041e42 !important;
     padding: 15px 0;
     color: #aaa;
     font-size: 12px;
@@ -307,7 +377,7 @@ li.group > p {
 footer {
     padding-top: 30px;
     border-top: 1px solid #e5e5e5;
-    background: #D8D8D8;
+    background: #041e42 !important;
 }
 
 .ministr-logo {
@@ -323,7 +393,7 @@ footer {
         font-size: 12px;
     }
 
-    .group h3, .company h4, .sub_company h5 {
+    .group h3, .company h4, .sub_company h5, .sub_sub_company h5 {
         font-size: 16px;
     }
 
@@ -434,12 +504,22 @@ footer {
 }
 
 @media (max-width: 769px) {
-    #searchbg {
-        width: 100%;
+
+    .hidden-btn-link {
+        color: #0056b3;
     }
 
-    table tbody tr td:nth-child(n+3), .main-thead th:nth-child(n+3) {
-        display: none;
+    .hidden-btn-link:hover {
+        text-decoration: underline;
+    }
+
+    #searchbg, #searchbg1, #searchbg2  {
+        width: 100%;
+        top: 115px;
+    }
+
+    table tbody tr td:nth-child(n+3), .main-thead th:nth-child(n+3), .table-hidden th:nth-child(n+3) {
+        display: none !important;
     }
 
     table thead th:nth-child(0) {
@@ -448,6 +528,28 @@ footer {
 }
 
 @media (max-width: 480px) {
+
+    #searchbg, #searchbg1, #searchbg2 {
+        padding: 5px;
+    }
+
+    .container-fluid {
+        padding: 0px !important;
+    }
+
+    .banner {
+        width: auto;
+        margin-top: 116px;
+    }
+
+    .my-row {
+        top: 57.2px;
+    }
+
+    .table-hidden {
+        z-index: 100;
+    }
+
     .navbar-brand img {
         height: 30px;
     }

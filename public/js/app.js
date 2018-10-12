@@ -66,7 +66,7 @@ $(document).ready(function () {
         function InsertValue(v) {
             MassPhone = v["phone"];
             MassMail = v["email"];
-            if (v["phone"].indexOf(",") > -1) {
+            if (v["phone"] && v["phone"].indexOf(",") > -1) {
                 MassPhone = v["phone"].split(",");
                 for (let i = 0; i < MassPhone.length; ++i) {
                     let lastMass = MassPhone[i];
@@ -79,22 +79,29 @@ $(document).ready(function () {
                 }
 
             }
-            else {
+            else if (v["phone"] && v["phone"].indexOf(",") == -1) {
                 MassPhone = "<a href='tel:" + MassPhone + "'>" + MassPhone + "<a> ";
             }
-            if (v["email"].indexOf(",") > -1) {
+            else {
+                MassPhone = '';
+            }
+
+            if (v["email"] && v["email"].indexOf(",") > -1) {
                 MassMail = v["email"].split(",");
                 for (let i = 0; i < MassMail.length; ++i) {
                     MassMail[i] = "<a href='mailto:" + MassMail[i] + "'>" + MassMail[i] + "<a><br>";
                 }
 
             }
-            else {
+            else if (v["email"] && v["email"].indexOf(",") == -1) {
                 MassMail = "<a href='mailto:" + MassMail + "'>" + MassMail + "<a>";
             }
+            else {
+                MassMail = ''
+            }
 
-            MassPhone = MassPhone.toString().replace(',','');
-            MassMail = MassMail.toString().replace(',','');
+            MassPhone = MassPhone.toString().replace(',', '');
+            MassMail = MassMail.toString().replace(',', '');
 
             let data_content = "<ul class='rendered-ul'>" +
                 "<li> Внешний номер: <br>" + MassPhone + "</li>" +
@@ -103,17 +110,13 @@ $(document).ready(function () {
                 "<li> Место: " + v["building"] + "</li>" +
                 "<li> Адрес: " + v["address"] + "</li>" +
                 "</ul>"
-            console.log(data_content)
             return "<tr class='tr-rendered'>" + "<td><button type='button' class='btn btn-link table-button hidden-btn-link' data-container=\"body\" data-toggle=\"popover\" data-placement=\"bottom\" data-content=\"" + data_content + "\" data-html='true'> " + v["name"] + "</button></td>" + "<td>" + v["position"] +
                 "</td>" + "<td>" + MassPhone + "</td>" + "<td>" + v["ip_phone"] + "<td>" + MassMail +
                 "</td>" + "<td><button type='button' class='btn btn-link table-button' data-container=\"body\" data-toggle=\"popover\" data-placement=\"top\" data-content=\"" + v["address"] + "\">" + v["building"] + "</button></td>" + "</tr>";
         }
     }
 
-    InitTable().then(function () {
-
-    });
-
+    InitTable();
 
     $('a#ShowMenu').click(function () {
         if ($('#searchbg').is(':visible')) {
@@ -124,16 +127,59 @@ $(document).ready(function () {
         }
 
     });
+
+    $('a#ShowMenu1').click(function () {
+        if ($('#searchbg1').is(':visible')) {
+            $('#searchbg1').slideUp("slow");
+        }
+        else {
+            $('#searchbg1').slideDown("slow");
+        }
+
+    });
+
+    $('a#ShowMenu2').click(function () {
+        if ($('#searchbg2').is(':visible')) {
+            $('#searchbg2').slideUp("slow");
+        }
+        else {
+            $('#searchbg2').slideDown("slow");
+        }
+
+    });
 });
 
+function hideBg() {
+    $("#searchbg").slideToggle();
+}
 
-// $(document).on('click', 'button.table-button', function (e) {
-//     let $this = $(this);
-//     $(this).popover();
-// });
 
 $(document).mouseup(function (e) { // событие клика по веб-документу
     var div = $("#searchbg"); // тут указываем ID элемента
+    if (!div.is(e.target) // если клик был не по нашему блоку
+        && div.has(e.target).length === 0) { // и не по его дочерним элементам
+        div.slideUp("slow");
+        ; // скрываем его
+    }
+    else {
+        div.slideDown("slow");
+    }
+});
+
+$(document).mouseup(function (e) { // событие клика по веб-документу
+    var div = $("#searchbg1"); // тут указываем ID элемента
+    if (!div.is(e.target) // если клик был не по нашему блоку
+        && div.has(e.target).length === 0) { // и не по его дочерним элементам
+        div.slideUp("slow");
+        ; // скрываем его
+    }
+    else {
+        div.slideDown("slow");
+    }
+});
+
+$(document).mouseup(function (e) { // событие клика по веб-документу
+    var div = $("#searchbg2"); // тут указываем ID элемента
     if (!div.is(e.target) // если клик был не по нашему блоку
         && div.has(e.target).length === 0) { // и не по его дочерним элементам
         div.slideUp("slow");
@@ -163,7 +209,6 @@ function sendGroupForm() {
 
 function sendBuildingForm() {
     let data = $("#buildingForm");
-    console.log(data);
     $.ajax({
         type: 'POST',
         url: "/api/building/add",
@@ -304,16 +349,15 @@ function getGroups() {
                 "                                 data-parent=\"#accordion3\">\n" +
                 "                                <div class=\"card-body building-body\">\n" +
                 "                                    <ul>\n" +
-                "                                        <li><span><b>Email: </b></span>" + v.email + "</li>\n" +
+                "                                        <li>" + v.email + "</li>\n" +
                 "                                        <li>" + v.phone + "</li>\n" +
                 "                                    </ul>\n" +
                 "                                </div>\n" +
                 "                            </div>\n" +
                 "                        </div>"),
-
                 groups.append($("<option></option>")
                     .attr("value", v.id)
-                    .text(v.name));
+                    .text("\xa0\xa0".repeat(v.level * 2) + v.name));
         })
     });
 }
@@ -344,7 +388,7 @@ function setBuildingForm() {
 
 async function setGroupForm() {
     $(".form-group-rendered").empty();
-    $(".form-group-rendered").append("                        <form class=\"admin-form\" method=\"POST\" action=\"javascript:void(null);\"\n" +
+    $(".form-group-rendered").append("<form class=\"admin-form\" method=\"POST\" action=\"javascript:void(null);\"\n" +
         "                              onsubmit=\"sendGroupForm()\" id=\"groupForm\">\n" +
         "                            <div class=\"form-group\"><input name=\"id\" type=\"text\" class=\"form-control\" readonly></div>\n" +
         "                            <div class=\"form-group\">\n" +
@@ -473,7 +517,7 @@ $(document).on('click', 'a.delete-link', function (e) {
 
 function LiveSearch(val) {
     $(".tr-rendered").each(function () {
-        if ($(this).text().indexOf(val)) {
+        if ($(this).text().indexOf(val) <= -1) {
             $(this).hide();
         }
         else {
@@ -490,11 +534,6 @@ function LiveSearch(val) {
             $(".search-body").show();
         }
     })
-}
-
-
-function hideBg() {
-    $("#searchbg").slideToggle()
 }
 
 function AddNumber(type = "", number = "") {
@@ -577,13 +616,19 @@ function setMaskFax() {
                 tel.mask("Телефон: Z", {
                     translation: {
                         'Z': {
-                            pattern: /[+0-9]/, recursive: true
+                            pattern: /[()\-\+0-9\s]/, recursive: true
                         }
                     }
                 });
                 break;
             case "Факс":
-                tel.mask("Факс: 00-00-00");
+                tel.mask("Факс: Z", {
+                    translation: {
+                        'Z': {
+                            pattern: /[()\-\+0-9\s]/, recursive: true
+                        }
+                    }
+                });
                 break;
         }
     })
@@ -706,7 +751,6 @@ $(document).on('click', '.edit-link', function (e) {
                                         tel_val = "ua";
                                     }
 
-                                    console.log(mass[i].trim());
                                     AddNumber(tel_val, mass[i].trim());
                                 }
 
@@ -735,6 +779,7 @@ $(document).on('click', '.edit-link', function (e) {
                         }
 
                         else if (k == "parent_id") {
+                            console.log($('#group-select').children());
                             $("#group-select option[value=" + v + "]").prop('selected', true);
                         }
                         else if (k == "phone") {
@@ -762,7 +807,6 @@ $(document).on('click', '.edit-link', function (e) {
 
 $(window).scroll(function () {
     if ($(window).scrollTop() > $(".main-thead").offset().top) {
-        console.log(">");
         $(".my-row").addClass('show-row');
         $(".my-row").removeClass('hidden-row');
     }

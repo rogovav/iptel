@@ -1,7 +1,11 @@
-@import url('https://fonts.googleapis.com/css?family=Roboto&subset=cyrillic');
+@import url(https://fonts.googleapis.com/css?family=Roboto&subset=cyrillic);
 
 body {
     font-family: 'Roboto', sans-serif;
+}
+
+.container-fluid{
+    padding: 82px 50px !important;
 }
 
 .navbar-brand {
@@ -12,13 +16,24 @@ body {
     padding: 75px 15px 90px;
 }
 
+.banner {
+    width: 110vw;
+    margin-left: -50px;
+    background-image: url("../images/contact-biolink.jpg");
+    height: 250px;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+
+}
+
 .group {
     background-color: rgba(4, 30, 66, 0.75);
     color: white;
 }
 
 .company {
-    background-color: rgba(4, 30, 66, 0.50);
+    background-color: rgba(4, 30, 66, 0.5);
     color: white;
 }
 
@@ -27,10 +42,11 @@ body {
     color: white;
 }
 
-.navbar-expand-lg {
-    .navbar-nav.side-nav {
-        flex-direction: column;
-    }
+.navbar-expand-lg .navbar-nav.side-nav {
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -ms-flex-direction: column;
+    flex-direction: column;
 }
 
 .nav-item a {
@@ -45,8 +61,13 @@ body {
     background-color: #041e42 !important;
 }
 
+.my-card-body {
+    padding-top: 0;
+    padding-bottom: 0;
+}
+
 .wrap-table-div {
-    padding: 50px;
+    padding: 0px 50px;
 }
 
 .container-fluid {
@@ -54,16 +75,29 @@ body {
 }
 
 #live-search {
-    width: 100px;
+    width: 200px;
     margin-bottom: 20px;
     border: none;
     border-bottom: 2px solid #041e42;
+    -webkit-transition: all 1s ease;
     transition: all 1s ease;
     float: left;
 }
 
+#live-search::-webkit-input-placeholder {
+    font-size: 14px;
+}
+
+#live-search:-ms-input-placeholder {
+    font-size: 14px;
+}
+
+#live-search::-ms-input-placeholder {
+    font-size: 14px;
+}
+
 #live-search::placeholder {
-    font-size: 10px;
+    font-size: 14px;
 }
 
 .for-before {
@@ -73,18 +107,18 @@ body {
 
 #live-search:focus {
     outline: none;
-    width: 200px;
+    width: 300px;
 }
 
 #searchbg {
     padding: 100px;
     color: white;
-    z-index: 10;
+    z-index: 100;
     background-color: #041e42;
     position: fixed;
     width: 50%;
     height: 100vh;
-    left: 0;
+    right: 0;
     top: 0;
     display: none;
 }
@@ -93,12 +127,16 @@ body {
     padding: 5px;
 }
 
-#accordion1, #accordion2, #accordion3 {
+#accordion1,
+#accordion2,
+#accordion3 {
     height: 400px;
     overflow-y: scroll;
 }
 
-#accordion1 .card-header, #accordion2 .card-header, #accordion3 .card-header {
+#accordion1 .card-header,
+#accordion2 .card-header,
+#accordion3 .card-header {
     padding: 5px;
     background-color: white !important;
 }
@@ -116,7 +154,8 @@ body {
     color: #041e42;
 }
 
-.building-header button:focus, .building-header button:hover {
+.building-header button:focus,
+.building-header button:hover {
     color: #041e42;
     text-decoration: none;
 }
@@ -131,7 +170,7 @@ body {
 }
 
 .admin-form input[type="submit"] {
-    background-color: rgba(4, 30, 66, 1);
+    background-color: #041e42;
     color: white;
 }
 
@@ -140,7 +179,57 @@ body {
     font-size: 20px;
 }
 
+.bglink_li {
+    color: white;
+    font-size: 14px;
+}
+
+.bglink_li:hover {
+    color: white;
+}
+
 .bglink:hover {
+    color: white;
+}
+
+.table-hidden {
+    margin-bottom: 0;
+}
+
+li.group > p {
+    font-size: 14px;
+}
+
+.table-button {
+    padding: 0;
+    border: none;
+    padding-bottom: 6px;
+}
+
+.hidden-row {
+    display: none;
+}
+
+.my-row {
+    padding: 0px 50px;
+}
+
+.show-row {
+    z-index: 10;
+    position: fixed;
+    left: 0;
+    width: 100%;
+    top: 82px;
+    background-color: white;
+}
+
+.group p, .company p, .sub_company p {
+    margin-bottom: 0;
+    margin-top: 10px;
+    font-size: 14px;
+}
+
+.group p a, .company p a, .sub_company p a {
     color: white;
 }
 
@@ -150,7 +239,6 @@ body {
     height: 100%;
     display: inline-block;
     width: 30px;
-
 }
 
 .delete-link:hover {
@@ -162,6 +250,7 @@ body {
     position: relative;
     margin: 0;
     border-radius: 0;
+    -webkit-box-shadow: none;
     box-shadow: none;
     border: none;
     padding: 0;
@@ -170,17 +259,17 @@ body {
 }
 
 .thumbnail figure {
+    -webkit-filter: brightness(0.6);
     filter: brightness(0.6);
 }
 
 .thumbnail a {
     color: #aaa;
     font-size: 12px;
-
 }
 
 .thumbnail p i {
-    color: rgb(219, 219, 219);
+    color: #dbdbdb;
     margin-right: 10px;
 }
 
@@ -225,50 +314,77 @@ footer {
     max-width: 100%;
 }
 
-@media(min-width: 992px) {
+@media (max-width: 1025px) {
+    table {
+        font-size: 12px;
+    }
+
+    .tr-rendered td button {
+        font-size: 12px;
+    }
+
+    .group h3, .company h4, .sub_company h5 {
+        font-size: 16px;
+    }
+
+    .wrap-table-div {
+        padding: 0px;
+    }
+}
+
+@media (min-width: 992px) {
     .leftmenutrigger {
         display: block;
         margin: 7px 20px 4px 0;
         cursor: pointer;
     }
+
     #wrapper {
         padding: 75px 15px 15px 75px;
     }
+
     #wrapper.open {
         padding: 75px 15px 15px 225px;
     }
+
     .navbar-nav.side-nav.open {
         left: 0;
     }
+
     .side-nav li a {
-        padding: 20px
+        padding: 20px;
     }
+
     .navbar-nav li a .shortmenu {
         float: right;
         display: block;
-        opacity: 1
+        opacity: 1;
     }
+
     .navbar-nav.side-nav.open.navbar-nav li a .shortmenu {
-        opacity: 0
+        opacity: 0;
     }
+
     .navbar-nav.side-nav {
         background: #585f66;
-        box-shadow: 2px 1px 2px rgba(0, 0, 0, .1);
+        -webkit-box-shadow: 2px 1px 2px rgba(0, 0, 0, 0.1);
+        box-shadow: 2px 1px 2px rgba(0, 0, 0, 0.1);
         position: fixed;
         top: 56px;
+        -webkit-box-orient: vertical !important;
+        -webkit-box-direction: normal !important;
+        -ms-flex-direction: column !important;
         flex-direction: column !important;
         left: -140px;
         width: 200px;
         bottom: 0;
-        padding-bottom: 40px
+        padding-bottom: 40px;
     }
 }
 
 .animate {
     -webkit-transition: all .2s ease-in-out;
-    -moz-transition: all .2s ease-in-out;
-    -o-transition: all .2s ease-in-out;
-    transition: all .2s ease-in-out
+    transition: all .2s ease-in-out;
 }
 
 .navbar-nav li a svg {
@@ -295,10 +411,12 @@ footer {
     padding: 0;
     margin: 0;
     border-radius: 0;
-    box-shadow: 5px 0 5px rgba(0, 0, 0, .1);
+    -webkit-box-shadow: 5px 0 5px rgba(0, 0, 0, 0.1);
+    box-shadow: 5px 0 5px rgba(0, 0, 0, 0.1);
     background: #eee;
     visibility: hidden;
     display: block;
+    -webkit-transition: .4s ease all;
     transition: .4s ease all;
 }
 
@@ -307,5 +425,34 @@ footer {
     opacity: 1;
     visibility: visible;
     display: block;
+    -webkit-transition: .4s ease all;
     transition: .4s ease all;
+}
+
+.clear-button {
+    border: 1px solid rgb(206, 212, 218);
+}
+
+@media (max-width: 769px) {
+    #searchbg {
+        width: 100%;
+    }
+
+    table tbody tr td:nth-child(n+3), .main-thead th:nth-child(n+3) {
+        display: none;
+    }
+
+    table thead th:nth-child(0) {
+        width: 50% !important;
+    }
+}
+
+@media (max-width: 480px) {
+    .navbar-brand img {
+        height: 30px;
+    }
+
+    .banner {
+        height: 150px;
+    }
 }
